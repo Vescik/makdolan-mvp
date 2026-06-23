@@ -1,0 +1,35 @@
+name: Codex pull request review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  codex-review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: refs/pull/${{ github.event.pull_request.number }}/merge
+          persist-credentials: false
+
+      # Requires OPENAI_API_KEY in repository secrets.
+      # Adjust action inputs if your organization uses different Codex Action settings.
+      - name: Skip when OPENAI_API_KEY is not configured
+        if: env.OPENAI_API_KEY == ''
+        run: echo "::notice::Set repository secret OPENAI_API_KEY to enable Codex PR review."
+      - name: Codex review
+        if: env.OPENAI_API_KEY != ''
+        uses: openai/codex-action@v1
+        with:
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          prompt: |
+            Review this pull request as a senior cross-platform engineer.
+            Follow AGENTS.md review guidelines.
+            Focus only on P0/P1 issues: correctness, security/privacy, test gaps, iOS/Android/Web regressions, release/build breakage.
+            Avoid style-only noise.

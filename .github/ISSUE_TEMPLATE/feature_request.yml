@@ -1,0 +1,39 @@
+name: Feature request
+description: Propose a user-facing feature or product change.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What user or business outcome should this deliver?
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      placeholder: |
+        - 
+        - 
+        - 
+    validations:
+      required: true
+  - type: dropdown
+    id: platforms
+    attributes:
+      label: Platforms
+      multiple: true
+      options:
+        - iOS
+        - Android
+        - Web
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Security, privacy, or release notes
+      description: Mention auth, payments, location, personal data, migrations, feature flags, or rollout constraints.
+

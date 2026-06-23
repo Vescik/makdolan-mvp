@@ -1,0 +1,29 @@
+.DS_Store
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+
+# Codex local runtime output
+.codex/context/
+.codex/runs/
+.codex/state/
+
+# Common dependency/build output once an app stack is added
+node_modules/
+dist/
+build/
+coverage/
+.next/
+.expo/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# Native/mobile generated output
+android/.gradle/
+android/app/build/
+ios/Pods/
+ios/Flutter/Flutter.podspec
+

@@ -1,0 +1,28 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 .codex/hooks/user_prompt_secret_scan.py",
+            "statusMessage": "Scanning prompt for obvious secret patterns"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 .codex/hooks/stop_verify_guard.py",
+            "statusMessage": "Writing verification reminder"
+          }
+        ]
+      }
+    ]
+  }
+}
