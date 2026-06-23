@@ -11,4 +11,8 @@
 
 | Data | Purpose | Storage | Retention | Risk |
 |---|---|---|---|---|
-| TBD | TBD | TBD | TBD | TBD |
+| User search budget | Recommendation filtering | App/backend analytics | Short-lived or aggregated | Low |
+| User location or manual location | Nearby discovery | Minimized; avoid precise history | Short-lived or aggregated | Medium |
+| Preferences | Recommendation filtering | Search/session analytics | Aggregated | Low |
+| Price observations | Data quality improvement | Application database | Retain with audit history | Medium |
+| API keys | Provider access | Secret manager/env vars only | Rotated as needed | High |

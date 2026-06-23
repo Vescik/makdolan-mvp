@@ -10,6 +10,8 @@ Codex must detect the real stack from repository files before editing.
 
 ## Chosen stack
 
-Status: undecided
+Status: proposed
 
-Decision link: TBD
+Decision link: `docs/architecture/ADR-0001-cross-platform-stack.md`
+
+Recommendation: Expo React Native + TypeScript for iOS, Android, and Web MVP delivery.
