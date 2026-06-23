@@ -1,0 +1,32 @@
+name: Verify mobile and web
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        if: hashFiles('package.json') != ''
+        with:
+          node-version: '22'
+      - name: Enable pnpm when needed
+        if: hashFiles('pnpm-lock.yaml') != ''
+        run: corepack enable
+      - name: Run local verifier
+        run: bash scripts/verify-local.sh
+
+  ios-build-placeholder:
+    # Enable when you have Apple signing/build config.
+    if: false
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: iOS build placeholder
+        run: echo "Add xcodebuild / flutter build ios / fastlane lane here."

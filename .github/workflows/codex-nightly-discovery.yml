@@ -1,0 +1,33 @@
+name: Codex nightly discovery
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * 1'
+
+jobs:
+  codex-discovery:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    steps:
+      - uses: actions/checkout@v5
+      - name: Skip when OPENAI_API_KEY is not configured
+        if: env.OPENAI_API_KEY == ''
+        run: echo "::notice::Set repository secret OPENAI_API_KEY to enable Codex nightly discovery."
+      - name: Codex architecture drift report
+        if: env.OPENAI_API_KEY != ''
+        uses: openai/codex-action@v1
+        with:
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          prompt: |
+            Use the discovery skill.
+            Produce a read-only architecture drift report:
+            - current stack and repo structure
+            - risky areas
+            - missing tests/build gates
+            - stale knowledge-base entries
+            - suggested next improvements
+            Do not edit files.

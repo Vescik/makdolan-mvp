@@ -1,0 +1,6 @@
+{
+  "name": "cross-platform-build-loop",
+  "version": "0.1.0",
+  "description": "Reusable Codex workflow for iOS, Android, and Web projects using Discover, Plan, Execute, Verify, Iterate/Learn.",
+  "skills": "./skills/"
+}

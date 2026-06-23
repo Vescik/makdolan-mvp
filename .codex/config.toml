@@ -1,0 +1,48 @@
+# Project-scoped Codex config.
+# Codex loads this only when the repository is trusted.
+
+# Keep the default interactive experience safe but useful.
+sandbox_mode = "workspace-write"
+approval_policy = "on-request"
+approvals_reviewer = "user"
+
+# Reasoning defaults for complex multi-platform work.
+model_reasoning_effort = "high"
+model_verbosity = "medium"
+
+# Instruction discovery.
+project_doc_fallback_filenames = ["AGENTS.md", "CODEX.md", ".agents.md"]
+project_doc_max_bytes = 65536
+
+[agents]
+max_threads = 6
+max_depth = 1
+job_max_runtime_seconds = 1800
+
+# Keep network disabled inside workspace-write unless a task explicitly needs dependency/docs access.
+[sandbox_workspace_write]
+network_access = false
+
+# Developer docs MCP example. Enable if your environment permits npm-based MCP servers.
+# You can also add it via:
+# codex mcp add context7 -- npx -y @upstash/context7-mcp
+[mcp_servers.context7]
+enabled = false
+command = "npx"
+args = ["-y", "@upstash/context7-mcp"]
+startup_timeout_sec = 20
+tool_timeout_sec = 60
+default_tools_approval_mode = "prompt"
+
+# Example placeholders. Configure only the systems you actually use.
+# [mcp_servers.github]
+# enabled = true
+# url = "https://your-github-mcp.example.com/mcp"
+# default_tools_approval_mode = "prompt"
+
+# [mcp_servers.azure_devops]
+# enabled = true
+# command = "node"
+# args = ["./tools/mcp/azure-devops-server.js"]
+# env = { AZURE_DEVOPS_ORG = "your-org", AZURE_DEVOPS_PROJECT = "your-project" }
+# default_tools_approval_mode = "prompt"

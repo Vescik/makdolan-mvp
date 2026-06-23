@@ -1,0 +1,24 @@
+# Prompt before potentially destructive local commands.
+prefix_rule(
+  pattern = ["rm", "-rf"],
+  decision = "prompt",
+  justification = "Recursive deletion needs explicit approval."
+)
+
+prefix_rule(
+  pattern = ["git", "push"],
+  decision = "prompt",
+  justification = "Pushing code changes should be explicitly approved."
+)
+
+prefix_rule(
+  pattern = ["fastlane", "deliver"],
+  decision = "prompt",
+  justification = "App Store deployment requires explicit release approval."
+)
+
+prefix_rule(
+  pattern = ["fastlane", "supply"],
+  decision = "prompt",
+  justification = "Google Play deployment requires explicit release approval."
+)
