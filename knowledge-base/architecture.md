@@ -5,6 +5,8 @@
 - Proposed MVP client stack: Expo React Native + TypeScript for iOS, Android, and Web.
 - Decision record: `docs/architecture/ADR-0001-cross-platform-stack.md`.
 - Rationale: fastest single-codebase path for a solo founder, strong location/map ecosystem, good Codex maintainability, and practical future payment support.
+- Initial skeleton exists with Expo Router routes under `app/`, screens under `src/screens/`, shared UI under `src/ui/`, and recommendation domain logic under `src/domain/recommendations/`.
+- Verification entrypoints: `npm run lint`, `npm run typecheck`, `npm test`, `npm run build`, and `bash scripts/verify-local.sh`.
 
 ## Data Strategy
 

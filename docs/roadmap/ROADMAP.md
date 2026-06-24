@@ -18,6 +18,7 @@ Exit criteria:
 
 Goals:
 
+- Ship initial Expo React Native + TypeScript skeleton with Web support.
 - Build budget/location/preference search.
 - Load controlled seed menu data.
 - Integrate nearby restaurant discovery.
@@ -26,9 +27,19 @@ Goals:
 
 Exit criteria:
 
+- App shell routes exist for home budget entry, preferences, recommendation results, recommendation details, and profile preferences.
+- Mock recommendation data and deterministic local scoring have unit tests.
 - Users can search on iOS, Android, and Web.
 - Test city returns useful recommendations.
 - Feedback can identify wrong prices and bad recommendations.
+
+Next implementation steps:
+
+- Replace route-param-only search state with a typed client state boundary.
+- Add form validation and error states for budget and manual location.
+- Add seed import fixtures based on `docs/data/MENU_SEED_FORMAT.md`.
+- Add feedback capture UI for useful, not useful, price wrong, and unavailable.
+- Add provider abstraction for future Google Places integration without connecting real APIs yet.
 
 ## Phase 2: Private Beta
 
@@ -87,4 +98,3 @@ Exit criteria:
 
 - New market launch playbook exists.
 - Data quality metrics remain stable as coverage expands.
-

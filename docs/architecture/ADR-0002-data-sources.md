@@ -40,8 +40,14 @@ Negative:
 
 ## Acceptance Criteria
 
-- Every menu price has source type, last verification date, and confidence score.
+- Every recommended `MenuItem` price has `source`, `lastVerifiedAt`, and `confidence`.
 - Google Places is used for restaurant discovery, not assumed price data.
 - Scraping is not required for production launch.
 - User observations do not become high-confidence data without corroboration or moderation.
 
+## Related Documents
+
+- `docs/data/DATA_STRATEGY.md`
+- `docs/data/DATABASE_MODEL.md`
+- `docs/data/SCORING_MODEL.md`
+- `docs/data/SCRAPING_POLICY.md`

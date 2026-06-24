@@ -41,6 +41,8 @@ Use a weighted score with guardrails:
 
 The exact weights should be configurable and covered by unit tests.
 
+The implementation-ready scoring contract is documented in `docs/data/SCORING_MODEL.md`. The supporting logical data model is documented in `docs/data/DATABASE_MODEL.md`.
+
 ## Explanation Requirements
 
 Each recommendation should be able to explain its rank with short reasons:
@@ -73,4 +75,3 @@ Negative:
 - Low-confidence data is not ranked as if it were verified.
 - No-results and low-results states are explicit.
 - The engine can incorporate user feedback later without a rewrite.
-
