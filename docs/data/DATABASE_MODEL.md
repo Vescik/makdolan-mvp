@@ -6,17 +6,21 @@ This document defines the implementation-ready conceptual data model for the Mak
 
 It should guide future Prisma/Postgres schema work, TypeScript domain types, seed imports, and API contracts. It is not a migration file and does not connect real APIs.
 
+Product decision source: `docs/product/PRODUCT_DECISIONS.md`.
+
 ## MVP Data Principles
 
 - Start with controlled seed data for popular chains and one local test city.
 - Use Google Places only for restaurant/place discovery, deduplication, location, open status, rating, and address metadata.
 - Do not treat Google Places as a menu-price source unless a licensed provider field explicitly supports that use.
+- Use Rzeszow as the first test market.
 - Add user-submitted price observations after the seeded MVP flow works.
 - Do not use production scraping as the primary data source.
 - Every price used for recommendations must have `source`, `lastVerifiedAt`, and `confidence`.
 - Treat prices as estimates unless the source contract supports stronger wording.
 - Keep the recommendation engine deterministic and testable before introducing ML or AI personalization.
 - Store only the minimum location and user data needed for search, feedback, and product validation.
+- Keep reliability fields as hidden system data in MVP UI. Result cards must not expose `source`, `sourceUrl`, `lastVerifiedAt`, `confidence`, scoring breakdown, or price observation details.
 
 ## Naming And Type Conventions
 
@@ -28,7 +32,7 @@ Recommended shared enums:
 |---|---|
 | `RestaurantBrandType` | `chain`, `local`, `regional` |
 | `PortionSize` | `snack`, `smallMeal`, `regularMeal`, `fillingMeal` |
-| `FulfillmentMode` | `pickup`, `delivery`, `dineIn` |
+| `FulfillmentMode` | `pickup`, `dineIn`, `delivery` |
 | `PriceSource` | `manualSeed`, `userObservation`, `restaurantSelfService`, `partner`, `officialApi` |
 | `FeedbackType` | `useful`, `notUseful`, `priceWrong`, `itemUnavailable`, `tooFar`, `tooExpensive`, `wrongPreference`, `notInterested` |
 
@@ -53,12 +57,12 @@ Stores saved default preferences for a user. MVP can mock this locally until aut
 |---|---|---|
 | `id` | UUID/string | Primary key. |
 | `userId` | UUID/string | Foreign key to `User.id`. |
-| `preferredTags` | string[] | Preferred food tags such as `burger`, `chicken`, `pizza`, `kebab`, `vegetarian`, `healthy`. |
+| `preferredTags` | string[] | Preferred food tags such as `burger`, `chicken`, `pizza`, `kebab`, `vegetarian`, `small`, `filling`, `quick`. |
 | `excludedTags` | string[] | Tags the user wants to avoid. |
 | `preferredPortionSize` | PortionSize, nullable | Default portion preference. |
-| `dietPreferences` | string[] | Dietary preferences such as `vegetarian`, `vegan`, `halal`, `healthy`; keep controlled and minimal. |
+| `dietPreferences` | string[] | Future dietary preferences. Sprint 1 only uses `vegetarian` as a simple user-facing food tag. |
 | `maxDistanceKm` | Float/Decimal, nullable | Default search radius. |
-| `preferredFulfillmentMode` | FulfillmentMode, nullable | Default mode: pickup, delivery, or dine-in. |
+| `preferredFulfillmentMode` | FulfillmentMode, nullable | Default mode. Sprint 1 uses pickup/dine-in style only; delivery is a future value. |
 | `createdAt` | DateTime | Creation timestamp. |
 | `updatedAt` | DateTime | Last update timestamp. |
 
@@ -107,7 +111,7 @@ Represents a recommendable food item. For MVP, the current best-known price is s
 | `name` | string | User-facing item name, for example `Cheeseburger`. |
 | `description` | string, nullable | Short description when available from controlled seed data or approved source. |
 | `category` | string/enum | Primary category such as `burger`, `chicken`, `pizza`, `kebab`, `sandwich`. |
-| `tags` | string[] | Recommendation/filter tags such as `burger`, `smallMeal`, `fillingMeal`, `vegetarian`, `healthy`, `pickup`. |
+| `tags` | string[] | Recommendation/filter tags such as `burger`, `chicken`, `pizza`, `kebab`, `vegetarian`, `small`, `filling`, `quick`. |
 | `portionSize` | PortionSize | Portion classification used by scoring. |
 | `basePrice` | Decimal | Current best-known estimated price. |
 | `currency` | string | ISO currency code, for example `PLN`. |
@@ -156,7 +160,7 @@ Represents a submitted recommendation search.
 | `excludedTags` | string[] | Tags excluded for the search. |
 | `preferredPortionSize` | PortionSize, nullable | Requested portion size. |
 | `maxDistanceKm` | Float/Decimal | Search radius. |
-| `fulfillmentMode` | FulfillmentMode, nullable | Requested pickup, delivery, or dine-in mode. |
+| `fulfillmentMode` | FulfillmentMode, nullable | Requested fulfillment mode. Sprint 1 uses pickup/dine-in style only; delivery is future. |
 | `createdAt` | DateTime | Search timestamp. |
 
 MVP privacy note: exact request coordinates may be kept transiently or rounded unless analytics truly requires storage.
@@ -173,8 +177,8 @@ Represents one scored result shown for a request.
 | `outletId` | UUID/string | Foreign key to `RestaurantOutlet.id`. |
 | `estimatedTotalPrice` | Decimal | Price used for ranking and display. Usually `MenuItem.basePrice` for MVP. |
 | `score` | Float/Decimal | Deterministic recommendation score from `SCORING_MODEL.md`. |
-| `reason` | string | Short explanation, for example `Under budget, nearby, matches chicken, price may vary`. |
-| `confidence` | integer | Confidence shown for this result, usually derived from `MenuItem.confidence` and freshness. |
+| `reason` | string | Short explanation, for example `Fits your budget, matches chicken, price may vary by location`. |
+| `confidence` | integer | Internal confidence for reliability, tests, and future ranking. Do not expose this value in MVP result cards. |
 | `createdAt` | DateTime | Result creation timestamp. |
 
 MVP rule: this table is useful for feedback and analytics, but results can be computed in memory until persistence is introduced.
@@ -210,8 +214,8 @@ Captures user feedback on a shown recommendation.
 |---|---|---|---|
 | Users | Anonymous or simple user identity for feedback if needed. | Full `User` auth and saved profile can be mocked locally. | Account management, social login, privacy export/delete tooling. |
 | Preferences | Search-time selected tags, excluded tags, portion size, distance, fulfillment mode. | `UserPreference` persistence. | Advanced personalization and learned preferences. |
-| Restaurants | `RestaurantBrand` and `RestaurantOutlet` seed records for test city and chains. | Google Places sync can be mocked with local outlets. | Restaurant claim/self-service portal. |
-| Menu items | Seeded `MenuItem` rows with price, tags, portion, source, `lastVerifiedAt`, confidence. | Calories and descriptions. | Full menu catalogs, item images, modifiers, combos. |
+| Restaurants | `RestaurantBrand` and `RestaurantOutlet` seed records for Rzeszow chains and local-style categories. | Google Places sync can be mocked with local outlets. | Restaurant claim/self-service portal. |
+| Menu items | Seeded `MenuItem` rows with price, tags, portion, source, `lastVerifiedAt`, confidence. | Descriptions. | Full menu catalogs, item images, modifiers, combos, nutrition/macros. |
 | Price observations | Manual/operator observations for seed verification. | User-submitted observations until feedback flow exists. | Receipt/photo verification and automated moderation. |
 | Recommendation requests/results | In-memory scoring for local MVP; persisted records if feedback needs exact result history. | Analytics storage. | ML training datasets and experimentation platform. |
 | Feedback | Basic useful/not useful/price wrong categories. | Free-text comments can be disabled initially. | Reputation scoring and advanced review queues. |
@@ -245,9 +249,9 @@ These examples show the intended shape. IDs are illustrative.
     "updatedAt": "2026-06-24T10:00:00Z"
   },
   {
-    "id": "brand_local_kebab_centrum",
-    "name": "Centrum Kebab",
-    "normalizedName": "centrum-kebab",
+    "id": "brand_local_kebab_rzeszow",
+    "name": "Rzeszow Kebab",
+    "normalizedName": "rzeszow-kebab",
     "type": "local",
     "websiteUrl": null,
     "createdAt": "2026-06-24T10:00:00Z",
@@ -261,14 +265,14 @@ These examples show the intended shape. IDs are illustrative.
 ```json
 [
   {
-    "id": "outlet_mcd_warsaw_001",
+    "id": "outlet_mcd_rzeszow_001",
     "brandId": "brand_mcdonalds_pl",
-    "googlePlaceId": "google_place_mcd_warsaw_001",
-    "name": "McDonald's Warszawa Centrum",
-    "address": "ul. Marszalkowska 100, Warszawa",
-    "city": "Warsaw",
-    "latitude": 52.2297,
-    "longitude": 21.0122,
+    "googlePlaceId": "google_place_mcd_rzeszow_001",
+    "name": "McDonald's Rzeszow Centrum",
+    "address": "ul. 3 Maja 10, Rzeszow",
+    "city": "Rzeszow",
+    "latitude": 50.0412,
+    "longitude": 21.9991,
     "rating": 4.1,
     "isOpenNow": true,
     "lastSyncedAt": "2026-06-24T09:00:00Z",
@@ -276,14 +280,14 @@ These examples show the intended shape. IDs are illustrative.
     "updatedAt": "2026-06-24T10:00:00Z"
   },
   {
-    "id": "outlet_kebab_centrum_001",
-    "brandId": "brand_local_kebab_centrum",
-    "googlePlaceId": "google_place_kebab_centrum_001",
-    "name": "Centrum Kebab",
-    "address": "ul. Swietokrzyska 20, Warszawa",
-    "city": "Warsaw",
-    "latitude": 52.2356,
-    "longitude": 21.0089,
+    "id": "outlet_kebab_rzeszow_001",
+    "brandId": "brand_local_kebab_rzeszow",
+    "googlePlaceId": "google_place_kebab_rzeszow_001",
+    "name": "Rzeszow Kebab",
+    "address": "ul. Grunwaldzka 12, Rzeszow",
+    "city": "Rzeszow",
+    "latitude": 50.0379,
+    "longitude": 22.0047,
     "rating": 4.4,
     "isOpenNow": true,
     "lastSyncedAt": "2026-06-24T09:00:00Z",
@@ -335,9 +339,9 @@ These examples show the intended shape. IDs are illustrative.
   },
   {
     "id": "item_kebab_small",
-    "brandId": "brand_local_kebab_centrum",
+    "brandId": "brand_local_kebab_rzeszow",
     "name": "Small Kebab",
-    "description": "Local small kebab option under 25 PLN.",
+    "description": "Local-style kebab option under 25 PLN.",
     "category": "kebab",
     "tags": ["kebab", "fillingMeal", "pickup", "dineIn"],
     "portionSize": "fillingMeal",
@@ -359,12 +363,12 @@ These examples show the intended shape. IDs are illustrative.
 ```json
 {
   "request": {
-    "id": "req_25pln_chicken_warsaw",
+    "id": "req_25pln_chicken_rzeszow",
     "userId": null,
     "budget": 25.0,
     "currency": "PLN",
-    "latitude": 52.2297,
-    "longitude": 21.0122,
+    "latitude": 50.0412,
+    "longitude": 21.9991,
     "selectedTags": ["chicken"],
     "excludedTags": [],
     "preferredPortionSize": "smallMeal",
@@ -374,12 +378,12 @@ These examples show the intended shape. IDs are illustrative.
   },
   "result": {
     "id": "result_kfc_longer",
-    "requestId": "req_25pln_chicken_warsaw",
+    "requestId": "req_25pln_chicken_rzeszow",
     "menuItemId": "item_kfc_longer",
-    "outletId": "outlet_kfc_warsaw_001",
+    "outletId": "outlet_kfc_rzeszow_001",
     "estimatedTotalPrice": 12.99,
     "score": 84.2,
-    "reason": "Under budget, matches chicken, pickup available, price may vary",
+    "reason": "Fits your budget, matches chicken, price may vary by location",
     "confidence": 68,
     "createdAt": "2026-06-24T12:00:01Z"
   }
@@ -394,8 +398,8 @@ Suggested confidence bands:
 
 | Confidence | Meaning | Recommendation Behavior |
 |---:|---|---|
-| 80-100 | High confidence | Rank normally and show "recently verified" when fresh. |
-| 50-79 | Medium confidence | Rank normally but show "price may vary" if not fresh. |
+| 80-100 | High confidence | Rank normally. This value remains internal in MVP UI. |
+| 50-79 | Medium confidence | Rank normally but allow simple "price may vary by location" copy if needed. |
 | 20-49 | Low confidence | Rank lower; use when better options are unavailable. |
 | 0-19 | Untrusted | Hide from normal recommendations. |
 
@@ -407,7 +411,20 @@ Suggested stale behavior:
 - Prices older than 60 days should be treated as stale and usually require review before ranking.
 - Repeated "price wrong" feedback should lower confidence and create a review task.
 
-Stale data should affect ranking through the freshness/confidence component in `SCORING_MODEL.md`. It should also affect copy: never show stale or low-confidence prices as guaranteed.
+Stale data should affect ranking through the freshness/confidence component in `SCORING_MODEL.md`. It should also affect copy: never show stale or low-confidence prices as guaranteed. MVP user-facing copy should stay simple, such as "estimated price" or "price may vary by location."
+
+## MVP UI Visibility
+
+These fields must exist internally but are hidden from MVP result cards:
+
+- `MenuItem.source`
+- `MenuItem.sourceUrl`
+- `MenuItem.lastVerifiedAt`
+- `MenuItem.confidence`
+- `PriceObservation` metadata
+- `RecommendationResult.score` and score breakdown
+
+MVP result cards show only restaurant or brand name, menu item name, estimated item price, and 1 to 3 simple matching tags.
 
 ## Indexing And Search Considerations
 
@@ -427,7 +444,7 @@ Do not over-optimize indexes before real query volume exists. The MVP only needs
 - Should anonymous searches be persisted, or should `RecommendationRequest` store only aggregate analytics?
 - Should exact latitude/longitude be stored, rounded, or kept only in memory for privacy?
 - Should `MenuItem.basePrice` remain brand-level, or will local city/outlet prices require a dedicated `MenuItemPrice` table soon?
-- Which country/currency should be the first official test market: Poland/PLN, US/USD, or another market?
+- Whether Rzeszow/PLN should remain the first test market after Sprint 1 or expand to another Polish city.
 - What controlled tag vocabulary should be locked for the first MVP seed file?
 - When should user-submitted observations become visible: immediately with low confidence, or only after review?
 - What threshold should mark a price as materially different: fixed amount, percentage, or both?

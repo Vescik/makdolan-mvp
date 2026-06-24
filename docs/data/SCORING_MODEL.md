@@ -1,10 +1,14 @@
 # Scoring Model
 
+Product decision source: `docs/product/PRODUCT_DECISIONS.md`.
+
 ## Purpose
 
 Makdolan MVP recommendations must be deterministic, testable, and explainable. The same input data should always produce the same ranking, and a junior developer should be able to understand why each item scored higher or lower.
 
-The MVP must not use AI as the primary ranking engine. AI may later help write friendlier explanations or personalized copy, but the core ranking should remain a deterministic function of budget, distance, tags, portion size, restaurant availability, price confidence, and freshness.
+The MVP must not use AI as the primary ranking engine. AI may later help write friendlier explanations or personalized copy, but the core ranking should remain a deterministic function of budget, simple preferences, restaurant availability, internal location context, portion size, price confidence, and freshness.
+
+Budget remains central to filtering and ranking, but user-facing positioning is decision help: "I do not know what to eat."
 
 ## Inputs
 
@@ -15,13 +19,13 @@ The recommendation engine receives a user request and a list of candidate food i
 | Input | Type | Description |
 |---|---|---|
 | `budget` | number | Maximum amount the user wants to spend. |
-| `currency` | string | ISO currency code such as `PLN`. Candidate prices must use the same currency. |
-| `userLocation` | latitude/longitude or manual area | Location used to calculate restaurant distance. |
-| `maxDistanceKm` | number | Maximum distance the user is willing to travel or search within. |
-| `selectedTags` | string[] | Desired tags such as `chicken`, `burger`, `pizza`, `smallMeal`, `healthy`. |
-| `excludedTags` | string[] | Tags the user wants to avoid, such as `meat`, `spicy`, or `deliveryOnly`. |
-| `portionSizePreference` | enum, optional | `snack`, `smallMeal`, `regularMeal`, or `fillingMeal`. |
-| `fulfillmentMode` | enum, optional | `pickup`, `delivery`, or `dineIn`. |
+| `currency` | string | ISO currency code. Sprint 1 defaults to `PLN`. |
+| `userLocation` | latitude/longitude, manual area, or mocked Rzeszow location | Used internally to calculate restaurant distance. Distance is not shown on MVP result cards. |
+| `maxDistanceKm` | number | Internal maximum search radius. |
+| `selectedTags` | string[] | Desired tags such as `chicken`, `burger`, `pizza`, `kebab`, `vegetarian`, `small`, `filling`, `quick`. |
+| `excludedTags` | string[] | Tags the user wants to avoid. |
+| `portionSizePreference` | enum, optional | `smallMeal` or `fillingMeal` for Sprint 1; additional values can be added later. |
+| `fulfillmentMode` | enum, optional | Sprint 1 is dine-in/pickup-style only. Do not calculate or show delivery fees. |
 
 ### Candidate Inputs
 
@@ -29,14 +33,14 @@ The recommendation engine receives a user request and a list of candidate food i
 |---|---|---|
 | `restaurantAvailability` | boolean/unknown | Whether the outlet is currently open or available. |
 | `restaurantRating` | number/unknown | External rating, usually normalized from a 0 to 5 provider scale. |
-| `distanceKm` | number | Distance between user and outlet. |
-| `menuItemPrice` | number | Estimated item price before optional fees. |
+| `distanceKm` | number | Internal distance between user and outlet. Used for ranking/filtering, not shown on MVP result cards. |
+| `menuItemPrice` | number | Estimated food item price only. Delivery fees are not included. |
 | `currency` | string | Candidate price currency. |
 | `itemTags` | string[] | Tags assigned to the menu item. |
 | `portionSize` | enum | Item portion size. |
-| `fulfillmentModes` | enum[] | Supported modes for this item/outlet. |
-| `priceConfidence` | integer | `0` to `100` confidence for the price. |
-| `lastVerifiedAt` | date/datetime | Last time the price was checked or accepted. |
+| `fulfillmentModes` | enum[] | Supported dine-in/pickup-style modes for this item/outlet. |
+| `priceConfidence` | integer | Internal `0` to `100` confidence for the price. Not shown on MVP result cards. |
+| `lastVerifiedAt` | date/datetime | Internal last time the price was checked or accepted. Not shown on MVP result cards. |
 
 ## Candidate Filtering
 
@@ -47,21 +51,21 @@ Apply these filters in order:
 1. Remove unavailable restaurants when `restaurantAvailability=false`.
 2. Remove candidates with a different currency than the request.
 3. Remove items outside `maxDistanceKm`.
-4. Remove items that do not support the requested `fulfillmentMode`, when one is selected.
+4. Remove items that do not support the selected dine-in/pickup-style mode, when one is selected.
 5. Remove items containing any `excludedTags`.
-6. Remove items clearly above budget unless an explicit over-budget tolerance is enabled.
+6. Remove items clearly above budget unless an explicit over-budget tolerance is enabled in a later version.
 7. Remove items with very low confidence when alternatives exist.
 
 Budget tolerance:
 
 - Default MVP behavior: primary results must be at or below budget.
-- Optional later behavior: allow a small tolerance, such as 5% or 2 PLN, only in a separately labeled "slightly over budget" section.
+- Optional later behavior: allow a small tolerance only in a separately labeled "slightly over budget" section.
 - Never mix over-budget items into the normal "within budget" list without clear copy.
 
 Confidence filtering:
 
 - `priceConfidence < 20`: hide from normal results if any better-confidence options exist.
-- `20 <= priceConfidence < 50`: can appear when options are limited, but rank lower and show "price may vary".
+- `20 <= priceConfidence < 50`: can appear when options are limited, but rank lower and use "price may vary by location" copy.
 - `priceConfidence >= 50`: eligible for normal ranking.
 
 ## Scoring Formula
@@ -79,6 +83,8 @@ score =
 ```
 
 The maximum score is `100`. Keep these weights configurable in code so the team can tune them without changing the algorithm shape.
+
+The score and score breakdown are internal system data. Do not show them on MVP result cards.
 
 ## Score Components
 
@@ -101,8 +107,6 @@ remainingRatio = (budget - price) / budget
 budgetFit = clamp(0.75 + remainingRatio * 0.25)
 ```
 
-This means an item exactly at budget still gets `0.75`, because it is valid but less flexible than a cheaper option.
-
 ### `preferenceMatch`
 
 Measures how well item tags match the selected tags.
@@ -112,43 +116,34 @@ Rules:
 - If `excludedTags` overlap with `itemTags`, remove the candidate during filtering.
 - If no `selectedTags` are provided, use a neutral score such as `0.75`.
 - Otherwise: `matchedSelectedTags / selectedTags.length`.
-- Matching can use category and tags, but the implementation should normalize everything into tags first.
+- Matching can use category and tags, but the implementation should normalize everything into simple tags first.
 
-Examples:
+Approved Sprint 1 user-facing tags:
 
-| Selected Tags | Excluded Tags | Item Tags | Result |
-|---|---|---|---|
-| `chicken` | none | `chicken`, `smallMeal` | `1.0` |
-| `chicken`, `healthy` | none | `chicken`, `sandwich` | `0.5` |
-| `vegetarian` | `meat` | `kebab`, `meat` | filtered out |
-| none | none | `burger` | `0.75` |
+- `chicken`
+- `burger`
+- `pizza`
+- `kebab`
+- `vegetarian`
+- `small`
+- `filling`
+- `quick`
 
 ### `distanceScore`
 
-Measures how close the restaurant is to the user's location.
+Measures how close the restaurant is to the user's location. This is internal for MVP ranking/filtering. Do not show distance on MVP result cards.
 
-Simple bucket model:
-
-| Distance | Score |
-|---|---:|
-| 0 to 0.5 km | 1.0 |
-| >0.5 to 1 km | 0.9 |
-| >1 to 2 km | 0.75 |
-| >2 to 3 km | 0.55 |
-| >3 km but within max distance | 0.35 |
-| Outside max distance | filtered out |
-
-Alternative continuous formula:
+Simple continuous formula:
 
 ```text
 distanceScore = clamp(1 - (distanceKm / maxDistanceKm))
 ```
 
-Use one approach consistently. The continuous formula is simpler to test; buckets are easier to explain.
+If `distanceKm` is unavailable in Sprint 1 mock data, use a neutral internal score such as `0.6`.
 
 ### `restaurantRating`
 
-Uses external restaurant rating as a light quality signal. It should never dominate budget, preferences, or distance.
+Uses external restaurant rating as a light quality signal. It should never dominate budget or preferences.
 
 Rules:
 
@@ -165,12 +160,12 @@ Rules:
 
 - If no portion preference is selected, use neutral score `0.75`.
 - Exact match: `1.0`.
-- Compatible match: `0.7`, for example user asks for `fillingMeal` and item is `regularMeal`.
-- Poor match: `0.35`, for example user asks for `fillingMeal` and item is `snack`.
+- Compatible match: `0.7`.
+- Poor match: `0.35`.
 
 ### `freshnessScore`
 
-Combines price confidence and last verified date.
+Combines internal price confidence and last verified date.
 
 Rules:
 
@@ -188,40 +183,43 @@ Age score:
 | 31 to 60 days | 0.4 |
 | More than 60 days | 0.15 |
 
-Stale or low-confidence prices should rank lower and show uncertainty copy. They should never be presented as guaranteed.
+Stale or low-confidence prices should rank lower. MVP UI should only use simple wording such as "estimated price" or "price may vary by location."
 
 ## Tie-Breakers
 
 When scores are equal or very close, use deterministic tie-breakers:
 
-1. Higher `priceConfidence`.
-2. Shorter `distanceKm`.
+1. Higher internal `priceConfidence`.
+2. Shorter internal `distanceKm`.
 3. Lower `menuItemPrice`.
-4. More recent `lastVerifiedAt`.
+4. More recent internal `lastVerifiedAt`.
 5. Higher `restaurantRating`.
 6. Stable candidate ID.
 
 ## Recommendation Explanation
 
-Every result should return a short reason string or reason array. Reasons must be derived from the same data used for scoring.
+Every result should return a short reason string or reason array derived from scoring data.
 
-Examples:
+Approved MVP explanation examples:
 
 - "Fits your 25 PLN budget"
-- "Matches chicken preference"
-- "Close to your location"
-- "Pickup available"
-- "Recently verified"
-- "Price is estimated and may vary"
-- "Last checked 3 weeks ago"
+- "Matches chicken"
+- "Good for a small meal"
+- "Good for a filling meal"
+- "Something quick"
+- "Estimated price"
+- "Price may vary by location"
 
-Do not use copy such as:
+Do not show these in MVP UI:
 
-- "Guaranteed price"
-- "Definitely available"
-- "AI says this is best"
-
-unless the product later has a verified source that supports those claims.
+- Distance.
+- Confidence score.
+- Price source.
+- `sourceUrl`.
+- `lastVerifiedAt`.
+- Scoring breakdown.
+- Price observation details.
+- AI-generated chat as the main interface.
 
 ## Edge Cases
 
@@ -229,39 +227,37 @@ unless the product later has a verified source that supports those claims.
 
 Return a helpful fallback instead of an empty dead end:
 
-- "No known options under 25 PLN nearby."
-- Suggest increasing budget, widening distance, or removing filters.
-- Optionally show "slightly over budget" only if that mode is explicitly enabled.
+- "No known options under 25 PLN in the current test data."
+- Suggest increasing budget or removing filters.
+- Do not show over-budget results in the normal MVP list.
 
 ### All Prices Stale
 
-Show results with lower freshness scores only if confidence is not extremely low. Explain that prices may vary and ask for confirmation after the user views a result.
+Show results only if confidence is not extremely low. Use simple copy: "price may vary by location."
 
 ### No Location Permission
 
-Use manual location input. Do not block the MVP flow only because device location is denied.
+Use manual or mocked Rzeszow location. Do not block the MVP flow only because device location is denied.
 
 ### Very Low Budget
 
-If the user enters an unrealistically low budget, return no-results guidance and suggest nearby low-cost categories only when backed by data.
+Return no-results guidance and suggest increasing budget only when no seeded items fit.
 
 ### Conflicting Preferences
 
 If selected and excluded tags conflict, excluded tags win. The UI should warn the user, and the engine should avoid returning excluded items.
 
-Example: selected `chicken`, excluded `meat` means chicken items should be filtered out.
-
 ### Same Item In Multiple Outlets
 
-Score each outlet separately because distance, open status, rating, and price confidence can differ. Results may collapse duplicates in UI later, but the engine should treat outlet-item pairs as separate candidates.
+Score each outlet separately because availability, internal distance, rating, and price confidence can differ. The UI may collapse duplicates later.
 
 ### Delivery Fees Not Included
 
-MVP item prices do not include delivery fees unless a verified fee source exists. Delivery results must show copy such as "Delivery fees not included" or avoid delivery-specific recommendations until fee logic exists.
+MVP prices refer to the food item only. Do not calculate delivery fees, show delivery pricing, or depend on delivery platforms.
 
 ### Closed Restaurant
 
-If `restaurantAvailability=false`, filter the candidate out. If availability is unknown, allow it only with cautious copy such as "Opening hours not confirmed".
+If `restaurantAvailability=false`, filter the candidate out. If availability is unknown, allow it only with cautious internal handling and do not claim real-time availability.
 
 ### Unknown Rating
 
@@ -269,7 +265,7 @@ Use neutral rating score. Unknown rating must not hide a valid budget match.
 
 ## MVP Examples
 
-### Example 1: Budget 25 PLN, Chicken, Near Me
+### Example 1: Budget 25 PLN, Chicken
 
 Request:
 
@@ -294,14 +290,14 @@ Candidate:
   "menuItemPrice": 12.99,
   "distanceKm": 0.8,
   "restaurantRating": 4.1,
-  "itemTags": ["chicken", "sandwich", "smallMeal"],
+  "itemTags": ["chicken", "small", "quick"],
   "portionSize": "smallMeal",
   "priceConfidence": 68,
   "lastVerifiedAt": "2026-06-23"
 }
 ```
 
-Expected behavior: strong recommendation because it is under budget, matches chicken, nearby, and has medium confidence. Explanation: "Fits your 25 PLN budget, matches chicken preference, close to your location, price is estimated and may vary."
+Expected card: restaurant name, item name, estimated item price, and tags such as `chicken`, `small`, `quick`.
 
 ### Example 2: Budget 15 PLN, Small Meal
 
@@ -311,7 +307,7 @@ Request:
 {
   "budget": 15,
   "currency": "PLN",
-  "selectedTags": ["smallMeal"],
+  "selectedTags": ["small"],
   "excludedTags": [],
   "portionSizePreference": "smallMeal",
   "maxDistanceKm": 2,
@@ -328,14 +324,14 @@ Candidate:
   "menuItemPrice": 7.9,
   "distanceKm": 0.4,
   "restaurantRating": 4.0,
-  "itemTags": ["burger", "smallMeal", "dineIn"],
+  "itemTags": ["burger", "small", "quick"],
   "portionSize": "smallMeal",
   "priceConfidence": 70,
   "lastVerifiedAt": "2026-06-23"
 }
 ```
 
-Expected behavior: high score because it is well under budget, close, and matches portion preference. Explanation: "Fits your 15 PLN budget, close to your location, recently verified."
+Expected card: restaurant name, item name, estimated item price, and tags such as `burger`, `small`, `quick`.
 
 ### Example 3: Budget 40 PLN, Filling Meal
 
@@ -357,35 +353,36 @@ Candidate:
 
 ```json
 {
-  "restaurant": "Centrum Kebab",
+  "restaurant": "Rzeszow Kebab",
   "item": "Small Kebab",
   "menuItemPrice": 22,
   "distanceKm": 1.2,
   "restaurantRating": 4.4,
-  "itemTags": ["kebab", "fillingMeal", "pickup"],
+  "itemTags": ["kebab", "filling", "quick"],
   "portionSize": "fillingMeal",
   "priceConfidence": 65,
   "lastVerifiedAt": "2026-06-22"
 }
 ```
 
-Expected behavior: high score because it fits budget, matches kebab and filling meal preferences, and is within distance. Explanation: "Fits your 40 PLN budget, matches kebab preference, filling meal, price is estimated and may vary."
+Expected card: restaurant name, item name, estimated item price, and tags such as `kebab`, `filling`, `quick`.
 
 ## Tests To Implement Later
 
-- Item over budget is excluded from normal results or penalized in a separately labeled over-budget mode.
+- Item over budget is excluded from normal results.
 - Matching selected tags improves score.
 - Excluded tags remove item.
-- Closer restaurant ranks higher when other factors are similar.
+- Internal distance can affect ranking without being shown on result cards.
 - Stale price lowers score.
 - Higher confidence improves score.
 - No results returns helpful fallback.
 - Closed restaurant is filtered out.
 - Unknown rating receives neutral score and is not filtered out.
-- Same item in two outlets ranks separately by distance and availability.
-- Delivery result shows that delivery fees are not included unless fee data exists.
+- Same item in two outlets ranks separately by internal distance and availability.
+- Delivery fees are not included in item price.
 - Conflicting selected/excluded tags respect exclusions.
 - Same input and candidates produce deterministic ordering.
+- Result-card view model excludes confidence, source, `sourceUrl`, `lastVerifiedAt`, scoring breakdown, observation details, and distance.
 
 ## Future Improvements
 
@@ -394,6 +391,9 @@ Expected behavior: high score because it fits budget, matches kebab and filling 
 - Add delivery fee calculation and minimum-order handling.
 - Add nutrition/macros if the product validates health-focused use cases.
 - Add personalized ranking based on saved preferences and repeat behavior.
+- Add best value for budget mode.
+- Add distance-aware result display.
+- Add food assistant/chat experience.
 - Consider collaborative filtering after meaningful search, click, and feedback volume exists.
 - Use AI only for explanations or personalized copy. Do not use AI as the core scoring engine in MVP.
 
@@ -403,12 +403,13 @@ Expected behavior: high score because it fits budget, matches kebab and filling 
 - Keep all score components pure functions.
 - Keep weights in one config object or constants block.
 - Clamp every component to `0.0..1.0`.
-- Return both final `score` and a score breakdown for debugging.
-- Return reasons with each result so the UI can explain the recommendation.
-- Do not call OpenAI, maps APIs, payment APIs, or scraping code from the scoring function.
+- Return final `score` and score breakdown for tests/debugging.
+- Return simple reasons/tags with each result so the UI can explain the recommendation without exposing internals.
+- Do not call OpenAI, maps APIs, payment APIs, delivery platforms, or scraping code from the scoring function.
 
 ## Related Documents
 
+- `docs/product/PRODUCT_DECISIONS.md`
 - `docs/data/DATABASE_MODEL.md`
 - `docs/data/DATA_STRATEGY.md`
 - `docs/data/PRICE_VERIFICATION_PROCESS.md`

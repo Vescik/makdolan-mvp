@@ -2,26 +2,28 @@ import { router, useLocalSearchParams } from "expo-router";
 import { useMemo, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
+import { defaultSearchInput } from "../domain/recommendations/scoring";
 import { PreferenceTag } from "../domain/recommendations/types";
 import { AppShell } from "../ui/AppShell";
 import { Button } from "../ui/Button";
 import { Subtitle, Title } from "../ui/ScreenText";
 
 const PREFERENCE_OPTIONS: PreferenceTag[] = [
-  "burger",
   "chicken",
+  "burger",
   "pizza",
   "kebab",
-  "sandwich",
   "vegetarian",
-  "healthy"
+  "small",
+  "filling",
+  "quick"
 ];
 
 export function PreferencesScreen() {
   const params = useLocalSearchParams<{ budget?: string; location?: string }>();
   const [selectedTags, setSelectedTags] = useState<PreferenceTag[]>([]);
-  const budget = params.budget ?? "20";
-  const location = params.location ?? "Warsaw Centrum";
+  const budget = params.budget ?? `${defaultSearchInput.budgetAmount}`;
+  const location = params.location ?? defaultSearchInput.locationLabel;
 
   const selectedCsv = useMemo(() => selectedTags.join(","), [selectedTags]);
 
@@ -34,7 +36,7 @@ export function PreferencesScreen() {
   return (
     <AppShell>
       <Title>What sounds good?</Title>
-      <Subtitle>Select optional preferences. Leave blank to see every in-budget mock option nearby.</Subtitle>
+      <Subtitle>Pick simple preferences, or skip them to see every in-budget idea.</Subtitle>
 
       <View style={styles.grid}>
         {PREFERENCE_OPTIONS.map((tag) => {
@@ -99,4 +101,3 @@ const styles = StyleSheet.create({
     color: "#ffffff"
   }
 });
-

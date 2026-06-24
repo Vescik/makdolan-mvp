@@ -6,31 +6,33 @@ Goals:
 
 - Finalize product scope, stack, data strategy, and architecture.
 - Define seed data format and verification process.
-- Select initial test city.
+- Confirm Rzeszow as the initial test market.
 
 Exit criteria:
 
 - Planning docs approved.
 - Stack ADR accepted.
 - Data source and scraping policies documented.
+- Product Decision Board v1 documented in `docs/product/PRODUCT_DECISIONS.md`.
 
 ## Phase 1: MVP Prototype
 
 Goals:
 
 - Ship initial Expo React Native + TypeScript skeleton with Web support.
-- Build budget/location/preference search.
-- Load controlled seed menu data.
-- Integrate nearby restaurant discovery.
-- Show recommendation cards with confidence/freshness.
-- Capture feedback and price observations.
+- Build budget-first search with Rzeszow mocked/default location.
+- Load controlled Rzeszow seed/mock menu data.
+- Keep Google Places behind a future mock/stub provider only; do not connect real APIs in Sprint 1.
+- Show simple recommendation cards with brand/restaurant, item, estimated item price, and 1 to 3 tags.
+- Keep confidence, source, `sourceUrl`, `lastVerifiedAt`, scoring breakdown, and observation details internal.
 
 Exit criteria:
 
 - App shell routes exist for home budget entry, preferences, recommendation results, recommendation details, and profile preferences.
 - Mock recommendation data and deterministic local scoring have unit tests.
 - Users can search on iOS, Android, and Web.
-- Test city returns useful recommendations.
+- Rzeszow seed/mock data returns useful recommendations.
+- Result cards do not show distance or internal reliability/scoring fields.
 - Feedback can identify wrong prices and bad recommendations.
 
 Next implementation steps:
@@ -38,6 +40,7 @@ Next implementation steps:
 - Replace route-param-only search state with a typed client state boundary.
 - Add form validation and error states for budget and manual location.
 - Add seed import fixtures based on `docs/data/MENU_SEED_FORMAT.md`.
+- Align mock data to Rzeszow Product Decision Board v1 coverage.
 - Add feedback capture UI for useful, not useful, price wrong, and unavailable.
 - Add provider abstraction for future Google Places integration without connecting real APIs yet.
 
@@ -64,6 +67,7 @@ Goals:
 - Improve performance, accessibility, and app-store readiness.
 - Add restaurant claim interest form or waitlist.
 - Add support for high-demand categories and budgets.
+- Consider distance-aware result display only after the MVP validates the simple card format.
 
 Exit criteria:
 
@@ -92,6 +96,7 @@ Goals:
 - Add more cities.
 - Add partnerships or official data integrations.
 - Consider ML ranking after enough behavioral data exists.
+- Explore best-value mode, promotions, dietary filters, delivery-aware results, and food assistant/chat experience after MVP validation.
 - Mature operations, monitoring, moderation, and abuse prevention.
 
 Exit criteria:

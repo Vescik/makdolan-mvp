@@ -7,15 +7,15 @@ import { Button } from "../ui/Button";
 import { BodyText, Label, Subtitle, Title } from "../ui/ScreenText";
 
 export function HomeBudgetScreen() {
-  const [budget, setBudget] = useState("20");
-  const [location, setLocation] = useState("Warsaw Centrum");
+  const [budget, setBudget] = useState("25");
+  const [location, setLocation] = useState("Rzeszow");
 
   return (
     <AppShell>
       <View style={styles.hero}>
-        <Title>Find food that fits your budget</Title>
+        <Title>What can I eat for this budget?</Title>
         <Subtitle>
-          Enter how much you want to spend and where you are. This MVP uses mock recommendations only.
+          Start with your budget. This Sprint 1 skeleton uses local Rzeszow mock data only.
         </Subtitle>
       </View>
 
@@ -26,7 +26,7 @@ export function HomeBudgetScreen() {
             accessibilityLabel="Budget amount"
             inputMode="decimal"
             onChangeText={setBudget}
-            placeholder="20"
+            placeholder="25"
             style={styles.input}
             value={budget}
           />
@@ -37,7 +37,7 @@ export function HomeBudgetScreen() {
           <TextInput
             accessibilityLabel="Location"
             onChangeText={setLocation}
-            placeholder="Warsaw Centrum"
+            placeholder="Rzeszow"
             style={styles.input}
             value={location}
           />
@@ -63,9 +63,7 @@ export function HomeBudgetScreen() {
         variant="secondary"
       />
 
-      <BodyText>
-        Ordering, payments, production scraping, and live restaurant APIs are intentionally out of scope.
-      </BodyText>
+      <BodyText>Prices are estimated item prices and may vary by location.</BodyText>
     </AppShell>
   );
 }
@@ -88,4 +86,3 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14
   }
 });
-

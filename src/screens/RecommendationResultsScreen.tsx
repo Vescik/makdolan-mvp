@@ -2,7 +2,12 @@ import { Link, useLocalSearchParams } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
 
 import { mockRecommendations } from "../domain/recommendations/mockRecommendations";
-import { defaultSearchInput, parsePreferenceTags, scoreRecommendations } from "../domain/recommendations/scoring";
+import {
+  defaultSearchInput,
+  getRecommendationResponse,
+  parsePreferenceTags,
+  toRecommendationCard
+} from "../domain/recommendations/scoring";
 import { AppShell } from "../ui/AppShell";
 import { BodyText, Subtitle, Title } from "../ui/ScreenText";
 
@@ -11,46 +16,55 @@ export function RecommendationResultsScreen() {
   const budget = Number.parseFloat(params.budget ?? `${defaultSearchInput.budgetAmount}`);
   const safeBudget = Number.isFinite(budget) && budget > 0 ? budget : defaultSearchInput.budgetAmount;
 
-  const results = scoreRecommendations(mockRecommendations, {
+  const response = getRecommendationResponse(mockRecommendations, {
     ...defaultSearchInput,
     budgetAmount: safeBudget,
     locationLabel: params.location ?? defaultSearchInput.locationLabel,
-    preferenceTags: parsePreferenceTags(params.preferences)
+    selectedTags: parsePreferenceTags(params.preferences)
   });
+  const { fallback, results } = response;
 
   return (
     <AppShell>
-      <Title>Recommended nearby</Title>
+      <Title>Food ideas for your budget</Title>
       <Subtitle>
-        Mock results for {safeBudget.toFixed(2)} PLN near {params.location ?? defaultSearchInput.locationLabel}.
+        Rzeszow mock results for {safeBudget.toFixed(2)} PLN. Estimated prices may vary by location.
       </Subtitle>
 
       {results.length === 0 ? (
         <View style={styles.emptyState}>
-          <BodyText>No mock recommendation fits this budget yet. Try increasing the budget or removing filters.</BodyText>
+          <Title>{fallback?.title ?? "No matching food ideas yet"}</Title>
+          <BodyText>{fallback?.message ?? "Try increasing the budget or removing filters."}</BodyText>
+          {fallback?.suggestions.map((suggestion) => (
+            <BodyText key={suggestion}>- {suggestion}</BodyText>
+          ))}
         </View>
       ) : (
         <View style={styles.list}>
-          {results.map((result) => (
-            <Link
-              accessibilityLabel={`Open details for ${result.itemName}`}
-              href={{ pathname: "/recommendations/[id]", params: { id: result.id } }}
-              key={result.id}
-              style={styles.card}
-            >
-              <View style={styles.cardContent}>
-                <View style={styles.cardHeader}>
-                  <Text style={styles.itemName}>{result.itemName}</Text>
-                  <Text style={styles.score}>{result.score}</Text>
+          {results.map((result) => {
+            const card = toRecommendationCard(result);
+            return (
+              <Link
+                accessibilityLabel={`Open details for ${card.itemName}`}
+                href={{ pathname: "/recommendations/[id]", params: { id: result.id } }}
+                key={result.id}
+                style={styles.card}
+              >
+                <View style={styles.cardContent}>
+                  <Text style={styles.restaurant}>{card.restaurantName}</Text>
+                  <Text style={styles.itemName}>{card.itemName}</Text>
+                  <Text style={styles.price}>Estimated price: {card.estimatedPrice}</Text>
+                  <View style={styles.tags}>
+                    {card.displayTags.map((tag) => (
+                      <Text key={tag} style={styles.tag}>
+                        {tag}
+                      </Text>
+                    ))}
+                  </View>
                 </View>
-                <Text style={styles.restaurant}>{result.restaurant.outletName}</Text>
-                <Text style={styles.meta}>
-                  {result.price.amount.toFixed(2)} {result.price.currency} · {result.restaurant.distanceKm.toFixed(1)} km
-                </Text>
-                <Text style={styles.reason}>{result.reasons.join(" · ")}</Text>
-              </View>
-            </Link>
-          ))}
+              </Link>
+            );
+          })}
         </View>
       )}
     </AppShell>
@@ -77,38 +91,37 @@ const styles = StyleSheet.create({
     textDecorationLine: "none"
   },
   cardContent: {
-    gap: 6,
+    gap: 8,
     padding: 16
-  },
-  cardHeader: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between"
-  },
-  itemName: {
-    color: "#17352b",
-    flex: 1,
-    fontSize: 18,
-    fontWeight: "800"
-  },
-  score: {
-    color: "#1f6f4a",
-    fontSize: 16,
-    fontWeight: "800"
   },
   restaurant: {
     color: "#40564d",
+    fontSize: 14,
+    fontWeight: "700"
+  },
+  itemName: {
+    color: "#17352b",
+    fontSize: 18,
+    fontWeight: "800"
+  },
+  price: {
+    color: "#233a31",
     fontSize: 15,
     fontWeight: "700"
   },
-  meta: {
-    color: "#51645c",
-    fontSize: 14
+  tags: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8
   },
-  reason: {
-    color: "#1f6f4a",
-    fontSize: 14,
-    fontWeight: "700"
+  tag: {
+    backgroundColor: "#e6eee9",
+    borderRadius: 8,
+    color: "#17352b",
+    fontSize: 13,
+    fontWeight: "700",
+    overflow: "hidden",
+    paddingHorizontal: 10,
+    paddingVertical: 6
   }
 });
-

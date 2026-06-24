@@ -16,10 +16,9 @@ export default function RootLayout() {
         <Stack.Screen name="preferences" options={{ title: "Preferences" }} />
         <Stack.Screen name="results" options={{ title: "Recommendations" }} />
         <Stack.Screen name="recommendations/[id]" options={{ title: "Details" }} />
-        <Stack.Screen name="profile/preferences" options={{ title: "Profile Preferences" }} />
+        <Stack.Screen name="profile/preferences" options={{ title: "Local Preferences" }} />
       </Stack>
       <StatusBar style="dark" />
     </>
   );
 }
-

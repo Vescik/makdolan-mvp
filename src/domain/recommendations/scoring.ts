@@ -1,9 +1,12 @@
 import {
   FulfillmentMode,
-  MealSize,
+  PortionSize,
   PreferenceTag,
   RecommendationCandidate,
-  ScoredRecommendation,
+  RecommendationCardView,
+  RecommendationFallback,
+  RecommendationResponse,
+  RecommendationResult,
   SearchInput
 } from "./types";
 
@@ -13,64 +16,102 @@ const REFERENCE_DATE = new Date("2026-06-24T00:00:00.000Z");
 export function scoreRecommendations(
   candidates: RecommendationCandidate[],
   input: SearchInput
-): ScoredRecommendation[] {
+): RecommendationResult[] {
   return candidates
     .filter((candidate) => isEligible(candidate, input))
     .map((candidate) => scoreCandidate(candidate, input))
-    .sort((left, right) => right.score - left.score);
+    .sort((left, right) => sortRecommendationResults(left, right));
 }
 
-export function scoreCandidate(
-  candidate: RecommendationCandidate,
+export const rankRecommendations = scoreRecommendations;
+
+export function getRecommendationResponse(
+  candidates: RecommendationCandidate[],
   input: SearchInput
-): ScoredRecommendation {
-  const breakdown = {
-    budgetFit: budgetFit(candidate.price.amount, input.budgetAmount),
-    preferenceMatch: preferenceMatch(candidate.tags, input.preferenceTags),
-    distanceScore: distanceScore(candidate.restaurant.distanceKm, input.distanceLimitKm),
-    ratingScore: ratingScore(candidate.restaurant.rating),
-    portionScore: portionScore(candidate.portionSize, input.mealSize),
-    freshnessScore: freshnessScore(candidate.price.lastVerifiedAt, candidate.price.confidence)
+): RecommendationResponse {
+  const results = scoreRecommendations(candidates, input);
+
+  return {
+    results,
+    fallback: results.length === 0 ? buildFallback(input) : null
+  };
+}
+
+export function scoreCandidate(candidate: RecommendationCandidate, input: SearchInput): RecommendationResult {
+  const price = candidate.menuItem.basePrice;
+  const scoreBreakdown = {
+    budgetFit: budgetFit(price.amount, input.budgetAmount),
+    preferenceMatch: preferenceMatch(candidate.menuItem.tags, input.selectedTags),
+    distanceScore: distanceScore(),
+    restaurantRating: restaurantRating(candidate.outlet.rating),
+    portionScore: portionScore(candidate.menuItem.portionSize, input.portionSizePreference),
+    freshnessScore: freshnessScore(price.lastVerifiedAt, price.confidence)
   };
 
   const score =
-    breakdown.budgetFit * 35 +
-    breakdown.preferenceMatch * 25 +
-    breakdown.distanceScore * 15 +
-    breakdown.ratingScore * 10 +
-    breakdown.portionScore * 10 +
-    breakdown.freshnessScore * 5;
+    scoreBreakdown.budgetFit * 35 +
+    scoreBreakdown.preferenceMatch * 25 +
+    scoreBreakdown.distanceScore * 15 +
+    scoreBreakdown.restaurantRating * 10 +
+    scoreBreakdown.portionScore * 10 +
+    scoreBreakdown.freshnessScore * 5;
+
+  const displayTags = buildDisplayTags(candidate.menuItem.tags, input.selectedTags);
 
   return {
     ...candidate,
+    estimatedTotalPrice: price.amount,
     score: roundScore(score),
-    breakdown,
-    reasons: buildReasons(candidate, input, breakdown)
+    scoreBreakdown,
+    reasons: buildReasons(candidate, input, displayTags),
+    displayTags,
+    confidence: price.confidence
+  };
+}
+
+export const buildRecommendationResult = scoreCandidate;
+
+export function toRecommendationCard(result: RecommendationResult): RecommendationCardView {
+  return {
+    restaurantName: result.brand.name,
+    itemName: result.menuItem.name,
+    estimatedPrice: `${result.estimatedTotalPrice.toFixed(2)} ${result.menuItem.basePrice.currency}`,
+    displayTags: result.displayTags
   };
 }
 
 function isEligible(candidate: RecommendationCandidate, input: SearchInput): boolean {
-  if (!candidate.active || !candidate.restaurant.openNow) {
+  const price = candidate.menuItem.basePrice;
+  const excludedTags = input.excludedTags ?? [];
+
+  if (!candidate.menuItem.active || !candidate.outlet.isOpenNow) {
     return false;
   }
 
-  if (candidate.price.currency !== input.currency) {
+  if (price.currency !== input.currency) {
     return false;
   }
 
-  if (candidate.price.amount > input.budgetAmount) {
+  if (price.amount > input.budgetAmount) {
     return false;
   }
 
-  if (candidate.restaurant.distanceKm > input.distanceLimitKm) {
+  if (candidate.outlet.distanceKm > input.distanceLimitKm) {
     return false;
   }
 
-  if (input.fulfillmentMode && !candidate.fulfillmentModes.includes(input.fulfillmentMode)) {
+  if (
+    input.fulfillmentMode &&
+    !candidate.menuItem.fulfillmentModes.includes(input.fulfillmentMode)
+  ) {
     return false;
   }
 
-  return candidate.price.confidence >= 20;
+  if (excludedTags.some((tag) => candidate.menuItem.tags.includes(tag))) {
+    return false;
+  }
+
+  return price.confidence >= 20;
 }
 
 function budgetFit(price: number, budget: number): number {
@@ -82,28 +123,24 @@ function budgetFit(price: number, budget: number): number {
   return clamp(0.75 + remainingRatio * 0.25);
 }
 
-function preferenceMatch(candidateTags: PreferenceTag[], preferences: PreferenceTag[]): number {
-  if (preferences.length === 0) {
+function preferenceMatch(candidateTags: PreferenceTag[], selectedTags: PreferenceTag[]): number {
+  if (selectedTags.length === 0) {
     return 0.75;
   }
 
-  const matched = preferences.filter((preference) => candidateTags.includes(preference)).length;
-  return clamp(matched / preferences.length);
+  const matched = selectedTags.filter((tag) => candidateTags.includes(tag)).length;
+  return clamp(matched / selectedTags.length);
 }
 
-function distanceScore(distanceKm: number, limitKm: number): number {
-  if (limitKm <= 0 || distanceKm > limitKm) {
-    return 0;
-  }
-
-  return clamp(1 - distanceKm / limitKm);
+function distanceScore(): number {
+  return 0.75;
 }
 
-function ratingScore(rating: number): number {
-  return clamp(rating / 5);
+function restaurantRating(rating: number | undefined): number {
+  return rating === undefined ? 0.6 : clamp(rating / 5);
 }
 
-function portionScore(candidatePortion: MealSize, requestedPortion?: MealSize): number {
+function portionScore(candidatePortion: PortionSize, requestedPortion?: PortionSize): number {
   if (!requestedPortion) {
     return 0.75;
   }
@@ -112,9 +149,7 @@ function portionScore(candidatePortion: MealSize, requestedPortion?: MealSize): 
     return 1;
   }
 
-  const fillingRequested = requestedPortion === "filling_meal";
-  const fillingCandidate = candidatePortion === "regular_meal" || candidatePortion === "filling_meal";
-  return fillingRequested && fillingCandidate ? 0.7 : 0.35;
+  return requestedPortion === "filling" && candidatePortion === "small" ? 0.35 : 0.7;
 }
 
 function freshnessScore(lastVerifiedAt: string, confidence: number): number {
@@ -128,34 +163,64 @@ function freshnessScore(lastVerifiedAt: string, confidence: number): number {
   return clamp(confidenceScore * 0.65 + ageScore * 0.35);
 }
 
+function buildDisplayTags(candidateTags: PreferenceTag[], selectedTags: PreferenceTag[]): PreferenceTag[] {
+  const selectedMatches = selectedTags.filter((tag) => candidateTags.includes(tag));
+  const remaining = candidateTags.filter((tag) => !selectedMatches.includes(tag));
+  return [...selectedMatches, ...remaining].slice(0, 3);
+}
+
 function buildReasons(
   candidate: RecommendationCandidate,
   input: SearchInput,
-  breakdown: ScoredRecommendation["breakdown"]
+  displayTags: PreferenceTag[]
 ): string[] {
-  const reasons: string[] = [];
+  const reasons = [`Fits your ${input.budgetAmount.toFixed(0)} ${input.currency} budget`];
 
-  reasons.push(`${formatPrice(candidate.price.amount, candidate.price.currency)} fits your budget`);
-
-  if (breakdown.preferenceMatch >= 1 && input.preferenceTags.length > 0) {
-    reasons.push(`Matches ${input.preferenceTags.join(", ")}`);
+  const matchedTags = input.selectedTags.filter((tag) => candidate.menuItem.tags.includes(tag));
+  if (matchedTags.length > 0) {
+    reasons.push(`Matches ${matchedTags.join(", ")}`);
   }
 
-  if (candidate.restaurant.distanceKm <= 1) {
-    reasons.push("Nearby");
+  if (displayTags.includes("small")) {
+    reasons.push("Good for a small meal");
   }
 
-  if (breakdown.freshnessScore >= 0.75) {
-    reasons.push("Recently verified");
-  } else {
-    reasons.push("Price may vary");
+  if (displayTags.includes("filling")) {
+    reasons.push("Good for a filling meal");
   }
 
-  return reasons;
+  if (displayTags.includes("quick")) {
+    reasons.push("Something quick");
+  }
+
+  reasons.push("Estimated price may vary by location");
+  return reasons.slice(0, 4);
 }
 
-function formatPrice(amount: number, currency: SearchInput["currency"]): string {
-  return `${amount.toFixed(2)} ${currency}`;
+function sortRecommendationResults(left: RecommendationResult, right: RecommendationResult): number {
+  if (right.score !== left.score) {
+    return right.score - left.score;
+  }
+
+  if (right.confidence !== left.confidence) {
+    return right.confidence - left.confidence;
+  }
+
+  if (left.estimatedTotalPrice !== right.estimatedTotalPrice) {
+    return left.estimatedTotalPrice - right.estimatedTotalPrice;
+  }
+
+  return left.id.localeCompare(right.id);
+}
+
+function buildFallback(input: SearchInput): RecommendationFallback {
+  const selectedTags = input.selectedTags.length > 0 ? ` for ${input.selectedTags.join(", ")}` : "";
+
+  return {
+    title: "No matching food ideas yet",
+    message: `No known options under ${input.budgetAmount.toFixed(0)} ${input.currency}${selectedTags} in the current Rzeszow test data.`,
+    suggestions: ["Increase your budget", "Remove one or more preferences", "Try a broader tag such as quick or small"]
+  };
 }
 
 function roundScore(score: number): number {
@@ -167,11 +232,13 @@ function clamp(value: number): number {
 }
 
 export const defaultSearchInput: SearchInput = {
-  budgetAmount: 20,
+  budgetAmount: 25,
   currency: "PLN",
-  locationLabel: "Warsaw Centrum",
+  locationLabel: "Rzeszow",
   distanceLimitKm: 3,
-  preferenceTags: []
+  selectedTags: [],
+  excludedTags: [],
+  fulfillmentMode: "pickup"
 };
 
 export function parsePreferenceTags(value: string | string[] | undefined): PreferenceTag[] {
@@ -187,13 +254,13 @@ export function parsePreferenceTags(value: string | string[] | undefined): Prefe
 }
 
 export function isPreferenceTag(value: string): value is PreferenceTag {
-  return ["burger", "chicken", "pizza", "kebab", "sandwich", "vegetarian", "healthy"].includes(value);
+  return ["chicken", "burger", "pizza", "kebab", "vegetarian", "small", "filling", "quick"].includes(value);
 }
 
 export function isFulfillmentMode(value: string | undefined): value is FulfillmentMode {
-  return value === "pickup" || value === "delivery" || value === "dine_in";
+  return value === "pickup" || value === "dineIn";
 }
 
-export function isMealSize(value: string | undefined): value is MealSize {
-  return value === "snack" || value === "small_meal" || value === "regular_meal" || value === "filling_meal";
+export function isPortionSize(value: string | undefined): value is PortionSize {
+  return value === "small" || value === "filling";
 }

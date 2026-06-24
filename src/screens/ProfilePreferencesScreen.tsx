@@ -6,20 +6,14 @@ import { BodyText, Label, Subtitle, Title } from "../ui/ScreenText";
 export function ProfilePreferencesScreen() {
   return (
     <AppShell>
-      <Title>Profile preferences</Title>
-      <Subtitle>Placeholder for saved defaults after the MVP validates repeat usage.</Subtitle>
+      <Title>Local preferences</Title>
+      <Subtitle>Placeholder for local defaults. Sprint 1 does not use accounts or cloud sync.</Subtitle>
 
       <View style={styles.panel}>
         <Label>Planned defaults</Label>
         <BodyText>- Usual budget</BodyText>
-        <BodyText>- Favorite food tags</BodyText>
-        <BodyText>- Pickup, delivery, or dine-in preference</BodyText>
-        <BodyText>- Dietary preferences</BodyText>
-      </View>
-
-      <View style={styles.panel}>
-        <Label>Not in this skeleton</Label>
-        <BodyText>Authentication, payments, ordering, production APIs, and scraping are intentionally excluded.</BodyText>
+        <BodyText>- Favorite simple tags</BodyText>
+        <BodyText>- Small or filling meal preference</BodyText>
       </View>
     </AppShell>
   );
@@ -35,4 +29,3 @@ const styles = StyleSheet.create({
     padding: 16
   }
 });
-
