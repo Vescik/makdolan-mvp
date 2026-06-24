@@ -2,6 +2,7 @@ import { useLocalSearchParams } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
 
 import { mockRecommendations } from "../domain/recommendations/mockRecommendations";
+import { formatPreferenceTag } from "../domain/recommendations/tagLabels";
 import { AppShell } from "../ui/AppShell";
 import { BodyText, Label, Title } from "../ui/ScreenText";
 
@@ -12,8 +13,8 @@ export function RecommendationDetailsScreen() {
   if (!candidate) {
     return (
       <AppShell>
-        <Title>Recommendation not found</Title>
-        <BodyText>This mock item is not available in the local Rzeszow seed data.</BodyText>
+        <Title>Nie znaleziono propozycji</Title>
+        <BodyText>Ta pozycja nie jest dostępna w lokalnych danych testowych dla Rzeszowa.</BodyText>
       </AppShell>
     );
   }
@@ -28,24 +29,25 @@ export function RecommendationDetailsScreen() {
   return (
     <AppShell>
       <Title>{card.itemName}</Title>
+      <BodyText>Prosta propozycja z rynku testowego w Rzeszowie.</BodyText>
 
       <View style={styles.panel}>
-        <Label>Restaurant</Label>
+        <Label>Restauracja</Label>
         <Text style={styles.value}>{card.restaurantName}</Text>
       </View>
 
       <View style={styles.panel}>
-        <Label>Estimated item price</Label>
+        <Label>Szacowana cena pozycji</Label>
         <Text style={styles.value}>{card.estimatedPrice}</Text>
-        <BodyText>Estimated price may vary by location.</BodyText>
+        <BodyText>Cena jest szacunkowa i może różnić się zależnie od lokalu.</BodyText>
       </View>
 
       <View style={styles.panel}>
-        <Label>Tags</Label>
+        <Label>Preferencje</Label>
         <View style={styles.tags}>
           {card.displayTags.map((tag) => (
             <Text key={tag} style={styles.tag}>
-              {tag}
+              {formatPreferenceTag(tag)}
             </Text>
           ))}
         </View>
