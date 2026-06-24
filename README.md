@@ -1,55 +1,46 @@
-# Codex Mobile/Web Pipeline Starter
+# Makdolan MVP
 
-This starter configures Codex as an engineering pipeline for a project that targets **iOS, Android, and Web**.
+Makdolan is a cross-platform Expo React Native app for iOS, Android, and Web. Sprint 1 helps a user enter a food budget, choose simple preferences, and see ranked food ideas from local Rzeszow mock data.
 
-Core loop:
+## Requirements
 
-1. **Discover** – inspect requirements, product context, repo structure, existing architecture, risks, and platform constraints.
-2. **Plan** – create an implementation plan, verification matrix, affected files list, and rollback strategy.
-3. **Execute** – make the smallest correct change, update tests/docs, avoid unrelated refactors.
-4. **Verify** – run deterministic checks: lint, typecheck, tests, platform builds, smoke checks.
-5. **Iterate / Learn** – fix verification failures, update durable knowledge, document decisions, and improve `AGENTS.md` only when repeated mistakes are observed.
+- Node.js 24 or compatible current LTS.
+- npm.
 
-## Recommended first install
+## Install
 
 ```bash
-# macOS / Linux
-curl -fsSL https://chatgpt.com/codex/install.sh | sh
-codex
+npm install
 ```
 
-Then from the repository root:
+## Run Locally
 
 ```bash
-codex "/init and then compare the generated AGENTS.md with the committed AGENTS.md. Keep the stricter rules from this repo."
+npm run web
 ```
 
-## What is included
+Optional native starts when simulator tooling is available:
 
-- `AGENTS.md` – durable repository guidance for Codex.
-- `.codex/config.toml` – project-level Codex configuration.
-- `.codex/agents/*.toml` – custom subagents for discovery, planning, execution, verification, release.
-- `.agents/skills/*/SKILL.md` – reusable skills that Codex can invoke.
-- `.agents/plugins/cross-platform-build-loop` – optional plugin package for sharing the workflow.
-- `.github/workflows/*` – GitHub Actions examples for verification and Codex PR review.
-- `scripts/codex-loop.sh` – local non-interactive loop runner.
-- `scripts/verify-local.sh` – stack-aware local verifier.
-- `docs/*` – setup guide, connector/MCP matrix, templates.
-
-## Minimum rule
-
-Do not ask Codex to “build the app” as one huge task. Feed it one feature, bug, or user story at a time and force it through the loop.
-
-Good prompt:
-
-```text
-Use the build-loop skill. Implement the login screen for iOS, Android, and Web.
-Discover the current stack first, then plan, execute, verify, and update docs.
-Done when lint/tests/build checks pass or you clearly list the failing command and reason.
+```bash
+npm run ios
+npm run android
 ```
 
-Bad prompt:
+## Verify
 
-```text
-Create my whole app and deploy it to stores.
+```bash
+npm run typecheck
+npm test
+npm run lint
+npm run build:web
 ```
+
+## Sprint 1 Scope
+
+- Budget-first local flow.
+- Rzeszow mock data.
+- Simple tags: `chicken`, `burger`, `pizza`, `kebab`, `vegetarian`, `small`, `filling`, `quick`.
+- Deterministic local recommendation scoring.
+- Result cards with brand, item name, estimated price, and visible tags only.
+
+The current app keeps reliability metadata and scoring details inside domain code and tests, not in result or detail screens.

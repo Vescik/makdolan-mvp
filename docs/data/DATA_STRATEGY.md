@@ -33,18 +33,21 @@ The data strategy prioritizes controlled, explainable sources over broad but unr
 
 ### Food/Menu Price Data
 
+These fields map primarily to `RestaurantBrand`, `RestaurantOutlet`, `MenuItem`, and `PriceObservation` in `docs/data/DATABASE_MODEL.md`.
+
 | Field | Purpose | Source |
 |---|---|---|
-| Item name | User-facing recommendation label. | Seed data, user observations, later self-service |
-| Item category | Preference matching such as burger, pizza, chicken, vegetarian, healthy. | Seed data |
-| Item tags | Filtering and ranking. | Seed data, moderation |
-| Base price | Budget fit. | Seed data, user observations |
-| Currency | Correct budget comparison. | Seed data, user observations |
-| Portion size | Distinguish snack, small meal, filling meal. | Seed data, moderation |
-| Availability channel | Pickup, delivery, dine-in, unknown. | Seed data, user observations |
-| Source type | Seed, user observation, partner, official API. | System |
-| Last verified at | Stale data control. | System |
-| Confidence score | Ranking and UI disclosure. | System |
+| `MenuItem.name` | User-facing recommendation label. | Seed data, user observations, later self-service |
+| `MenuItem.category` | Preference matching such as burger, pizza, chicken, vegetarian, healthy. | Seed data |
+| `MenuItem.tags` | Filtering and ranking. | Seed data, moderation |
+| `MenuItem.basePrice` | Budget fit. | Seed data, user observations after review |
+| `MenuItem.currency` | Correct budget comparison. | Seed data, user observations |
+| `MenuItem.portionSize` | Distinguish snack, small meal, filling meal. | Seed data, moderation |
+| `MenuItem.tags` / fulfillment metadata | Pickup, delivery, dine-in, unknown. | Seed data, user observations |
+| `MenuItem.source` | Seed, user observation, partner, official API. | System |
+| `MenuItem.lastVerifiedAt` | Stale data control. | System |
+| `MenuItem.confidence` | Ranking and UI disclosure. | System |
+| `PriceObservation.observedPrice` | Submitted evidence for review and confidence updates. | User observations, operator review |
 
 ### User Feedback Data
 
@@ -146,13 +149,13 @@ Suggested confidence bands:
 
 ## Anti-Stale-Data Strategy
 
-- Store `last_verified_at` and `source_type` for every price.
+- Store `source`, `lastVerifiedAt`, and `confidence` for every `MenuItem.basePrice` used in recommendations.
 - Lower confidence automatically as data ages.
 - Show price freshness language when confidence is medium or low.
 - Prefer recently verified options when recommendations are otherwise similar.
 - Ask for user confirmation after recommendations: "Was this price accurate?"
 - Prioritize review queues by high search demand, stale data, conflicting observations, and high recommendation volume.
-- Keep change history for prices so the system can detect suspicious jumps or abuse.
+- Keep `PriceObservation` history so the system can detect suspicious jumps or abuse.
 
 ## Legal And Compliance Risks
 
@@ -168,9 +171,18 @@ Suggested confidence bands:
 ## Acceptance Criteria
 
 - MVP can recommend food options using seed prices and nearby restaurant discovery.
-- Price records include source, currency, last verification, and confidence.
+- Recommended `MenuItem` records include `source`, `currency`, `lastVerifiedAt`, and `confidence`.
 - Google Places is used for nearby restaurant discovery, not as an assumed menu-price source.
 - User feedback can improve price confidence without automatically making untrusted data authoritative.
 - Scraping is documented only as a legal-review research option.
 - Data strategy supports iOS, Android, and Web clients through the same API contract.
 
+## Related Documents
+
+- `docs/data/DATABASE_MODEL.md`
+- `docs/data/MENU_SEED_FORMAT.md`
+- `docs/data/PRICE_VERIFICATION_PROCESS.md`
+- `docs/data/SCORING_MODEL.md`
+- `docs/data/SCRAPING_POLICY.md`
+- `docs/architecture/ADR-0002-data-sources.md`
+- `docs/architecture/ADR-0003-recommendation-engine.md`
