@@ -75,7 +75,14 @@ export function RecommendationResultsScreen() {
             return (
               <Link
                 accessibilityLabel={`Otwórz szczegóły: ${card.itemName}`}
-                href={{ pathname: "/recommendations/[id]", params: { id: result.id } }}
+                href={{
+                  pathname: "/recommendations/[id]",
+                  params: {
+                    id: result.id,
+                    budget: budgetValidation.normalizedInput,
+                    preferences: params.preferences ?? ""
+                  }
+                }}
                 key={result.id}
                 style={styles.card}
               >
@@ -83,6 +90,13 @@ export function RecommendationResultsScreen() {
                   <Text style={styles.restaurant}>{card.restaurantName}</Text>
                   <Text style={styles.itemName}>{card.itemName}</Text>
                   <Text style={styles.price}>Szacowana cena: {card.estimatedPrice}</Text>
+                  <View style={styles.reasonChips}>
+                    {card.reasonChips.map((chip) => (
+                      <Text key={chip} style={styles.reasonChip}>
+                        {chip}
+                      </Text>
+                    ))}
+                  </View>
                   <View style={styles.tags}>
                     {card.displayTags.map((tag) => (
                       <Text key={tag} style={styles.tag}>
@@ -147,6 +161,21 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 8
+  },
+  reasonChips: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8
+  },
+  reasonChip: {
+    backgroundColor: "#d9f0e2",
+    borderRadius: 8,
+    color: "#17352b",
+    fontSize: 13,
+    fontWeight: "800",
+    overflow: "hidden",
+    paddingHorizontal: 10,
+    paddingVertical: 6
   },
   tag: {
     backgroundColor: "#e6eee9",

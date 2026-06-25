@@ -10,7 +10,8 @@ import {
   getRecommendationResponse,
   scoreCandidate,
   scoreRecommendations,
-  toRecommendationCard
+  toRecommendationCard,
+  toRecommendationDetails
 } from "./scoring";
 import { RecommendationCandidate, SearchInput } from "./types";
 
@@ -221,15 +222,47 @@ describe("scoreRecommendations", () => {
       restaurantName: expect.any(String),
       itemName: expect.any(String),
       estimatedPrice: expect.stringContaining("PLN"),
-      displayTags: expect.any(Array)
+      displayTags: expect.any(Array),
+      reasonChips: expect.any(Array)
     });
+    expect(card.reasonChips.length).toBeLessThanOrEqual(3);
     expect(Object.keys(card)).not.toContain("distanceKm");
+    expect(Object.keys(card)).not.toContain("distance");
     expect(Object.keys(card)).not.toContain("score");
     expect(Object.keys(card)).not.toContain("confidence");
     expect(Object.keys(card)).not.toContain("source");
     expect(Object.keys(card)).not.toContain("sourceUrl");
     expect(Object.keys(card)).not.toContain("lastVerifiedAt");
     expect(Object.keys(card)).not.toContain("scoreBreakdown");
+  });
+
+  it("keeps internal fields out of the details view", () => {
+    const [result] = scoreRecommendations(mockRecommendations, {
+      ...baseInput,
+      selectedTags: ["kebab"]
+    });
+
+    expect(result).toBeDefined();
+    const details = toRecommendationDetails(result!);
+
+    expect(details).toEqual({
+      restaurantName: expect.any(String),
+      itemName: expect.any(String),
+      estimatedPrice: expect.stringContaining("PLN"),
+      displayTags: expect.any(Array),
+      reasonChips: expect.any(Array),
+      priceNote: "Cena jest szacunkowa i może różnić się zależnie od lokalu."
+    });
+    expect(details.reasonChips).toContain("W budżecie");
+    expect(details.reasonChips.join(" ")).not.toMatch(/score|confidence|source|sourceUrl|lastVerifiedAt|distance/i);
+    expect(Object.keys(details)).not.toContain("distanceKm");
+    expect(Object.keys(details)).not.toContain("distance");
+    expect(Object.keys(details)).not.toContain("score");
+    expect(Object.keys(details)).not.toContain("confidence");
+    expect(Object.keys(details)).not.toContain("source");
+    expect(Object.keys(details)).not.toContain("sourceUrl");
+    expect(Object.keys(details)).not.toContain("lastVerifiedAt");
+    expect(Object.keys(details)).not.toContain("scoreBreakdown");
   });
 });
 

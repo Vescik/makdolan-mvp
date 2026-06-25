@@ -110,6 +110,7 @@ export type RecommendationResult = RecommendationCandidate & {
   score: number;
   scoreBreakdown: ScoreBreakdown;
   reasons: string[];
+  reasonChips: string[];
   displayTags: PreferenceTag[];
   confidence: number;
 };
@@ -130,4 +131,9 @@ export type RecommendationCardView = {
   itemName: string;
   estimatedPrice: string;
   displayTags: PreferenceTag[];
+  reasonChips: string[];
+};
+
+export type RecommendationDetailsView = RecommendationCardView & {
+  priceNote: string;
 };
