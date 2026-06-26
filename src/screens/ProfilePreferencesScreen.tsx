@@ -6,14 +6,14 @@ import { BodyText, Label, Subtitle, Title } from "../ui/ScreenText";
 export function ProfilePreferencesScreen() {
   return (
     <AppShell>
-      <Title>Local preferences</Title>
-      <Subtitle>Placeholder for local defaults. Sprint 1 does not use accounts or cloud sync.</Subtitle>
+      <Title>Lokalne preferencje</Title>
+      <Subtitle>Ta sekcja jest ukryta z głównego przepływu, dopóki nie daje realnej wartości użytkownikowi.</Subtitle>
 
       <View style={styles.panel}>
-        <Label>Planned defaults</Label>
-        <BodyText>- Usual budget</BodyText>
-        <BodyText>- Favorite simple tags</BodyText>
-        <BodyText>- Small or filling meal preference</BodyText>
+        <Label>Możliwe ustawienia później</Label>
+        <BodyText>- Domyślny budżet</BodyText>
+        <BodyText>- Ulubione proste preferencje</BodyText>
+        <BodyText>- Mały lub sycący posiłek</BodyText>
       </View>
     </AppShell>
   );
