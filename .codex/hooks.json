@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 .codex/hooks/user_prompt_secret_scan.py",
+            "command": "cd \"$(git rev-parse --show-toplevel)\" && python3 .codex/hooks/user_prompt_secret_scan.py",
             "statusMessage": "Scanning prompt for obvious secret patterns"
           }
         ]
@@ -18,7 +18,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 .codex/hooks/stop_verify_guard.py",
+            "command": "cd \"$(git rev-parse --show-toplevel)\" && python3 .codex/hooks/stop_verify_guard.py",
             "statusMessage": "Writing verification reminder"
           }
         ]

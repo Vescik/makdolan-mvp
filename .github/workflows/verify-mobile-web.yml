@@ -13,14 +13,19 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
-        if: hashFiles('package.json') != ''
         with:
-          node-version: '22'
-      - name: Enable pnpm when needed
-        if: hashFiles('pnpm-lock.yaml') != ''
-        run: corepack enable
-      - name: Run local verifier
-        run: bash scripts/verify-local.sh
+          node-version: '24'
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Test
+        run: npm test
+      - name: Lint
+        run: npm run lint
+      - name: Build web
+        run: npm run build:web
 
   ios-build-placeholder:
     # Enable when you have Apple signing/build config.

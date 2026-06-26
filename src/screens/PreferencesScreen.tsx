@@ -3,10 +3,11 @@ import { useMemo, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { defaultSearchInput } from "../domain/recommendations/scoring";
+import { formatPreferenceTag } from "../domain/recommendations/tagLabels";
 import { PreferenceTag } from "../domain/recommendations/types";
 import { AppShell } from "../ui/AppShell";
 import { Button } from "../ui/Button";
-import { Subtitle, Title } from "../ui/ScreenText";
+import { BodyText, Subtitle, Title } from "../ui/ScreenText";
 
 const PREFERENCE_OPTIONS: PreferenceTag[] = [
   "chicken",
@@ -20,10 +21,9 @@ const PREFERENCE_OPTIONS: PreferenceTag[] = [
 ];
 
 export function PreferencesScreen() {
-  const params = useLocalSearchParams<{ budget?: string; location?: string }>();
+  const params = useLocalSearchParams<{ budget?: string }>();
   const [selectedTags, setSelectedTags] = useState<PreferenceTag[]>([]);
   const budget = params.budget ?? `${defaultSearchInput.budgetAmount}`;
-  const location = params.location ?? defaultSearchInput.locationLabel;
 
   const selectedCsv = useMemo(() => selectedTags.join(","), [selectedTags]);
 
@@ -35,35 +35,37 @@ export function PreferencesScreen() {
 
   return (
     <AppShell>
-      <Title>What sounds good?</Title>
-      <Subtitle>Pick simple preferences, or skip them to see every in-budget idea.</Subtitle>
+      <Title>Na co masz ochotę?</Title>
+      <Subtitle>Wybierz kilka prostych preferencji albo pomiń ten krok, żeby zobaczyć wszystkie propozycje w budżecie.</Subtitle>
+      <BodyText>Rynek testowy: Rzeszów.</BodyText>
 
       <View style={styles.grid}>
         {PREFERENCE_OPTIONS.map((tag) => {
           const selected = selectedTags.includes(tag);
+          const label = formatPreferenceTag(tag);
           return (
             <Pressable
-              accessibilityLabel={`Preference ${tag}`}
+              accessibilityLabel={`Preferencja: ${label}`}
               accessibilityRole="checkbox"
               accessibilityState={{ checked: selected }}
               key={tag}
               onPress={() => toggleTag(tag)}
               style={[styles.chip, selected && styles.selectedChip]}
             >
-              <Text style={[styles.chipText, selected && styles.selectedChipText]}>{tag}</Text>
+              <Text style={[styles.chipText, selected && styles.selectedChipText]}>{label}</Text>
             </Pressable>
           );
         })}
       </View>
 
       <Button
-        label="Show recommendations"
+        label="Pokaż propozycje"
         onPress={() =>
           router.push({
             pathname: "/results",
             params: {
               budget,
-              location,
+              location: "Rzeszow",
               preferences: selectedCsv
             }
           })
@@ -94,8 +96,7 @@ const styles = StyleSheet.create({
   chipText: {
     color: "#17352b",
     fontSize: 15,
-    fontWeight: "700",
-    textTransform: "capitalize"
+    fontWeight: "700"
   },
   selectedChipText: {
     color: "#ffffff"
