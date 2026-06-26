@@ -4,6 +4,70 @@
 
 Build a production-quality cross-platform product deployable to **iOS, Android, and Web**. Codex must optimize for maintainability, testability, accessibility, security, and release readiness across all platforms.
 
+## Project overview
+
+Makdolan is a budget-first food decision helper. Users enter a food budget, choose simple preferences, and receive ranked food recommendations from controlled Rzeszow MVP data. The product is built with Expo React Native, TypeScript, Expo Router, React Native Web, deterministic local recommendation logic, Vitest, and ESLint.
+
+Current MVP boundaries:
+
+- Budget-first search and recommendation flow are in scope.
+- iOS, Android, and Web are first-class targets.
+- Local mock/seed data and deterministic scoring are the current implementation baseline.
+- Ordering, checkout, payments, production scraping, full authentication, delivery tracking, nutrition/macros, social features, and AI chat as the main user interface are out of scope unless explicitly approved in a later product decision.
+
+Important local context:
+
+- Start new large sessions by reading `.ai/brain/knowledge/agent-session-start.md`.
+- Read `.ai/brain/README.md` for AI Brain Pro structure and usage.
+- Use `project-context/`, `docs/`, and `knowledge-base/` as source material for product and architecture facts.
+
+## Development commands
+
+Use npm. The lockfile is `package-lock.json`.
+
+```bash
+npm install
+npm run web
+npm run ios
+npm run android
+```
+
+Command purposes:
+
+- `npm run web`: start the Expo web target.
+- `npm run ios`: start the Expo iOS target when simulator tooling is available.
+- `npm run android`: start the Expo Android target when simulator/device tooling is available.
+- `npm run start`: start the generic Expo dev server.
+
+## Testing commands
+
+Prefer the smallest relevant validation set, but never finish without validation evidence.
+
+```bash
+npm run typecheck
+npm test
+npm run lint
+npm run build:web
+```
+
+Use the repo helper when unsure:
+
+```bash
+bash scripts/verify-local.sh
+```
+
+Use the strict AI Brain validation gate before marking meaningful work done:
+
+```bash
+bash scripts/diff-gate.sh
+```
+
+Validation notes:
+
+- `npm run build:web` writes Expo web export output to `dist/`.
+- No native `ios/` or `android/` project folder is currently present, so native production build validation requires a future Expo/EAS or native build path.
+- For docs-only changes, run available text/file validation such as required-file checks and `git diff --check`; state explicitly when app checks are skipped because app behavior did not change.
+
 ## Default Codex lifecycle
 
 For every non-trivial task Codex must follow this loop:
@@ -34,8 +98,69 @@ For every non-trivial task Codex must follow this loop:
 5. **Iterate / Learn**
    - Update tests and docs when behavior changes.
    - Update `knowledge-base/` for durable product/architecture facts.
+   - Update `.ai/brain/memory/` after meaningful implementation, planning, or workflow changes.
    - Update `AGENTS.md` only for recurring mistakes or stable repository rules.
    - End with a short summary: changed files, verification results, risks, follow-ups.
+
+In short: **DISCOVER -> PLAN -> EXECUTE -> VERIFY -> ITERATE**.
+
+## AI Brain Pro usage rules
+
+AI Brain Pro is the repository-local SDLC intelligence layer under `.ai/brain/`. It is for planning, project memory, workflow control, and context packaging. It is not a product-facing AI feature and must not expand MVP scope by itself.
+
+Use AI Brain before large implementation:
+
+- Read `.ai/brain/knowledge/agent-session-start.md` at the start of large or ambiguous tasks.
+- Read the relevant files in `.ai/brain/knowledge/` before changing architecture, data flow, validation policy, or cross-platform behavior.
+- Create or update a context pack under `.ai/brain/context-packs/` before broad implementation work when startup context would otherwise be scattered. Use `npm run brain:context -- "Task name" --phase=DISCOVER` as the deterministic helper.
+- Use `.ai/brain/loop-harness/goal-contract-template.md` for multi-step goals, high-risk work, or tasks with unclear acceptance criteria.
+- Use `.ai/brain/loop-harness/how-to-write-good-goals.md` and the goal templates in `.ai/brain/templates/` when creating a Codex `/goal` or manual agent loop.
+- Use `.ai/brain/templates/impact-analysis-template.md` before changes that touch shared domain logic, navigation, persistence, API contracts, CI, secrets, permissions, or release behavior.
+
+Goal contracts must include:
+
+- Objective.
+- Done when criteria.
+- Validation commands.
+- Allowed scope and forbidden scope.
+- Stop conditions.
+- Review requirement before done.
+- Memory update requirement.
+
+Maker-checker review is required for larger changes:
+
+- Use `.ai/brain/loop-harness/maker-checker-flow.md` for major tasks, cross-platform behavior changes, shared domain logic, validation/CI/tooling changes, architecture/data/security/release changes, or broad multi-file edits.
+- Maker must provide the goal contract, context pack or impact analysis when relevant, diff, validation evidence, and memory updates.
+- Checker must review against `.ai/brain/templates/checker-review-template.md` and may reject completion with specific required fixes.
+- `codex review --uncommitted` is the local Codex checker option when available. Compare the output against the AI Brain goal contract and checker template.
+- External model or human review is allowed if it uses the same goal-contract checklist and excludes secrets, `.env.local`, credentials, private user data, and unnecessary full source dumps.
+
+AI Brain memory rules:
+
+- Meaningful changes require a memory update. Use `.ai/brain/memory/memory-update-checklist.md` to route the update.
+- Completed implementation, workflow, validation, automation, architecture, or AI Brain changes go to `.ai/brain/memory/implementation-history.md`.
+- Unresolved assumptions, deferred decisions, approval needs, or scope questions go to `.ai/brain/memory/open-decisions.md`.
+- Add sprint summaries under `.ai/brain/memory/sprint-summaries/` when a sprint, milestone, or AI Brain phase is completed.
+- Use `npm run brain:memory:update` when helpful to scaffold or append structured memory entries, then review the result.
+- Do not copy secrets, private user data, `.env.local` values, credentials, tokens, or raw chat transcripts into AI Brain files.
+- Memory should capture decisions, outcomes, validation evidence, and durable context; it should not duplicate full code or random working notes.
+
+Scope boundaries:
+
+- Respect the user's requested phase and acceptance criteria.
+- Do not implement app behavior during discovery or planning phases.
+- Do not treat context packs as source of truth; they are task-start maps and must be followed by repo inspection.
+- Do not add dependencies, change CI, change release settings, create migrations, or enable networked automation unless the plan explicitly requires it and the user has approved risky operations.
+- Keep `.ai/brain/` focused on durable operating context; keep product and architecture source-of-truth docs in `docs/`, `project-context/`, and `knowledge-base/`.
+
+Done means validated:
+
+- No task is done without validation evidence.
+- For meaningful implementation, workflow, or tooling changes, run `bash scripts/diff-gate.sh` before final response unless a narrower validation scope is explicitly justified.
+- No major task is done without checker review, or an explicit reason why separate checker review was not required.
+- For goal-contract work, validation evidence must use command, result, key output or skipped reason, and follow-up.
+- If a check is skipped, explain exactly why it was not relevant or could not run.
+- If validation fails, fix and rerun when feasible; otherwise report the failing command, important output, and next action.
 
 ## Cross-platform engineering rules
 

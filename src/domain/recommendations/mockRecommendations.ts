@@ -27,6 +27,12 @@ export const restaurantBrands: RestaurantBrand[] = [
     type: "chain"
   },
   {
+    id: "brand_subway_pl",
+    name: "Subway",
+    normalizedName: "subway",
+    type: "chain"
+  },
+  {
     id: "brand_rzeszow_kebab",
     name: "Rzeszow Kebab",
     normalizedName: "rzeszow-kebab",
@@ -42,6 +48,12 @@ export const restaurantBrands: RestaurantBrand[] = [
     id: "brand_bar_domowy",
     name: "Bar Domowy",
     normalizedName: "bar-domowy",
+    type: "local"
+  },
+  {
+    id: "brand_rzeszow_noodle_box",
+    name: "Rzeszow Noodle Box",
+    normalizedName: "rzeszow-noodle-box",
     type: "local"
   }
 ];
@@ -78,6 +90,16 @@ export const restaurantOutlets: RestaurantOutlet[] = [
     isOpenNow: false
   },
   {
+    id: "outlet_subway_rzeszow",
+    brandId: "brand_subway_pl",
+    name: "Subway Rzeszow",
+    address: "ul. Rejtana 20, Rzeszow",
+    city: "Rzeszow",
+    distanceKm: 1.8,
+    rating: 4,
+    isOpenNow: true
+  },
+  {
     id: "outlet_kebab_rzeszow",
     brandId: "brand_rzeszow_kebab",
     name: "Rzeszow Kebab",
@@ -105,6 +127,16 @@ export const restaurantOutlets: RestaurantOutlet[] = [
     city: "Rzeszow",
     distanceKm: 1.4,
     rating: 4.5,
+    isOpenNow: true
+  },
+  {
+    id: "outlet_noodle_box_rzeszow",
+    brandId: "brand_rzeszow_noodle_box",
+    name: "Rzeszow Noodle Box",
+    address: "ul. Hetmanska 6, Rzeszow",
+    city: "Rzeszow",
+    distanceKm: 1.7,
+    rating: 4.2,
     isOpenNow: true
   }
 ];
@@ -271,6 +303,70 @@ export const mockMenuItems: MockMenuItem[] = [
     active: true
   },
   {
+    id: "item_subway_veggie_mini",
+    restaurantBrandName: "Subway",
+    itemName: "Veggie mini sub",
+    estimatedPrice: 13.5,
+    currency: "PLN",
+    visibleTags: ["vegetarian", "small", "quick"],
+    source: "manualSeed",
+    sourceUrl: null,
+    lastVerifiedAt: "2026-06-21",
+    confidence: 64,
+    internalTags: ["vegetarian", "small", "quick"],
+    portionSize: "small",
+    brandId: "brand_subway_pl",
+    active: true
+  },
+  {
+    id: "item_subway_chicken_mini",
+    restaurantBrandName: "Subway",
+    itemName: "Chicken mini sub",
+    estimatedPrice: 16.5,
+    currency: "PLN",
+    visibleTags: ["chicken", "small", "quick"],
+    source: "manualSeed",
+    sourceUrl: null,
+    lastVerifiedAt: "2026-06-21",
+    confidence: 64,
+    internalTags: ["chicken", "small", "quick"],
+    portionSize: "small",
+    brandId: "brand_subway_pl",
+    active: true
+  },
+  {
+    id: "item_subway_tuna_style_sub",
+    restaurantBrandName: "Subway",
+    itemName: "Quick filling sub",
+    estimatedPrice: 24,
+    currency: "PLN",
+    visibleTags: ["filling", "quick"],
+    source: "manualSeed",
+    sourceUrl: null,
+    lastVerifiedAt: "2026-06-21",
+    confidence: 60,
+    internalTags: ["filling", "quick"],
+    portionSize: "filling",
+    brandId: "brand_subway_pl",
+    active: true
+  },
+  {
+    id: "item_subway_chicken_full",
+    restaurantBrandName: "Subway",
+    itemName: "Chicken full sub",
+    estimatedPrice: 29.5,
+    currency: "PLN",
+    visibleTags: ["chicken", "filling", "quick"],
+    source: "manualSeed",
+    sourceUrl: null,
+    lastVerifiedAt: "2026-06-21",
+    confidence: 60,
+    internalTags: ["chicken", "filling", "quick"],
+    portionSize: "filling",
+    brandId: "brand_subway_pl",
+    active: true
+  },
+  {
     id: "item_kebab_small",
     restaurantBrandName: "Rzeszow Kebab",
     itemName: "Small kebab",
@@ -412,6 +508,70 @@ export const mockMenuItems: MockMenuItem[] = [
     internalTags: ["filling", "quick"],
     portionSize: "filling",
     brandId: "brand_bar_domowy",
+    active: true
+  },
+  {
+    id: "item_noodle_vegetarian_small",
+    restaurantBrandName: "Rzeszow Noodle Box",
+    itemName: "Vegetarian small noodle box",
+    estimatedPrice: 17.5,
+    currency: "PLN",
+    visibleTags: ["vegetarian", "small", "quick"],
+    source: "manualSeed",
+    sourceUrl: null,
+    lastVerifiedAt: "2026-06-22",
+    confidence: 66,
+    internalTags: ["vegetarian", "small", "quick"],
+    portionSize: "small",
+    brandId: "brand_rzeszow_noodle_box",
+    active: true
+  },
+  {
+    id: "item_noodle_chicken_box",
+    restaurantBrandName: "Rzeszow Noodle Box",
+    itemName: "Chicken noodle box",
+    estimatedPrice: 23,
+    currency: "PLN",
+    visibleTags: ["chicken", "filling", "quick"],
+    source: "manualSeed",
+    sourceUrl: null,
+    lastVerifiedAt: "2026-06-22",
+    confidence: 66,
+    internalTags: ["chicken", "filling", "quick"],
+    portionSize: "filling",
+    brandId: "brand_rzeszow_noodle_box",
+    active: true
+  },
+  {
+    id: "item_noodle_vegetarian_full",
+    restaurantBrandName: "Rzeszow Noodle Box",
+    itemName: "Vegetarian full noodle box",
+    estimatedPrice: 31,
+    currency: "PLN",
+    visibleTags: ["vegetarian", "filling", "quick"],
+    source: "manualSeed",
+    sourceUrl: null,
+    lastVerifiedAt: "2026-06-22",
+    confidence: 64,
+    internalTags: ["vegetarian", "filling", "quick"],
+    portionSize: "filling",
+    brandId: "brand_rzeszow_noodle_box",
+    active: true
+  },
+  {
+    id: "item_noodle_chicken_large",
+    restaurantBrandName: "Rzeszow Noodle Box",
+    itemName: "Large chicken noodle box",
+    estimatedPrice: 39,
+    currency: "PLN",
+    visibleTags: ["chicken", "filling", "quick"],
+    source: "manualSeed",
+    sourceUrl: null,
+    lastVerifiedAt: "2026-06-22",
+    confidence: 62,
+    internalTags: ["chicken", "filling", "quick"],
+    portionSize: "filling",
+    brandId: "brand_rzeszow_noodle_box",
     active: true
   }
 ];

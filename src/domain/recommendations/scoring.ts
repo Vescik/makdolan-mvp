@@ -4,11 +4,13 @@ import {
   PreferenceTag,
   RecommendationCandidate,
   RecommendationCardView,
+  RecommendationDetailsView,
   RecommendationFallback,
   RecommendationResponse,
   RecommendationResult,
   SearchInput
 } from "./types";
+import { buildReasonChips, RESULT_CARD_REASON_CHIP_LIMIT } from "./reasonChips";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 const REFERENCE_DATE = new Date("2026-06-24T00:00:00.000Z");
@@ -64,6 +66,7 @@ export function scoreCandidate(candidate: RecommendationCandidate, input: Search
     score: roundScore(score),
     scoreBreakdown,
     reasons: buildReasons(candidate, input, displayTags),
+    reasonChips: buildReasonChips(candidate, input),
     displayTags,
     confidence: price.confidence
   };
@@ -76,7 +79,19 @@ export function toRecommendationCard(result: RecommendationResult): Recommendati
     restaurantName: result.brand.name,
     itemName: result.menuItem.name,
     estimatedPrice: `${result.estimatedTotalPrice.toFixed(2)} ${result.menuItem.basePrice.currency}`,
-    displayTags: result.displayTags
+    displayTags: result.displayTags,
+    reasonChips: result.reasonChips.slice(0, RESULT_CARD_REASON_CHIP_LIMIT)
+  };
+}
+
+export function toRecommendationDetails(result: RecommendationResult): RecommendationDetailsView {
+  return {
+    restaurantName: result.brand.name,
+    itemName: result.menuItem.name,
+    estimatedPrice: `${result.estimatedTotalPrice.toFixed(2)} ${result.menuItem.basePrice.currency}`,
+    displayTags: result.displayTags,
+    reasonChips: result.reasonChips,
+    priceNote: "Cena jest szacunkowa i może różnić się zależnie od lokalu."
   };
 }
 
