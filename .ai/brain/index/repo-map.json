@@ -1,0 +1,3498 @@
+{
+  "generatedBy": "npm run brain:index",
+  "excluded": {
+    "directories": [
+      ".expo",
+      ".git",
+      ".next",
+      ".turbo",
+      ".vite",
+      "android-build",
+      "build",
+      "coverage",
+      "dist",
+      "ios-build",
+      "node_modules",
+      "out"
+    ],
+    "files": [
+      ".DS_Store",
+      "bun.lock",
+      "bun.lockb",
+      "package-lock.json",
+      "pnpm-lock.yaml",
+      "yarn.lock"
+    ],
+    "filePatterns": [
+      "(^|\\/).+\\.generated\\..+$",
+      "^\\.ai\\/brain\\/context-packs\\/\\d{4}-\\d{2}-\\d{2}T.+\\.md$",
+      "^\\.env($|\\.)"
+    ],
+    "generatedOutputFiles": [
+      ".ai/brain/index/file-catalog.md",
+      ".ai/brain/index/module-map.md",
+      ".ai/brain/index/repo-map.json"
+    ]
+  },
+  "packageManager": "npm",
+  "packageScripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "lint": "eslint .",
+    "build": "expo export --platform web",
+    "build:web": "expo export --platform web",
+    "brain:context": "node .ai/brain/scripts/create-context-pack.mjs",
+    "brain:index": "node .ai/brain/scripts/create-repo-index.mjs",
+    "brain:search": "node .ai/brain/scripts/search-brain.mjs",
+    "brain:impact": "node .ai/brain/scripts/analyze-impact.mjs",
+    "brain:health": "node .ai/brain/scripts/health-check.mjs",
+    "brain:smoke": "node .ai/brain/scripts/smoke-check.mjs",
+    "brain:automation:check": "node .ai/brain/scripts/validate-automation-activation.mjs",
+    "brain:memory:update": "node .ai/brain/scripts/update-memory.mjs"
+  },
+  "directories": [
+    ".agents",
+    ".agents/plugins",
+    ".agents/plugins/cross-platform-build-loop",
+    ".agents/plugins/cross-platform-build-loop/.codex-plugin",
+    ".agents/plugins/cross-platform-build-loop/skills",
+    ".agents/plugins/cross-platform-build-loop/skills/build-loop",
+    ".agents/plugins/cross-platform-build-loop/skills/discovery",
+    ".agents/plugins/cross-platform-build-loop/skills/execution",
+    ".agents/plugins/cross-platform-build-loop/skills/knowledge-maintainer",
+    ".agents/plugins/cross-platform-build-loop/skills/planning",
+    ".agents/plugins/cross-platform-build-loop/skills/release-readiness",
+    ".agents/plugins/cross-platform-build-loop/skills/verification",
+    ".agents/skills",
+    ".agents/skills/build-loop",
+    ".agents/skills/discovery",
+    ".agents/skills/execution",
+    ".agents/skills/food-data-strategy",
+    ".agents/skills/knowledge-maintainer",
+    ".agents/skills/mobile-web-delivery",
+    ".agents/skills/planning",
+    ".agents/skills/recommendation-engine",
+    ".agents/skills/release-readiness",
+    ".agents/skills/verification",
+    ".ai",
+    ".ai/brain",
+    ".ai/brain/adapters",
+    ".ai/brain/certification",
+    ".ai/brain/context-packs",
+    ".ai/brain/governance",
+    ".ai/brain/index",
+    ".ai/brain/knowledge",
+    ".ai/brain/loop-harness",
+    ".ai/brain/memory",
+    ".ai/brain/memory/sprint-summaries",
+    ".ai/brain/planning",
+    ".ai/brain/reviews",
+    ".ai/brain/scripts",
+    ".ai/brain/templates",
+    ".codex",
+    ".codex/agents",
+    ".codex/automations",
+    ".codex/automations/templates",
+    ".codex/hooks",
+    ".codex/rules",
+    ".codex/state",
+    ".github",
+    ".github/ISSUE_TEMPLATE",
+    ".github/workflows",
+    "app",
+    "app/profile",
+    "app/recommendations",
+    "assets",
+    "docs",
+    "docs/architecture",
+    "docs/data",
+    "docs/product",
+    "docs/project",
+    "docs/reviews",
+    "docs/roadmap",
+    "docs/testing",
+    "knowledge-base",
+    "knowledge-base/decisions",
+    "project-context",
+    "prompts",
+    "scripts",
+    "src",
+    "src/domain",
+    "src/domain/recommendations",
+    "src/screens",
+    "src/ui"
+  ],
+  "files": [
+    {
+      "path": ".agents/plugins/cross-platform-build-loop/.codex-plugin/plugin.json",
+      "sizeBytes": 222,
+      "categories": [
+        "other"
+      ],
+      "module": ".agents/plugins"
+    },
+    {
+      "path": ".agents/plugins/cross-platform-build-loop/skills/build-loop/SKILL.md",
+      "sizeBytes": 1255,
+      "categories": [
+        "doc"
+      ],
+      "module": ".agents/plugins"
+    },
+    {
+      "path": ".agents/plugins/cross-platform-build-loop/skills/discovery/SKILL.md",
+      "sizeBytes": 506,
+      "categories": [
+        "doc"
+      ],
+      "module": ".agents/plugins"
+    },
+    {
+      "path": ".agents/plugins/cross-platform-build-loop/skills/execution/SKILL.md",
+      "sizeBytes": 385,
+      "categories": [
+        "doc"
+      ],
+      "module": ".agents/plugins"
+    },
+    {
+      "path": ".agents/plugins/cross-platform-build-loop/skills/knowledge-maintainer/SKILL.md",
+      "sizeBytes": 563,
+      "categories": [
+        "doc"
+      ],
+      "module": ".agents/plugins"
+    },
+    {
+      "path": ".agents/plugins/cross-platform-build-loop/skills/planning/SKILL.md",
+      "sizeBytes": 398,
+      "categories": [
+        "doc"
+      ],
+      "module": ".agents/plugins"
+    },
+    {
+      "path": ".agents/plugins/cross-platform-build-loop/skills/release-readiness/SKILL.md",
+      "sizeBytes": 400,
+      "categories": [
+        "doc"
+      ],
+      "module": ".agents/plugins"
+    },
+    {
+      "path": ".agents/plugins/cross-platform-build-loop/skills/verification/SKILL.md",
+      "sizeBytes": 370,
+      "categories": [
+        "doc"
+      ],
+      "module": ".agents/plugins"
+    },
+    {
+      "path": ".agents/plugins/marketplace.json",
+      "sizeBytes": 414,
+      "categories": [
+        "other"
+      ],
+      "module": ".agents/plugins"
+    },
+    {
+      "path": ".agents/skills/build-loop/SKILL.md",
+      "sizeBytes": 1255,
+      "categories": [
+        "doc",
+        "config"
+      ],
+      "module": ".agents/skills"
+    },
+    {
+      "path": ".agents/skills/discovery/SKILL.md",
+      "sizeBytes": 506,
+      "categories": [
+        "doc",
+        "config"
+      ],
+      "module": ".agents/skills"
+    },
+    {
+      "path": ".agents/skills/execution/SKILL.md",
+      "sizeBytes": 385,
+      "categories": [
+        "doc",
+        "config"
+      ],
+      "module": ".agents/skills"
+    },
+    {
+      "path": ".agents/skills/food-data-strategy/SKILL.md",
+      "sizeBytes": 1219,
+      "categories": [
+        "doc",
+        "config"
+      ],
+      "module": ".agents/skills"
+    },
+    {
+      "path": ".agents/skills/knowledge-maintainer/SKILL.md",
+      "sizeBytes": 563,
+      "categories": [
+        "doc",
+        "config"
+      ],
+      "module": ".agents/skills"
+    },
+    {
+      "path": ".agents/skills/mobile-web-delivery/SKILL.md",
+      "sizeBytes": 1637,
+      "categories": [
+        "doc",
+        "config"
+      ],
+      "module": ".agents/skills"
+    },
+    {
+      "path": ".agents/skills/planning/SKILL.md",
+      "sizeBytes": 398,
+      "categories": [
+        "doc",
+        "config"
+      ],
+      "module": ".agents/skills"
+    },
+    {
+      "path": ".agents/skills/recommendation-engine/SKILL.md",
+      "sizeBytes": 1560,
+      "categories": [
+        "doc",
+        "config"
+      ],
+      "module": ".agents/skills"
+    },
+    {
+      "path": ".agents/skills/release-readiness/SKILL.md",
+      "sizeBytes": 400,
+      "categories": [
+        "doc",
+        "config"
+      ],
+      "module": ".agents/skills"
+    },
+    {
+      "path": ".agents/skills/verification/SKILL.md",
+      "sizeBytes": 370,
+      "categories": [
+        "doc",
+        "config"
+      ],
+      "module": ".agents/skills"
+    },
+    {
+      "path": ".ai/brain/adapters/codex.md",
+      "sizeBytes": 3578,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/adapters"
+    },
+    {
+      "path": ".ai/brain/adapters/generic-agent.md",
+      "sizeBytes": 3298,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/adapters"
+    },
+    {
+      "path": ".ai/brain/adapters/README.md",
+      "sizeBytes": 2255,
+      "categories": [
+        "important",
+        "doc",
+        "config"
+      ],
+      "module": ".ai/brain/adapters"
+    },
+    {
+      "path": ".ai/brain/agent-start.md",
+      "sizeBytes": 6357,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/agent-start.md"
+    },
+    {
+      "path": ".ai/brain/certification/CERTIFICATION_BACKLOG.md",
+      "sizeBytes": 21983,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/certification"
+    },
+    {
+      "path": ".ai/brain/certification/EPIC1_CERTIFICATION_REPORT.md",
+      "sizeBytes": 23216,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/certification"
+    },
+    {
+      "path": ".ai/brain/certification/EPIC1_CLEAN_CERTIFICATION_RECHECK.md",
+      "sizeBytes": 2457,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/certification"
+    },
+    {
+      "path": ".ai/brain/certification/EPIC2_READINESS_CERTIFICATE.md",
+      "sizeBytes": 5998,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/certification"
+    },
+    {
+      "path": ".ai/brain/certification/FINAL_CERTIFICATION_CLEAN_RECHECK.md",
+      "sizeBytes": 5844,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/certification"
+    },
+    {
+      "path": ".ai/brain/context-packs/README.md",
+      "sizeBytes": 2687,
+      "categories": [
+        "important",
+        "doc",
+        "config"
+      ],
+      "module": ".ai/brain/context-packs"
+    },
+    {
+      "path": ".ai/brain/governance/artifact-lifecycle-policy.md",
+      "sizeBytes": 6308,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/governance"
+    },
+    {
+      "path": ".ai/brain/governance/automation-activation-validation.md",
+      "sizeBytes": 4025,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/governance"
+    },
+    {
+      "path": ".ai/brain/governance/developer-onboarding.md",
+      "sizeBytes": 5456,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/governance"
+    },
+    {
+      "path": ".ai/brain/governance/health-checks.md",
+      "sizeBytes": 7950,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/governance"
+    },
+    {
+      "path": ".ai/brain/governance/memory-integrity-model.md",
+      "sizeBytes": 4914,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/governance"
+    },
+    {
+      "path": ".ai/brain/governance/retrieval-contracts.md",
+      "sizeBytes": 5042,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/governance"
+    },
+    {
+      "path": ".ai/brain/governance/review-finding-registry.md",
+      "sizeBytes": 7122,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/governance"
+    },
+    {
+      "path": ".ai/brain/governance/security-preflight.md",
+      "sizeBytes": 7355,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/governance"
+    },
+    {
+      "path": ".ai/brain/governance/source-of-truth-map.md",
+      "sizeBytes": 12014,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/governance"
+    },
+    {
+      "path": ".ai/brain/governance/validation-profiles.md",
+      "sizeBytes": 13934,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/governance"
+    },
+    {
+      "path": ".ai/brain/index/README.md",
+      "sizeBytes": 3272,
+      "categories": [
+        "important",
+        "doc",
+        "config"
+      ],
+      "module": ".ai/brain/index"
+    },
+    {
+      "path": ".ai/brain/knowledge/agent-session-start.md",
+      "sizeBytes": 3545,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/knowledge"
+    },
+    {
+      "path": ".ai/brain/knowledge/architecture-principles.md",
+      "sizeBytes": 1964,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/knowledge"
+    },
+    {
+      "path": ".ai/brain/knowledge/known-risks.md",
+      "sizeBytes": 1752,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/knowledge"
+    },
+    {
+      "path": ".ai/brain/knowledge/module-catalog.md",
+      "sizeBytes": 2329,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/knowledge"
+    },
+    {
+      "path": ".ai/brain/knowledge/product-decisions.md",
+      "sizeBytes": 1727,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/knowledge"
+    },
+    {
+      "path": ".ai/brain/knowledge/project-overview.md",
+      "sizeBytes": 2074,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/knowledge"
+    },
+    {
+      "path": ".ai/brain/knowledge/sdlc-flow.md",
+      "sizeBytes": 2485,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/knowledge"
+    },
+    {
+      "path": ".ai/brain/knowledge/testing-map.md",
+      "sizeBytes": 2511,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/knowledge"
+    },
+    {
+      "path": ".ai/brain/loop-harness/automation-policy.md",
+      "sizeBytes": 6069,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/loop-harness"
+    },
+    {
+      "path": ".ai/brain/loop-harness/checker-review-checklist.md",
+      "sizeBytes": 2045,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/loop-harness"
+    },
+    {
+      "path": ".ai/brain/loop-harness/codex-setup.md",
+      "sizeBytes": 6028,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/loop-harness"
+    },
+    {
+      "path": ".ai/brain/loop-harness/cost-guardrails.md",
+      "sizeBytes": 771,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/loop-harness"
+    },
+    {
+      "path": ".ai/brain/loop-harness/goal-contract-template.md",
+      "sizeBytes": 4706,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/loop-harness"
+    },
+    {
+      "path": ".ai/brain/loop-harness/how-to-write-good-goals.md",
+      "sizeBytes": 2511,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/loop-harness"
+    },
+    {
+      "path": ".ai/brain/loop-harness/maker-checker-flow.md",
+      "sizeBytes": 4364,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/loop-harness"
+    },
+    {
+      "path": ".ai/brain/loop-harness/permissions-policy.md",
+      "sizeBytes": 4114,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/loop-harness"
+    },
+    {
+      "path": ".ai/brain/loop-harness/README.md",
+      "sizeBytes": 1125,
+      "categories": [
+        "important",
+        "doc",
+        "config"
+      ],
+      "module": ".ai/brain/loop-harness"
+    },
+    {
+      "path": ".ai/brain/loop-harness/stop-conditions.md",
+      "sizeBytes": 1110,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/loop-harness"
+    },
+    {
+      "path": ".ai/brain/loop-harness/validator-rules.md",
+      "sizeBytes": 2226,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/loop-harness"
+    },
+    {
+      "path": ".ai/brain/loop-harness/worktree-policy.md",
+      "sizeBytes": 3445,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/loop-harness"
+    },
+    {
+      "path": ".ai/brain/memory/implementation-history.md",
+      "sizeBytes": 31577,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/memory"
+    },
+    {
+      "path": ".ai/brain/memory/memory-update-checklist.md",
+      "sizeBytes": 4475,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/memory"
+    },
+    {
+      "path": ".ai/brain/memory/open-decisions.md",
+      "sizeBytes": 1050,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/memory"
+    },
+    {
+      "path": ".ai/brain/memory/README.md",
+      "sizeBytes": 2561,
+      "categories": [
+        "important",
+        "doc",
+        "config"
+      ],
+      "module": ".ai/brain/memory"
+    },
+    {
+      "path": ".ai/brain/memory/sprint-summaries/2026-06-26-epic-2-hardening-sprint-0.md",
+      "sizeBytes": 1354,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/memory"
+    },
+    {
+      "path": ".ai/brain/memory/sprint-summaries/2026-06-26-epic-2-hardening-sprint-1.md",
+      "sizeBytes": 1639,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/memory"
+    },
+    {
+      "path": ".ai/brain/memory/sprint-summaries/README.md",
+      "sizeBytes": 592,
+      "categories": [
+        "important",
+        "doc",
+        "config"
+      ],
+      "module": ".ai/brain/memory"
+    },
+    {
+      "path": ".ai/brain/planning/AI_BRAIN_PRO_DISCOVERY_REPORT.md",
+      "sizeBytes": 23544,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/AI_BRAIN_PRO_FINAL_VERIFICATION_GOAL_CONTRACT.md",
+      "sizeBytes": 4571,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/AI_BRAIN_PRO_FINAL_VERIFICATION_REPORT.md",
+      "sizeBytes": 10163,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/CERT_01_HEALTH_CHECK_FRESHNESS_FIX_PLAN.md",
+      "sizeBytes": 13141,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/CERT_01_HEALTH_CHECK_FRESHNESS_FIX_REPORT.md",
+      "sizeBytes": 3982,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/CERT_02_AGENT_NEUTRAL_CORE_ADAPTERS_REPORT.md",
+      "sizeBytes": 6021,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/CERT_03_CHANGE_SCOPE_VALIDATION_PROFILES_PLAN.md",
+      "sizeBytes": 19381,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/CERT_03_CHANGE_SCOPE_VALIDATION_PROFILES_REPORT.md",
+      "sizeBytes": 5218,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/CERT_04_AI_BRAIN_SCRIPT_SMOKE_CHECKS_REPORT.md",
+      "sizeBytes": 4715,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/CERT_05_MEMORY_ENFORCEMENT_REPORT.md",
+      "sizeBytes": 3869,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/CERT_06_TEMPLATE_METADATA_REFERENCE_VALIDATION_REPORT.md",
+      "sizeBytes": 6874,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/CERT_08_AUTOMATION_ACTIVATION_VALIDATION_REPORT.md",
+      "sizeBytes": 4269,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/CERTIFICATION_DEPENDENCIES_CLEANUP_REPORT.md",
+      "sizeBytes": 9017,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/EPIC2_HARDENING_SPRINT0_READINESS_RECHECK.md",
+      "sizeBytes": 11821,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/EPIC2_HARDENING_SPRINT0_REPORT.md",
+      "sizeBytes": 6662,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/EPIC2_HARDENING_SPRINT1_READINESS_RECHECK.md",
+      "sizeBytes": 12470,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/EPIC2_HARDENING_SPRINT1_REPORT.md",
+      "sizeBytes": 8260,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/EPIC2_KNOWLEDGE_DISCOVERY_RECHECK.md",
+      "sizeBytes": 8177,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/EPIC2_KNOWLEDGE_DISCOVERY_REPORT.md",
+      "sizeBytes": 35622,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/EPIC2_READINESS_REPORT.md",
+      "sizeBytes": 12997,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/README.md",
+      "sizeBytes": 602,
+      "categories": [
+        "important",
+        "doc",
+        "config"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/README.md",
+      "sizeBytes": 5117,
+      "categories": [
+        "important",
+        "doc",
+        "config"
+      ],
+      "module": ".ai/brain/README.md"
+    },
+    {
+      "path": ".ai/brain/reviews/agent-review.md",
+      "sizeBytes": 27388,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/reviews"
+    },
+    {
+      "path": ".ai/brain/reviews/architecture-review.md",
+      "sizeBytes": 23827,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/reviews"
+    },
+    {
+      "path": ".ai/brain/reviews/automation-review.md",
+      "sizeBytes": 40997,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/reviews"
+    },
+    {
+      "path": ".ai/brain/reviews/dx-review.md",
+      "sizeBytes": 19575,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/reviews"
+    },
+    {
+      "path": ".ai/brain/reviews/knowledge-review.md",
+      "sizeBytes": 21346,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/reviews"
+    },
+    {
+      "path": ".ai/brain/reviews/MASTER_GAP_ANALYSIS.md",
+      "sizeBytes": 23186,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/reviews"
+    },
+    {
+      "path": ".ai/brain/reviews/scalability-review.md",
+      "sizeBytes": 34986,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/reviews"
+    },
+    {
+      "path": ".ai/brain/reviews/sdlc-review.md",
+      "sizeBytes": 22953,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/reviews"
+    },
+    {
+      "path": ".ai/brain/reviews/security-review.md",
+      "sizeBytes": 27958,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/reviews"
+    },
+    {
+      "path": ".ai/brain/scripts/analyze-impact.mjs",
+      "sizeBytes": 11469,
+      "categories": [
+        "important",
+        "source"
+      ],
+      "module": ".ai/brain/scripts"
+    },
+    {
+      "path": ".ai/brain/scripts/create-context-pack.mjs",
+      "sizeBytes": 5952,
+      "categories": [
+        "important",
+        "source"
+      ],
+      "module": ".ai/brain/scripts"
+    },
+    {
+      "path": ".ai/brain/scripts/create-repo-index.mjs",
+      "sizeBytes": 10145,
+      "categories": [
+        "important",
+        "source"
+      ],
+      "module": ".ai/brain/scripts"
+    },
+    {
+      "path": ".ai/brain/scripts/health-check.mjs",
+      "sizeBytes": 24178,
+      "categories": [
+        "important",
+        "source"
+      ],
+      "module": ".ai/brain/scripts"
+    },
+    {
+      "path": ".ai/brain/scripts/README.md",
+      "sizeBytes": 10469,
+      "categories": [
+        "important",
+        "doc",
+        "config"
+      ],
+      "module": ".ai/brain/scripts"
+    },
+    {
+      "path": ".ai/brain/scripts/search-brain.mjs",
+      "sizeBytes": 8672,
+      "categories": [
+        "important",
+        "source"
+      ],
+      "module": ".ai/brain/scripts"
+    },
+    {
+      "path": ".ai/brain/scripts/smoke-check.mjs",
+      "sizeBytes": 22017,
+      "categories": [
+        "important",
+        "source"
+      ],
+      "module": ".ai/brain/scripts"
+    },
+    {
+      "path": ".ai/brain/scripts/update-memory.mjs",
+      "sizeBytes": 12690,
+      "categories": [
+        "important",
+        "source"
+      ],
+      "module": ".ai/brain/scripts"
+    },
+    {
+      "path": ".ai/brain/scripts/validate-automation-activation.mjs",
+      "sizeBytes": 8838,
+      "categories": [
+        "important",
+        "source"
+      ],
+      "module": ".ai/brain/scripts"
+    },
+    {
+      "path": ".ai/brain/templates/agent-handoff-packet-template.md",
+      "sizeBytes": 1843,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/templates"
+    },
+    {
+      "path": ".ai/brain/templates/automation-activation-record-template.md",
+      "sizeBytes": 2403,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/templates"
+    },
+    {
+      "path": ".ai/brain/templates/checker-review-template.md",
+      "sizeBytes": 2182,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/templates"
+    },
+    {
+      "path": ".ai/brain/templates/context-pack-template.md",
+      "sizeBytes": 1918,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/templates"
+    },
+    {
+      "path": ".ai/brain/templates/goal-bugfix-template.md",
+      "sizeBytes": 2456,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/templates"
+    },
+    {
+      "path": ".ai/brain/templates/goal-contract-template.md",
+      "sizeBytes": 1844,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/templates"
+    },
+    {
+      "path": ".ai/brain/templates/goal-docs-template.md",
+      "sizeBytes": 2436,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/templates"
+    },
+    {
+      "path": ".ai/brain/templates/goal-feature-template.md",
+      "sizeBytes": 2479,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/templates"
+    },
+    {
+      "path": ".ai/brain/templates/goal-refactor-template.md",
+      "sizeBytes": 2537,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/templates"
+    },
+    {
+      "path": ".ai/brain/templates/goal-test-template.md",
+      "sizeBytes": 2541,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/templates"
+    },
+    {
+      "path": ".ai/brain/templates/impact-analysis-template.md",
+      "sizeBytes": 1021,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/templates"
+    },
+    {
+      "path": ".ai/brain/templates/implementation-history-entry-template.md",
+      "sizeBytes": 1742,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/templates"
+    },
+    {
+      "path": ".ai/brain/templates/memory-update-template.md",
+      "sizeBytes": 1253,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/templates"
+    },
+    {
+      "path": ".ai/brain/templates/open-decision-template.md",
+      "sizeBytes": 1658,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/templates"
+    },
+    {
+      "path": ".ai/brain/templates/review-report-template.md",
+      "sizeBytes": 840,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/templates"
+    },
+    {
+      "path": ".ai/brain/templates/sprint-summary-template.md",
+      "sizeBytes": 976,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/templates"
+    },
+    {
+      "path": ".codex/agents/discovery-architect.toml",
+      "sizeBytes": 554,
+      "categories": [
+        "config"
+      ],
+      "module": ".codex/agents"
+    },
+    {
+      "path": ".codex/agents/executor.toml",
+      "sizeBytes": 511,
+      "categories": [
+        "config"
+      ],
+      "module": ".codex/agents"
+    },
+    {
+      "path": ".codex/agents/planner.toml",
+      "sizeBytes": 528,
+      "categories": [
+        "config"
+      ],
+      "module": ".codex/agents"
+    },
+    {
+      "path": ".codex/agents/release-engineer.toml",
+      "sizeBytes": 535,
+      "categories": [
+        "config"
+      ],
+      "module": ".codex/agents"
+    },
+    {
+      "path": ".codex/agents/verifier.toml",
+      "sizeBytes": 523,
+      "categories": [
+        "config"
+      ],
+      "module": ".codex/agents"
+    },
+    {
+      "path": ".codex/automations/README.md",
+      "sizeBytes": 3390,
+      "categories": [
+        "important",
+        "doc",
+        "config"
+      ],
+      "module": ".codex/automations"
+    },
+    {
+      "path": ".codex/automations/templates/architecture-drift-scan.md",
+      "sizeBytes": 2113,
+      "categories": [
+        "doc",
+        "config"
+      ],
+      "module": ".codex/automations"
+    },
+    {
+      "path": ".codex/automations/templates/daily-codebase-health-scan.md",
+      "sizeBytes": 2313,
+      "categories": [
+        "doc",
+        "config"
+      ],
+      "module": ".codex/automations"
+    },
+    {
+      "path": ".codex/automations/templates/dependency-audit.md",
+      "sizeBytes": 2064,
+      "categories": [
+        "doc",
+        "config"
+      ],
+      "module": ".codex/automations"
+    },
+    {
+      "path": ".codex/automations/templates/duplicate-abstraction-scan.md",
+      "sizeBytes": 1953,
+      "categories": [
+        "doc",
+        "config"
+      ],
+      "module": ".codex/automations"
+    },
+    {
+      "path": ".codex/automations/templates/stale-docs-scan.md",
+      "sizeBytes": 2106,
+      "categories": [
+        "doc",
+        "config"
+      ],
+      "module": ".codex/automations"
+    },
+    {
+      "path": ".codex/automations/templates/test-coverage-suggestion-scan.md",
+      "sizeBytes": 1840,
+      "categories": [
+        "doc",
+        "config"
+      ],
+      "module": ".codex/automations"
+    },
+    {
+      "path": ".codex/config.toml",
+      "sizeBytes": 1495,
+      "categories": [
+        "config"
+      ],
+      "module": ".codex/config.toml"
+    },
+    {
+      "path": ".codex/hooks.json",
+      "sizeBytes": 686,
+      "categories": [
+        "config"
+      ],
+      "module": ".codex/hooks.json"
+    },
+    {
+      "path": ".codex/hooks/stop_verify_guard.py",
+      "sizeBytes": 816,
+      "categories": [
+        "config"
+      ],
+      "module": ".codex/hooks"
+    },
+    {
+      "path": ".codex/hooks/user_prompt_secret_scan.py",
+      "sizeBytes": 662,
+      "categories": [
+        "config"
+      ],
+      "module": ".codex/hooks"
+    },
+    {
+      "path": ".codex/README.md",
+      "sizeBytes": 5329,
+      "categories": [
+        "important",
+        "doc",
+        "config"
+      ],
+      "module": ".codex/README.md"
+    },
+    {
+      "path": ".codex/rules/default.rules",
+      "sizeBytes": 632,
+      "categories": [
+        "config"
+      ],
+      "module": ".codex/rules"
+    },
+    {
+      "path": ".codex/state/last-stop-reminder.md",
+      "sizeBytes": 261,
+      "categories": [
+        "doc",
+        "config"
+      ],
+      "module": ".codex/state"
+    },
+    {
+      "path": ".github/CODEOWNERS",
+      "sizeBytes": 108,
+      "categories": [
+        "other"
+      ],
+      "module": ".github/CODEOWNERS"
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "sizeBytes": 251,
+      "categories": [
+        "config"
+      ],
+      "module": ".github/dependabot.yml"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/bug_report.yml",
+      "sizeBytes": 1058,
+      "categories": [
+        "config"
+      ],
+      "module": ".github/ISSUE_TEMPLATE"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/feature_request.yml",
+      "sizeBytes": 902,
+      "categories": [
+        "config"
+      ],
+      "module": ".github/ISSUE_TEMPLATE"
+    },
+    {
+      "path": ".github/pull_request_template.md",
+      "sizeBytes": 214,
+      "categories": [
+        "doc"
+      ],
+      "module": ".github/pull_request_template.md"
+    },
+    {
+      "path": ".github/workflows/codex-nightly-discovery.yml",
+      "sizeBytes": 1020,
+      "categories": [
+        "config"
+      ],
+      "module": ".github/workflows"
+    },
+    {
+      "path": ".github/workflows/codex-pr-review.yml",
+      "sizeBytes": 1255,
+      "categories": [
+        "config"
+      ],
+      "module": ".github/workflows"
+    },
+    {
+      "path": ".github/workflows/verify-mobile-web.yml",
+      "sizeBytes": 835,
+      "categories": [
+        "config"
+      ],
+      "module": ".github/workflows"
+    },
+    {
+      "path": ".gitignore",
+      "sizeBytes": 422,
+      "categories": [
+        "other"
+      ],
+      "module": ".gitignore"
+    },
+    {
+      "path": "AGENTS.md",
+      "sizeBytes": 13869,
+      "categories": [
+        "important",
+        "doc",
+        "config"
+      ],
+      "module": "AGENTS.md"
+    },
+    {
+      "path": "app.json",
+      "sizeBytes": 849,
+      "categories": [
+        "important",
+        "config"
+      ],
+      "module": "app.json"
+    },
+    {
+      "path": "app/_layout.tsx",
+      "sizeBytes": 865,
+      "categories": [
+        "source"
+      ],
+      "module": "app/_layout.tsx"
+    },
+    {
+      "path": "app/index.tsx",
+      "sizeBytes": 103,
+      "categories": [
+        "source"
+      ],
+      "module": "app/index.tsx"
+    },
+    {
+      "path": "app/preferences.tsx",
+      "sizeBytes": 106,
+      "categories": [
+        "source"
+      ],
+      "module": "app/preferences.tsx"
+    },
+    {
+      "path": "app/profile/preferences.tsx",
+      "sizeBytes": 130,
+      "categories": [
+        "source"
+      ],
+      "module": "app/profile"
+    },
+    {
+      "path": "app/recommendations/[id].tsx",
+      "sizeBytes": 139,
+      "categories": [
+        "source"
+      ],
+      "module": "app/recommendations"
+    },
+    {
+      "path": "app/results.tsx",
+      "sizeBytes": 136,
+      "categories": [
+        "source"
+      ],
+      "module": "app/results.tsx"
+    },
+    {
+      "path": "assets/android-icon-background.png",
+      "sizeBytes": 2200,
+      "categories": [
+        "other"
+      ],
+      "module": "assets"
+    },
+    {
+      "path": "assets/android-icon-foreground.png",
+      "sizeBytes": 5018,
+      "categories": [
+        "other"
+      ],
+      "module": "assets"
+    },
+    {
+      "path": "assets/android-icon-monochrome.png",
+      "sizeBytes": 5078,
+      "categories": [
+        "other"
+      ],
+      "module": "assets"
+    },
+    {
+      "path": "assets/favicon.png",
+      "sizeBytes": 289,
+      "categories": [
+        "other"
+      ],
+      "module": "assets"
+    },
+    {
+      "path": "assets/icon.png",
+      "sizeBytes": 15625,
+      "categories": [
+        "other"
+      ],
+      "module": "assets"
+    },
+    {
+      "path": "assets/splash-icon.png",
+      "sizeBytes": 9467,
+      "categories": [
+        "other"
+      ],
+      "module": "assets"
+    },
+    {
+      "path": "docs/ARCHITECTURE_DECISION_TEMPLATE.md",
+      "sizeBytes": 373,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/ARCHITECTURE_DECISION_TEMPLATE.md"
+    },
+    {
+      "path": "docs/architecture/ADR-0001-cross-platform-stack.md",
+      "sizeBytes": 10733,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/architecture"
+    },
+    {
+      "path": "docs/architecture/ADR-0002-data-sources.md",
+      "sizeBytes": 1924,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/architecture"
+    },
+    {
+      "path": "docs/architecture/ADR-0003-recommendation-engine.md",
+      "sizeBytes": 2382,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/architecture"
+    },
+    {
+      "path": "docs/architecture/ARCHITECTURE.md",
+      "sizeBytes": 2891,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/architecture"
+    },
+    {
+      "path": "docs/CODEX_PIPELINE_SETUP.md",
+      "sizeBytes": 2238,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/CODEX_PIPELINE_SETUP.md"
+    },
+    {
+      "path": "docs/CONNECTORS_AND_MCP.md",
+      "sizeBytes": 1825,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/CONNECTORS_AND_MCP.md"
+    },
+    {
+      "path": "docs/data/DATA_STRATEGY.md",
+      "sizeBytes": 9449,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/data"
+    },
+    {
+      "path": "docs/data/DATABASE_MODEL.md",
+      "sizeBytes": 21339,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/data"
+    },
+    {
+      "path": "docs/data/MENU_SEED_FORMAT.md",
+      "sizeBytes": 4557,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/data"
+    },
+    {
+      "path": "docs/data/PRICE_VERIFICATION_PROCESS.md",
+      "sizeBytes": 3992,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/data"
+    },
+    {
+      "path": "docs/data/SCORING_MODEL.md",
+      "sizeBytes": 13561,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/data"
+    },
+    {
+      "path": "docs/data/SCRAPING_POLICY.md",
+      "sizeBytes": 2939,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/data"
+    },
+    {
+      "path": "docs/FEATURE_PLAN_TEMPLATE.md",
+      "sizeBytes": 825,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/FEATURE_PLAN_TEMPLATE.md"
+    },
+    {
+      "path": "docs/GITHUB_SETUP.md",
+      "sizeBytes": 1664,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/GITHUB_SETUP.md"
+    },
+    {
+      "path": "docs/IMPLEMENTATION_BASELINE.md",
+      "sizeBytes": 15305,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/IMPLEMENTATION_BASELINE.md"
+    },
+    {
+      "path": "docs/product/MONETIZATION_PLAN.md",
+      "sizeBytes": 1811,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/product"
+    },
+    {
+      "path": "docs/product/MVP_SCOPE.md",
+      "sizeBytes": 2917,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/product"
+    },
+    {
+      "path": "docs/product/PRD.md",
+      "sizeBytes": 5322,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/product"
+    },
+    {
+      "path": "docs/product/PRODUCT_CHECKPOINT_2.md",
+      "sizeBytes": 10229,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/product"
+    },
+    {
+      "path": "docs/product/PRODUCT_CHECKPOINT_3.md",
+      "sizeBytes": 12915,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/product"
+    },
+    {
+      "path": "docs/product/PRODUCT_DECISIONS.md",
+      "sizeBytes": 3884,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/product"
+    },
+    {
+      "path": "docs/product/SPRINT_3_BACKLOG_CANDIDATES.md",
+      "sizeBytes": 2881,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/product"
+    },
+    {
+      "path": "docs/product/USER_STORIES.md",
+      "sizeBytes": 3709,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/product"
+    },
+    {
+      "path": "docs/project/MAKDOLAN_PROJECT_CONTEXT.md",
+      "sizeBytes": 8621,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/project"
+    },
+    {
+      "path": "docs/reviews/DATA_AND_SCORING_REVIEW.md",
+      "sizeBytes": 4252,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/reviews"
+    },
+    {
+      "path": "docs/reviews/SPRINT_1_REVIEW.md",
+      "sizeBytes": 2889,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/reviews"
+    },
+    {
+      "path": "docs/reviews/SPRINT_1A_ALIGNMENT.md",
+      "sizeBytes": 2434,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/reviews"
+    },
+    {
+      "path": "docs/roadmap/ROADMAP.md",
+      "sizeBytes": 3659,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/roadmap"
+    },
+    {
+      "path": "docs/testing/MANUAL_SMOKE_CHECKLIST.md",
+      "sizeBytes": 4122,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/testing"
+    },
+    {
+      "path": "docs/testing/USER_TEST_FEEDBACK_TEMPLATE.md",
+      "sizeBytes": 3087,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/testing"
+    },
+    {
+      "path": "docs/testing/USER_TESTING_PLAN.md",
+      "sizeBytes": 6935,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/testing"
+    },
+    {
+      "path": "docs/VERIFY_MATRIX.md",
+      "sizeBytes": 626,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/VERIFY_MATRIX.md"
+    },
+    {
+      "path": "eslint.config.mjs",
+      "sizeBytes": 649,
+      "categories": [
+        "important",
+        "source",
+        "config"
+      ],
+      "module": "eslint.config.mjs"
+    },
+    {
+      "path": "INSTALL_CHECKLIST.md",
+      "sizeBytes": 871,
+      "categories": [
+        "important",
+        "doc",
+        "config"
+      ],
+      "module": "INSTALL_CHECKLIST.md"
+    },
+    {
+      "path": "knowledge-base/architecture.md",
+      "sizeBytes": 1390,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "knowledge-base"
+    },
+    {
+      "path": "knowledge-base/decisions/index.md",
+      "sizeBytes": 307,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "knowledge-base"
+    },
+    {
+      "path": "knowledge-base/domain-glossary.md",
+      "sizeBytes": 855,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "knowledge-base"
+    },
+    {
+      "path": "knowledge-base/README.md",
+      "sizeBytes": 294,
+      "categories": [
+        "important",
+        "doc",
+        "config"
+      ],
+      "module": "knowledge-base"
+    },
+    {
+      "path": "package.json",
+      "sizeBytes": 1714,
+      "categories": [
+        "important",
+        "config"
+      ],
+      "module": "package.json"
+    },
+    {
+      "path": "project-context/PRODUCT_BRIEF.md",
+      "sizeBytes": 1246,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "project-context"
+    },
+    {
+      "path": "project-context/SECURITY_PRIVACY.md",
+      "sizeBytes": 800,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "project-context"
+    },
+    {
+      "path": "project-context/TECH_STACK.md",
+      "sizeBytes": 555,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "project-context"
+    },
+    {
+      "path": "project-context/TEST_STRATEGY.md",
+      "sizeBytes": 391,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "project-context"
+    },
+    {
+      "path": "prompts/00-project-bootstrap.md",
+      "sizeBytes": 431,
+      "categories": [
+        "doc"
+      ],
+      "module": "prompts"
+    },
+    {
+      "path": "prompts/01-discover.md",
+      "sizeBytes": 290,
+      "categories": [
+        "doc"
+      ],
+      "module": "prompts"
+    },
+    {
+      "path": "prompts/02-plan.md",
+      "sizeBytes": 232,
+      "categories": [
+        "doc"
+      ],
+      "module": "prompts"
+    },
+    {
+      "path": "prompts/03-execute.md",
+      "sizeBytes": 176,
+      "categories": [
+        "doc"
+      ],
+      "module": "prompts"
+    },
+    {
+      "path": "prompts/04-verify.md",
+      "sizeBytes": 239,
+      "categories": [
+        "doc"
+      ],
+      "module": "prompts"
+    },
+    {
+      "path": "prompts/05-iterate-learn.md",
+      "sizeBytes": 307,
+      "categories": [
+        "doc"
+      ],
+      "module": "prompts"
+    },
+    {
+      "path": "README.md",
+      "sizeBytes": 1617,
+      "categories": [
+        "important",
+        "doc",
+        "config"
+      ],
+      "module": "README.md"
+    },
+    {
+      "path": "scripts/codex-loop.sh",
+      "sizeBytes": 1438,
+      "categories": [
+        "other"
+      ],
+      "module": "scripts"
+    },
+    {
+      "path": "scripts/collect-context.sh",
+      "sizeBytes": 579,
+      "categories": [
+        "other"
+      ],
+      "module": "scripts"
+    },
+    {
+      "path": "scripts/diff-gate.sh",
+      "sizeBytes": 4785,
+      "categories": [
+        "other"
+      ],
+      "module": "scripts"
+    },
+    {
+      "path": "scripts/verify-local.sh",
+      "sizeBytes": 2100,
+      "categories": [
+        "other"
+      ],
+      "module": "scripts"
+    },
+    {
+      "path": "src/domain/recommendations/mockRecommendations.ts",
+      "sizeBytes": 16017,
+      "categories": [
+        "source"
+      ],
+      "module": "src/domain/recommendations"
+    },
+    {
+      "path": "src/domain/recommendations/reasonChips.test.ts",
+      "sizeBytes": 2118,
+      "categories": [
+        "test"
+      ],
+      "module": "src/domain/recommendations"
+    },
+    {
+      "path": "src/domain/recommendations/reasonChips.ts",
+      "sizeBytes": 1641,
+      "categories": [
+        "source"
+      ],
+      "module": "src/domain/recommendations"
+    },
+    {
+      "path": "src/domain/recommendations/scoring.test.ts",
+      "sizeBytes": 13338,
+      "categories": [
+        "test"
+      ],
+      "module": "src/domain/recommendations"
+    },
+    {
+      "path": "src/domain/recommendations/scoring.ts",
+      "sizeBytes": 8608,
+      "categories": [
+        "source"
+      ],
+      "module": "src/domain/recommendations"
+    },
+    {
+      "path": "src/domain/recommendations/tagLabels.test.ts",
+      "sizeBytes": 842,
+      "categories": [
+        "test"
+      ],
+      "module": "src/domain/recommendations"
+    },
+    {
+      "path": "src/domain/recommendations/tagLabels.ts",
+      "sizeBytes": 405,
+      "categories": [
+        "source"
+      ],
+      "module": "src/domain/recommendations"
+    },
+    {
+      "path": "src/domain/recommendations/types.ts",
+      "sizeBytes": 2973,
+      "categories": [
+        "source"
+      ],
+      "module": "src/domain/recommendations"
+    },
+    {
+      "path": "src/screens/budgetValidation.test.ts",
+      "sizeBytes": 1075,
+      "categories": [
+        "test"
+      ],
+      "module": "src/screens/budgetValidation.test.ts"
+    },
+    {
+      "path": "src/screens/budgetValidation.ts",
+      "sizeBytes": 867,
+      "categories": [
+        "source"
+      ],
+      "module": "src/screens/budgetValidation.ts"
+    },
+    {
+      "path": "src/screens/HomeBudgetScreen.tsx",
+      "sizeBytes": 2804,
+      "categories": [
+        "source"
+      ],
+      "module": "src/screens/HomeBudgetScreen.tsx"
+    },
+    {
+      "path": "src/screens/PreferencesScreen.tsx",
+      "sizeBytes": 2934,
+      "categories": [
+        "source"
+      ],
+      "module": "src/screens/PreferencesScreen.tsx"
+    },
+    {
+      "path": "src/screens/ProfilePreferencesScreen.tsx",
+      "sizeBytes": 875,
+      "categories": [
+        "source"
+      ],
+      "module": "src/screens/ProfilePreferencesScreen.tsx"
+    },
+    {
+      "path": "src/screens/RecommendationDetailsScreen.tsx",
+      "sizeBytes": 3547,
+      "categories": [
+        "source"
+      ],
+      "module": "src/screens/RecommendationDetailsScreen.tsx"
+    },
+    {
+      "path": "src/screens/RecommendationResultsScreen.tsx",
+      "sizeBytes": 5546,
+      "categories": [
+        "source"
+      ],
+      "module": "src/screens/RecommendationResultsScreen.tsx"
+    },
+    {
+      "path": "src/ui/AppShell.tsx",
+      "sizeBytes": 579,
+      "categories": [
+        "source"
+      ],
+      "module": "src/ui/AppShell.tsx"
+    },
+    {
+      "path": "src/ui/Button.tsx",
+      "sizeBytes": 1240,
+      "categories": [
+        "source"
+      ],
+      "module": "src/ui/Button.tsx"
+    },
+    {
+      "path": "src/ui/ScreenText.tsx",
+      "sizeBytes": 933,
+      "categories": [
+        "source"
+      ],
+      "module": "src/ui/ScreenText.tsx"
+    },
+    {
+      "path": "tsconfig.json",
+      "sizeBytes": 213,
+      "categories": [
+        "important",
+        "config"
+      ],
+      "module": "tsconfig.json"
+    },
+    {
+      "path": "vitest.config.ts",
+      "sizeBytes": 186,
+      "categories": [
+        "important",
+        "source",
+        "config"
+      ],
+      "module": "vitest.config.ts"
+    }
+  ],
+  "modules": [
+    {
+      "name": ".agents/plugins",
+      "files": [
+        ".agents/plugins/cross-platform-build-loop/.codex-plugin/plugin.json",
+        ".agents/plugins/cross-platform-build-loop/skills/build-loop/SKILL.md",
+        ".agents/plugins/cross-platform-build-loop/skills/discovery/SKILL.md",
+        ".agents/plugins/cross-platform-build-loop/skills/execution/SKILL.md",
+        ".agents/plugins/cross-platform-build-loop/skills/knowledge-maintainer/SKILL.md",
+        ".agents/plugins/cross-platform-build-loop/skills/planning/SKILL.md",
+        ".agents/plugins/cross-platform-build-loop/skills/release-readiness/SKILL.md",
+        ".agents/plugins/cross-platform-build-loop/skills/verification/SKILL.md",
+        ".agents/plugins/marketplace.json"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        ".agents/plugins/cross-platform-build-loop/skills/build-loop/SKILL.md",
+        ".agents/plugins/cross-platform-build-loop/skills/discovery/SKILL.md",
+        ".agents/plugins/cross-platform-build-loop/skills/execution/SKILL.md",
+        ".agents/plugins/cross-platform-build-loop/skills/knowledge-maintainer/SKILL.md",
+        ".agents/plugins/cross-platform-build-loop/skills/planning/SKILL.md",
+        ".agents/plugins/cross-platform-build-loop/skills/release-readiness/SKILL.md",
+        ".agents/plugins/cross-platform-build-loop/skills/verification/SKILL.md"
+      ],
+      "configs": []
+    },
+    {
+      "name": ".agents/skills",
+      "files": [
+        ".agents/skills/build-loop/SKILL.md",
+        ".agents/skills/discovery/SKILL.md",
+        ".agents/skills/execution/SKILL.md",
+        ".agents/skills/food-data-strategy/SKILL.md",
+        ".agents/skills/knowledge-maintainer/SKILL.md",
+        ".agents/skills/mobile-web-delivery/SKILL.md",
+        ".agents/skills/planning/SKILL.md",
+        ".agents/skills/recommendation-engine/SKILL.md",
+        ".agents/skills/release-readiness/SKILL.md",
+        ".agents/skills/verification/SKILL.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        ".agents/skills/build-loop/SKILL.md",
+        ".agents/skills/discovery/SKILL.md",
+        ".agents/skills/execution/SKILL.md",
+        ".agents/skills/food-data-strategy/SKILL.md",
+        ".agents/skills/knowledge-maintainer/SKILL.md",
+        ".agents/skills/mobile-web-delivery/SKILL.md",
+        ".agents/skills/planning/SKILL.md",
+        ".agents/skills/recommendation-engine/SKILL.md",
+        ".agents/skills/release-readiness/SKILL.md",
+        ".agents/skills/verification/SKILL.md"
+      ],
+      "configs": [
+        ".agents/skills/build-loop/SKILL.md",
+        ".agents/skills/discovery/SKILL.md",
+        ".agents/skills/execution/SKILL.md",
+        ".agents/skills/food-data-strategy/SKILL.md",
+        ".agents/skills/knowledge-maintainer/SKILL.md",
+        ".agents/skills/mobile-web-delivery/SKILL.md",
+        ".agents/skills/planning/SKILL.md",
+        ".agents/skills/recommendation-engine/SKILL.md",
+        ".agents/skills/release-readiness/SKILL.md",
+        ".agents/skills/verification/SKILL.md"
+      ]
+    },
+    {
+      "name": ".ai/brain/adapters",
+      "files": [
+        ".ai/brain/adapters/codex.md",
+        ".ai/brain/adapters/generic-agent.md",
+        ".ai/brain/adapters/README.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        ".ai/brain/adapters/codex.md",
+        ".ai/brain/adapters/generic-agent.md",
+        ".ai/brain/adapters/README.md"
+      ],
+      "configs": [
+        ".ai/brain/adapters/README.md"
+      ]
+    },
+    {
+      "name": ".ai/brain/agent-start.md",
+      "files": [
+        ".ai/brain/agent-start.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        ".ai/brain/agent-start.md"
+      ],
+      "configs": []
+    },
+    {
+      "name": ".ai/brain/certification",
+      "files": [
+        ".ai/brain/certification/CERTIFICATION_BACKLOG.md",
+        ".ai/brain/certification/EPIC1_CERTIFICATION_REPORT.md",
+        ".ai/brain/certification/EPIC1_CLEAN_CERTIFICATION_RECHECK.md",
+        ".ai/brain/certification/EPIC2_READINESS_CERTIFICATE.md",
+        ".ai/brain/certification/FINAL_CERTIFICATION_CLEAN_RECHECK.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        ".ai/brain/certification/CERTIFICATION_BACKLOG.md",
+        ".ai/brain/certification/EPIC1_CERTIFICATION_REPORT.md",
+        ".ai/brain/certification/EPIC1_CLEAN_CERTIFICATION_RECHECK.md",
+        ".ai/brain/certification/EPIC2_READINESS_CERTIFICATE.md",
+        ".ai/brain/certification/FINAL_CERTIFICATION_CLEAN_RECHECK.md"
+      ],
+      "configs": []
+    },
+    {
+      "name": ".ai/brain/context-packs",
+      "files": [
+        ".ai/brain/context-packs/README.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        ".ai/brain/context-packs/README.md"
+      ],
+      "configs": [
+        ".ai/brain/context-packs/README.md"
+      ]
+    },
+    {
+      "name": ".ai/brain/governance",
+      "files": [
+        ".ai/brain/governance/artifact-lifecycle-policy.md",
+        ".ai/brain/governance/automation-activation-validation.md",
+        ".ai/brain/governance/developer-onboarding.md",
+        ".ai/brain/governance/health-checks.md",
+        ".ai/brain/governance/memory-integrity-model.md",
+        ".ai/brain/governance/retrieval-contracts.md",
+        ".ai/brain/governance/review-finding-registry.md",
+        ".ai/brain/governance/security-preflight.md",
+        ".ai/brain/governance/source-of-truth-map.md",
+        ".ai/brain/governance/validation-profiles.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        ".ai/brain/governance/artifact-lifecycle-policy.md",
+        ".ai/brain/governance/automation-activation-validation.md",
+        ".ai/brain/governance/developer-onboarding.md",
+        ".ai/brain/governance/health-checks.md",
+        ".ai/brain/governance/memory-integrity-model.md",
+        ".ai/brain/governance/retrieval-contracts.md",
+        ".ai/brain/governance/review-finding-registry.md",
+        ".ai/brain/governance/security-preflight.md",
+        ".ai/brain/governance/source-of-truth-map.md",
+        ".ai/brain/governance/validation-profiles.md"
+      ],
+      "configs": []
+    },
+    {
+      "name": ".ai/brain/index",
+      "files": [
+        ".ai/brain/index/README.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        ".ai/brain/index/README.md"
+      ],
+      "configs": [
+        ".ai/brain/index/README.md"
+      ]
+    },
+    {
+      "name": ".ai/brain/knowledge",
+      "files": [
+        ".ai/brain/knowledge/agent-session-start.md",
+        ".ai/brain/knowledge/architecture-principles.md",
+        ".ai/brain/knowledge/known-risks.md",
+        ".ai/brain/knowledge/module-catalog.md",
+        ".ai/brain/knowledge/product-decisions.md",
+        ".ai/brain/knowledge/project-overview.md",
+        ".ai/brain/knowledge/sdlc-flow.md",
+        ".ai/brain/knowledge/testing-map.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        ".ai/brain/knowledge/agent-session-start.md",
+        ".ai/brain/knowledge/architecture-principles.md",
+        ".ai/brain/knowledge/known-risks.md",
+        ".ai/brain/knowledge/module-catalog.md",
+        ".ai/brain/knowledge/product-decisions.md",
+        ".ai/brain/knowledge/project-overview.md",
+        ".ai/brain/knowledge/sdlc-flow.md",
+        ".ai/brain/knowledge/testing-map.md"
+      ],
+      "configs": []
+    },
+    {
+      "name": ".ai/brain/loop-harness",
+      "files": [
+        ".ai/brain/loop-harness/automation-policy.md",
+        ".ai/brain/loop-harness/checker-review-checklist.md",
+        ".ai/brain/loop-harness/codex-setup.md",
+        ".ai/brain/loop-harness/cost-guardrails.md",
+        ".ai/brain/loop-harness/goal-contract-template.md",
+        ".ai/brain/loop-harness/how-to-write-good-goals.md",
+        ".ai/brain/loop-harness/maker-checker-flow.md",
+        ".ai/brain/loop-harness/permissions-policy.md",
+        ".ai/brain/loop-harness/README.md",
+        ".ai/brain/loop-harness/stop-conditions.md",
+        ".ai/brain/loop-harness/validator-rules.md",
+        ".ai/brain/loop-harness/worktree-policy.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        ".ai/brain/loop-harness/automation-policy.md",
+        ".ai/brain/loop-harness/checker-review-checklist.md",
+        ".ai/brain/loop-harness/codex-setup.md",
+        ".ai/brain/loop-harness/cost-guardrails.md",
+        ".ai/brain/loop-harness/goal-contract-template.md",
+        ".ai/brain/loop-harness/how-to-write-good-goals.md",
+        ".ai/brain/loop-harness/maker-checker-flow.md",
+        ".ai/brain/loop-harness/permissions-policy.md",
+        ".ai/brain/loop-harness/README.md",
+        ".ai/brain/loop-harness/stop-conditions.md",
+        ".ai/brain/loop-harness/validator-rules.md",
+        ".ai/brain/loop-harness/worktree-policy.md"
+      ],
+      "configs": [
+        ".ai/brain/loop-harness/README.md"
+      ]
+    },
+    {
+      "name": ".ai/brain/memory",
+      "files": [
+        ".ai/brain/memory/implementation-history.md",
+        ".ai/brain/memory/memory-update-checklist.md",
+        ".ai/brain/memory/open-decisions.md",
+        ".ai/brain/memory/README.md",
+        ".ai/brain/memory/sprint-summaries/2026-06-26-epic-2-hardening-sprint-0.md",
+        ".ai/brain/memory/sprint-summaries/2026-06-26-epic-2-hardening-sprint-1.md",
+        ".ai/brain/memory/sprint-summaries/README.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        ".ai/brain/memory/implementation-history.md",
+        ".ai/brain/memory/memory-update-checklist.md",
+        ".ai/brain/memory/open-decisions.md",
+        ".ai/brain/memory/README.md",
+        ".ai/brain/memory/sprint-summaries/2026-06-26-epic-2-hardening-sprint-0.md",
+        ".ai/brain/memory/sprint-summaries/2026-06-26-epic-2-hardening-sprint-1.md",
+        ".ai/brain/memory/sprint-summaries/README.md"
+      ],
+      "configs": [
+        ".ai/brain/memory/README.md",
+        ".ai/brain/memory/sprint-summaries/README.md"
+      ]
+    },
+    {
+      "name": ".ai/brain/planning",
+      "files": [
+        ".ai/brain/planning/AI_BRAIN_PRO_DISCOVERY_REPORT.md",
+        ".ai/brain/planning/AI_BRAIN_PRO_FINAL_VERIFICATION_GOAL_CONTRACT.md",
+        ".ai/brain/planning/AI_BRAIN_PRO_FINAL_VERIFICATION_REPORT.md",
+        ".ai/brain/planning/CERT_01_HEALTH_CHECK_FRESHNESS_FIX_PLAN.md",
+        ".ai/brain/planning/CERT_01_HEALTH_CHECK_FRESHNESS_FIX_REPORT.md",
+        ".ai/brain/planning/CERT_02_AGENT_NEUTRAL_CORE_ADAPTERS_REPORT.md",
+        ".ai/brain/planning/CERT_03_CHANGE_SCOPE_VALIDATION_PROFILES_PLAN.md",
+        ".ai/brain/planning/CERT_03_CHANGE_SCOPE_VALIDATION_PROFILES_REPORT.md",
+        ".ai/brain/planning/CERT_04_AI_BRAIN_SCRIPT_SMOKE_CHECKS_REPORT.md",
+        ".ai/brain/planning/CERT_05_MEMORY_ENFORCEMENT_REPORT.md",
+        ".ai/brain/planning/CERT_06_TEMPLATE_METADATA_REFERENCE_VALIDATION_REPORT.md",
+        ".ai/brain/planning/CERT_08_AUTOMATION_ACTIVATION_VALIDATION_REPORT.md",
+        ".ai/brain/planning/CERTIFICATION_DEPENDENCIES_CLEANUP_REPORT.md",
+        ".ai/brain/planning/EPIC2_HARDENING_SPRINT0_READINESS_RECHECK.md",
+        ".ai/brain/planning/EPIC2_HARDENING_SPRINT0_REPORT.md",
+        ".ai/brain/planning/EPIC2_HARDENING_SPRINT1_READINESS_RECHECK.md",
+        ".ai/brain/planning/EPIC2_HARDENING_SPRINT1_REPORT.md",
+        ".ai/brain/planning/EPIC2_KNOWLEDGE_DISCOVERY_RECHECK.md",
+        ".ai/brain/planning/EPIC2_KNOWLEDGE_DISCOVERY_REPORT.md",
+        ".ai/brain/planning/EPIC2_READINESS_REPORT.md",
+        ".ai/brain/planning/README.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        ".ai/brain/planning/AI_BRAIN_PRO_DISCOVERY_REPORT.md",
+        ".ai/brain/planning/AI_BRAIN_PRO_FINAL_VERIFICATION_GOAL_CONTRACT.md",
+        ".ai/brain/planning/AI_BRAIN_PRO_FINAL_VERIFICATION_REPORT.md",
+        ".ai/brain/planning/CERT_01_HEALTH_CHECK_FRESHNESS_FIX_PLAN.md",
+        ".ai/brain/planning/CERT_01_HEALTH_CHECK_FRESHNESS_FIX_REPORT.md",
+        ".ai/brain/planning/CERT_02_AGENT_NEUTRAL_CORE_ADAPTERS_REPORT.md",
+        ".ai/brain/planning/CERT_03_CHANGE_SCOPE_VALIDATION_PROFILES_PLAN.md",
+        ".ai/brain/planning/CERT_03_CHANGE_SCOPE_VALIDATION_PROFILES_REPORT.md",
+        ".ai/brain/planning/CERT_04_AI_BRAIN_SCRIPT_SMOKE_CHECKS_REPORT.md",
+        ".ai/brain/planning/CERT_05_MEMORY_ENFORCEMENT_REPORT.md",
+        ".ai/brain/planning/CERT_06_TEMPLATE_METADATA_REFERENCE_VALIDATION_REPORT.md",
+        ".ai/brain/planning/CERT_08_AUTOMATION_ACTIVATION_VALIDATION_REPORT.md",
+        ".ai/brain/planning/CERTIFICATION_DEPENDENCIES_CLEANUP_REPORT.md",
+        ".ai/brain/planning/EPIC2_HARDENING_SPRINT0_READINESS_RECHECK.md",
+        ".ai/brain/planning/EPIC2_HARDENING_SPRINT0_REPORT.md",
+        ".ai/brain/planning/EPIC2_HARDENING_SPRINT1_READINESS_RECHECK.md",
+        ".ai/brain/planning/EPIC2_HARDENING_SPRINT1_REPORT.md",
+        ".ai/brain/planning/EPIC2_KNOWLEDGE_DISCOVERY_RECHECK.md",
+        ".ai/brain/planning/EPIC2_KNOWLEDGE_DISCOVERY_REPORT.md",
+        ".ai/brain/planning/EPIC2_READINESS_REPORT.md",
+        ".ai/brain/planning/README.md"
+      ],
+      "configs": [
+        ".ai/brain/planning/README.md"
+      ]
+    },
+    {
+      "name": ".ai/brain/README.md",
+      "files": [
+        ".ai/brain/README.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        ".ai/brain/README.md"
+      ],
+      "configs": [
+        ".ai/brain/README.md"
+      ]
+    },
+    {
+      "name": ".ai/brain/reviews",
+      "files": [
+        ".ai/brain/reviews/agent-review.md",
+        ".ai/brain/reviews/architecture-review.md",
+        ".ai/brain/reviews/automation-review.md",
+        ".ai/brain/reviews/dx-review.md",
+        ".ai/brain/reviews/knowledge-review.md",
+        ".ai/brain/reviews/MASTER_GAP_ANALYSIS.md",
+        ".ai/brain/reviews/scalability-review.md",
+        ".ai/brain/reviews/sdlc-review.md",
+        ".ai/brain/reviews/security-review.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        ".ai/brain/reviews/agent-review.md",
+        ".ai/brain/reviews/architecture-review.md",
+        ".ai/brain/reviews/automation-review.md",
+        ".ai/brain/reviews/dx-review.md",
+        ".ai/brain/reviews/knowledge-review.md",
+        ".ai/brain/reviews/MASTER_GAP_ANALYSIS.md",
+        ".ai/brain/reviews/scalability-review.md",
+        ".ai/brain/reviews/sdlc-review.md",
+        ".ai/brain/reviews/security-review.md"
+      ],
+      "configs": []
+    },
+    {
+      "name": ".ai/brain/scripts",
+      "files": [
+        ".ai/brain/scripts/analyze-impact.mjs",
+        ".ai/brain/scripts/create-context-pack.mjs",
+        ".ai/brain/scripts/create-repo-index.mjs",
+        ".ai/brain/scripts/health-check.mjs",
+        ".ai/brain/scripts/README.md",
+        ".ai/brain/scripts/search-brain.mjs",
+        ".ai/brain/scripts/smoke-check.mjs",
+        ".ai/brain/scripts/update-memory.mjs",
+        ".ai/brain/scripts/validate-automation-activation.mjs"
+      ],
+      "sourceFiles": [
+        ".ai/brain/scripts/analyze-impact.mjs",
+        ".ai/brain/scripts/create-context-pack.mjs",
+        ".ai/brain/scripts/create-repo-index.mjs",
+        ".ai/brain/scripts/health-check.mjs",
+        ".ai/brain/scripts/search-brain.mjs",
+        ".ai/brain/scripts/smoke-check.mjs",
+        ".ai/brain/scripts/update-memory.mjs",
+        ".ai/brain/scripts/validate-automation-activation.mjs"
+      ],
+      "testFiles": [],
+      "docs": [
+        ".ai/brain/scripts/README.md"
+      ],
+      "configs": [
+        ".ai/brain/scripts/README.md"
+      ]
+    },
+    {
+      "name": ".ai/brain/templates",
+      "files": [
+        ".ai/brain/templates/agent-handoff-packet-template.md",
+        ".ai/brain/templates/automation-activation-record-template.md",
+        ".ai/brain/templates/checker-review-template.md",
+        ".ai/brain/templates/context-pack-template.md",
+        ".ai/brain/templates/goal-bugfix-template.md",
+        ".ai/brain/templates/goal-contract-template.md",
+        ".ai/brain/templates/goal-docs-template.md",
+        ".ai/brain/templates/goal-feature-template.md",
+        ".ai/brain/templates/goal-refactor-template.md",
+        ".ai/brain/templates/goal-test-template.md",
+        ".ai/brain/templates/impact-analysis-template.md",
+        ".ai/brain/templates/implementation-history-entry-template.md",
+        ".ai/brain/templates/memory-update-template.md",
+        ".ai/brain/templates/open-decision-template.md",
+        ".ai/brain/templates/review-report-template.md",
+        ".ai/brain/templates/sprint-summary-template.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        ".ai/brain/templates/agent-handoff-packet-template.md",
+        ".ai/brain/templates/automation-activation-record-template.md",
+        ".ai/brain/templates/checker-review-template.md",
+        ".ai/brain/templates/context-pack-template.md",
+        ".ai/brain/templates/goal-bugfix-template.md",
+        ".ai/brain/templates/goal-contract-template.md",
+        ".ai/brain/templates/goal-docs-template.md",
+        ".ai/brain/templates/goal-feature-template.md",
+        ".ai/brain/templates/goal-refactor-template.md",
+        ".ai/brain/templates/goal-test-template.md",
+        ".ai/brain/templates/impact-analysis-template.md",
+        ".ai/brain/templates/implementation-history-entry-template.md",
+        ".ai/brain/templates/memory-update-template.md",
+        ".ai/brain/templates/open-decision-template.md",
+        ".ai/brain/templates/review-report-template.md",
+        ".ai/brain/templates/sprint-summary-template.md"
+      ],
+      "configs": []
+    },
+    {
+      "name": ".codex/agents",
+      "files": [
+        ".codex/agents/discovery-architect.toml",
+        ".codex/agents/executor.toml",
+        ".codex/agents/planner.toml",
+        ".codex/agents/release-engineer.toml",
+        ".codex/agents/verifier.toml"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [],
+      "configs": [
+        ".codex/agents/discovery-architect.toml",
+        ".codex/agents/executor.toml",
+        ".codex/agents/planner.toml",
+        ".codex/agents/release-engineer.toml",
+        ".codex/agents/verifier.toml"
+      ]
+    },
+    {
+      "name": ".codex/automations",
+      "files": [
+        ".codex/automations/README.md",
+        ".codex/automations/templates/architecture-drift-scan.md",
+        ".codex/automations/templates/daily-codebase-health-scan.md",
+        ".codex/automations/templates/dependency-audit.md",
+        ".codex/automations/templates/duplicate-abstraction-scan.md",
+        ".codex/automations/templates/stale-docs-scan.md",
+        ".codex/automations/templates/test-coverage-suggestion-scan.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        ".codex/automations/README.md",
+        ".codex/automations/templates/architecture-drift-scan.md",
+        ".codex/automations/templates/daily-codebase-health-scan.md",
+        ".codex/automations/templates/dependency-audit.md",
+        ".codex/automations/templates/duplicate-abstraction-scan.md",
+        ".codex/automations/templates/stale-docs-scan.md",
+        ".codex/automations/templates/test-coverage-suggestion-scan.md"
+      ],
+      "configs": [
+        ".codex/automations/README.md",
+        ".codex/automations/templates/architecture-drift-scan.md",
+        ".codex/automations/templates/daily-codebase-health-scan.md",
+        ".codex/automations/templates/dependency-audit.md",
+        ".codex/automations/templates/duplicate-abstraction-scan.md",
+        ".codex/automations/templates/stale-docs-scan.md",
+        ".codex/automations/templates/test-coverage-suggestion-scan.md"
+      ]
+    },
+    {
+      "name": ".codex/config.toml",
+      "files": [
+        ".codex/config.toml"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [],
+      "configs": [
+        ".codex/config.toml"
+      ]
+    },
+    {
+      "name": ".codex/hooks",
+      "files": [
+        ".codex/hooks/stop_verify_guard.py",
+        ".codex/hooks/user_prompt_secret_scan.py"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [],
+      "configs": [
+        ".codex/hooks/stop_verify_guard.py",
+        ".codex/hooks/user_prompt_secret_scan.py"
+      ]
+    },
+    {
+      "name": ".codex/hooks.json",
+      "files": [
+        ".codex/hooks.json"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [],
+      "configs": [
+        ".codex/hooks.json"
+      ]
+    },
+    {
+      "name": ".codex/README.md",
+      "files": [
+        ".codex/README.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        ".codex/README.md"
+      ],
+      "configs": [
+        ".codex/README.md"
+      ]
+    },
+    {
+      "name": ".codex/rules",
+      "files": [
+        ".codex/rules/default.rules"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [],
+      "configs": [
+        ".codex/rules/default.rules"
+      ]
+    },
+    {
+      "name": ".codex/state",
+      "files": [
+        ".codex/state/last-stop-reminder.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        ".codex/state/last-stop-reminder.md"
+      ],
+      "configs": [
+        ".codex/state/last-stop-reminder.md"
+      ]
+    },
+    {
+      "name": ".github/CODEOWNERS",
+      "files": [
+        ".github/CODEOWNERS"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [],
+      "configs": []
+    },
+    {
+      "name": ".github/dependabot.yml",
+      "files": [
+        ".github/dependabot.yml"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [],
+      "configs": [
+        ".github/dependabot.yml"
+      ]
+    },
+    {
+      "name": ".github/ISSUE_TEMPLATE",
+      "files": [
+        ".github/ISSUE_TEMPLATE/bug_report.yml",
+        ".github/ISSUE_TEMPLATE/feature_request.yml"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [],
+      "configs": [
+        ".github/ISSUE_TEMPLATE/bug_report.yml",
+        ".github/ISSUE_TEMPLATE/feature_request.yml"
+      ]
+    },
+    {
+      "name": ".github/pull_request_template.md",
+      "files": [
+        ".github/pull_request_template.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        ".github/pull_request_template.md"
+      ],
+      "configs": []
+    },
+    {
+      "name": ".github/workflows",
+      "files": [
+        ".github/workflows/codex-nightly-discovery.yml",
+        ".github/workflows/codex-pr-review.yml",
+        ".github/workflows/verify-mobile-web.yml"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [],
+      "configs": [
+        ".github/workflows/codex-nightly-discovery.yml",
+        ".github/workflows/codex-pr-review.yml",
+        ".github/workflows/verify-mobile-web.yml"
+      ]
+    },
+    {
+      "name": ".gitignore",
+      "files": [
+        ".gitignore"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [],
+      "configs": []
+    },
+    {
+      "name": "AGENTS.md",
+      "files": [
+        "AGENTS.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        "AGENTS.md"
+      ],
+      "configs": [
+        "AGENTS.md"
+      ]
+    },
+    {
+      "name": "app.json",
+      "files": [
+        "app.json"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [],
+      "configs": [
+        "app.json"
+      ]
+    },
+    {
+      "name": "app/_layout.tsx",
+      "files": [
+        "app/_layout.tsx"
+      ],
+      "sourceFiles": [
+        "app/_layout.tsx"
+      ],
+      "testFiles": [],
+      "docs": [],
+      "configs": []
+    },
+    {
+      "name": "app/index.tsx",
+      "files": [
+        "app/index.tsx"
+      ],
+      "sourceFiles": [
+        "app/index.tsx"
+      ],
+      "testFiles": [],
+      "docs": [],
+      "configs": []
+    },
+    {
+      "name": "app/preferences.tsx",
+      "files": [
+        "app/preferences.tsx"
+      ],
+      "sourceFiles": [
+        "app/preferences.tsx"
+      ],
+      "testFiles": [],
+      "docs": [],
+      "configs": []
+    },
+    {
+      "name": "app/profile",
+      "files": [
+        "app/profile/preferences.tsx"
+      ],
+      "sourceFiles": [
+        "app/profile/preferences.tsx"
+      ],
+      "testFiles": [],
+      "docs": [],
+      "configs": []
+    },
+    {
+      "name": "app/recommendations",
+      "files": [
+        "app/recommendations/[id].tsx"
+      ],
+      "sourceFiles": [
+        "app/recommendations/[id].tsx"
+      ],
+      "testFiles": [],
+      "docs": [],
+      "configs": []
+    },
+    {
+      "name": "app/results.tsx",
+      "files": [
+        "app/results.tsx"
+      ],
+      "sourceFiles": [
+        "app/results.tsx"
+      ],
+      "testFiles": [],
+      "docs": [],
+      "configs": []
+    },
+    {
+      "name": "assets",
+      "files": [
+        "assets/android-icon-background.png",
+        "assets/android-icon-foreground.png",
+        "assets/android-icon-monochrome.png",
+        "assets/favicon.png",
+        "assets/icon.png",
+        "assets/splash-icon.png"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [],
+      "configs": []
+    },
+    {
+      "name": "docs/architecture",
+      "files": [
+        "docs/architecture/ADR-0001-cross-platform-stack.md",
+        "docs/architecture/ADR-0002-data-sources.md",
+        "docs/architecture/ADR-0003-recommendation-engine.md",
+        "docs/architecture/ARCHITECTURE.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        "docs/architecture/ADR-0001-cross-platform-stack.md",
+        "docs/architecture/ADR-0002-data-sources.md",
+        "docs/architecture/ADR-0003-recommendation-engine.md",
+        "docs/architecture/ARCHITECTURE.md"
+      ],
+      "configs": []
+    },
+    {
+      "name": "docs/ARCHITECTURE_DECISION_TEMPLATE.md",
+      "files": [
+        "docs/ARCHITECTURE_DECISION_TEMPLATE.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        "docs/ARCHITECTURE_DECISION_TEMPLATE.md"
+      ],
+      "configs": []
+    },
+    {
+      "name": "docs/CODEX_PIPELINE_SETUP.md",
+      "files": [
+        "docs/CODEX_PIPELINE_SETUP.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        "docs/CODEX_PIPELINE_SETUP.md"
+      ],
+      "configs": []
+    },
+    {
+      "name": "docs/CONNECTORS_AND_MCP.md",
+      "files": [
+        "docs/CONNECTORS_AND_MCP.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        "docs/CONNECTORS_AND_MCP.md"
+      ],
+      "configs": []
+    },
+    {
+      "name": "docs/data",
+      "files": [
+        "docs/data/DATA_STRATEGY.md",
+        "docs/data/DATABASE_MODEL.md",
+        "docs/data/MENU_SEED_FORMAT.md",
+        "docs/data/PRICE_VERIFICATION_PROCESS.md",
+        "docs/data/SCORING_MODEL.md",
+        "docs/data/SCRAPING_POLICY.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        "docs/data/DATA_STRATEGY.md",
+        "docs/data/DATABASE_MODEL.md",
+        "docs/data/MENU_SEED_FORMAT.md",
+        "docs/data/PRICE_VERIFICATION_PROCESS.md",
+        "docs/data/SCORING_MODEL.md",
+        "docs/data/SCRAPING_POLICY.md"
+      ],
+      "configs": []
+    },
+    {
+      "name": "docs/FEATURE_PLAN_TEMPLATE.md",
+      "files": [
+        "docs/FEATURE_PLAN_TEMPLATE.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        "docs/FEATURE_PLAN_TEMPLATE.md"
+      ],
+      "configs": []
+    },
+    {
+      "name": "docs/GITHUB_SETUP.md",
+      "files": [
+        "docs/GITHUB_SETUP.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        "docs/GITHUB_SETUP.md"
+      ],
+      "configs": []
+    },
+    {
+      "name": "docs/IMPLEMENTATION_BASELINE.md",
+      "files": [
+        "docs/IMPLEMENTATION_BASELINE.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        "docs/IMPLEMENTATION_BASELINE.md"
+      ],
+      "configs": []
+    },
+    {
+      "name": "docs/product",
+      "files": [
+        "docs/product/MONETIZATION_PLAN.md",
+        "docs/product/MVP_SCOPE.md",
+        "docs/product/PRD.md",
+        "docs/product/PRODUCT_CHECKPOINT_2.md",
+        "docs/product/PRODUCT_CHECKPOINT_3.md",
+        "docs/product/PRODUCT_DECISIONS.md",
+        "docs/product/SPRINT_3_BACKLOG_CANDIDATES.md",
+        "docs/product/USER_STORIES.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        "docs/product/MONETIZATION_PLAN.md",
+        "docs/product/MVP_SCOPE.md",
+        "docs/product/PRD.md",
+        "docs/product/PRODUCT_CHECKPOINT_2.md",
+        "docs/product/PRODUCT_CHECKPOINT_3.md",
+        "docs/product/PRODUCT_DECISIONS.md",
+        "docs/product/SPRINT_3_BACKLOG_CANDIDATES.md",
+        "docs/product/USER_STORIES.md"
+      ],
+      "configs": []
+    },
+    {
+      "name": "docs/project",
+      "files": [
+        "docs/project/MAKDOLAN_PROJECT_CONTEXT.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        "docs/project/MAKDOLAN_PROJECT_CONTEXT.md"
+      ],
+      "configs": []
+    },
+    {
+      "name": "docs/reviews",
+      "files": [
+        "docs/reviews/DATA_AND_SCORING_REVIEW.md",
+        "docs/reviews/SPRINT_1_REVIEW.md",
+        "docs/reviews/SPRINT_1A_ALIGNMENT.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        "docs/reviews/DATA_AND_SCORING_REVIEW.md",
+        "docs/reviews/SPRINT_1_REVIEW.md",
+        "docs/reviews/SPRINT_1A_ALIGNMENT.md"
+      ],
+      "configs": []
+    },
+    {
+      "name": "docs/roadmap",
+      "files": [
+        "docs/roadmap/ROADMAP.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        "docs/roadmap/ROADMAP.md"
+      ],
+      "configs": []
+    },
+    {
+      "name": "docs/testing",
+      "files": [
+        "docs/testing/MANUAL_SMOKE_CHECKLIST.md",
+        "docs/testing/USER_TEST_FEEDBACK_TEMPLATE.md",
+        "docs/testing/USER_TESTING_PLAN.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        "docs/testing/MANUAL_SMOKE_CHECKLIST.md",
+        "docs/testing/USER_TEST_FEEDBACK_TEMPLATE.md",
+        "docs/testing/USER_TESTING_PLAN.md"
+      ],
+      "configs": []
+    },
+    {
+      "name": "docs/VERIFY_MATRIX.md",
+      "files": [
+        "docs/VERIFY_MATRIX.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        "docs/VERIFY_MATRIX.md"
+      ],
+      "configs": []
+    },
+    {
+      "name": "eslint.config.mjs",
+      "files": [
+        "eslint.config.mjs"
+      ],
+      "sourceFiles": [
+        "eslint.config.mjs"
+      ],
+      "testFiles": [],
+      "docs": [],
+      "configs": [
+        "eslint.config.mjs"
+      ]
+    },
+    {
+      "name": "INSTALL_CHECKLIST.md",
+      "files": [
+        "INSTALL_CHECKLIST.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        "INSTALL_CHECKLIST.md"
+      ],
+      "configs": [
+        "INSTALL_CHECKLIST.md"
+      ]
+    },
+    {
+      "name": "knowledge-base",
+      "files": [
+        "knowledge-base/architecture.md",
+        "knowledge-base/decisions/index.md",
+        "knowledge-base/domain-glossary.md",
+        "knowledge-base/README.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        "knowledge-base/architecture.md",
+        "knowledge-base/decisions/index.md",
+        "knowledge-base/domain-glossary.md",
+        "knowledge-base/README.md"
+      ],
+      "configs": [
+        "knowledge-base/README.md"
+      ]
+    },
+    {
+      "name": "package.json",
+      "files": [
+        "package.json"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [],
+      "configs": [
+        "package.json"
+      ]
+    },
+    {
+      "name": "project-context",
+      "files": [
+        "project-context/PRODUCT_BRIEF.md",
+        "project-context/SECURITY_PRIVACY.md",
+        "project-context/TECH_STACK.md",
+        "project-context/TEST_STRATEGY.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        "project-context/PRODUCT_BRIEF.md",
+        "project-context/SECURITY_PRIVACY.md",
+        "project-context/TECH_STACK.md",
+        "project-context/TEST_STRATEGY.md"
+      ],
+      "configs": []
+    },
+    {
+      "name": "prompts",
+      "files": [
+        "prompts/00-project-bootstrap.md",
+        "prompts/01-discover.md",
+        "prompts/02-plan.md",
+        "prompts/03-execute.md",
+        "prompts/04-verify.md",
+        "prompts/05-iterate-learn.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        "prompts/00-project-bootstrap.md",
+        "prompts/01-discover.md",
+        "prompts/02-plan.md",
+        "prompts/03-execute.md",
+        "prompts/04-verify.md",
+        "prompts/05-iterate-learn.md"
+      ],
+      "configs": []
+    },
+    {
+      "name": "README.md",
+      "files": [
+        "README.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        "README.md"
+      ],
+      "configs": [
+        "README.md"
+      ]
+    },
+    {
+      "name": "scripts",
+      "files": [
+        "scripts/codex-loop.sh",
+        "scripts/collect-context.sh",
+        "scripts/diff-gate.sh",
+        "scripts/verify-local.sh"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [],
+      "configs": []
+    },
+    {
+      "name": "src/domain/recommendations",
+      "files": [
+        "src/domain/recommendations/mockRecommendations.ts",
+        "src/domain/recommendations/reasonChips.test.ts",
+        "src/domain/recommendations/reasonChips.ts",
+        "src/domain/recommendations/scoring.test.ts",
+        "src/domain/recommendations/scoring.ts",
+        "src/domain/recommendations/tagLabels.test.ts",
+        "src/domain/recommendations/tagLabels.ts",
+        "src/domain/recommendations/types.ts"
+      ],
+      "sourceFiles": [
+        "src/domain/recommendations/mockRecommendations.ts",
+        "src/domain/recommendations/reasonChips.ts",
+        "src/domain/recommendations/scoring.ts",
+        "src/domain/recommendations/tagLabels.ts",
+        "src/domain/recommendations/types.ts"
+      ],
+      "testFiles": [
+        "src/domain/recommendations/reasonChips.test.ts",
+        "src/domain/recommendations/scoring.test.ts",
+        "src/domain/recommendations/tagLabels.test.ts"
+      ],
+      "docs": [],
+      "configs": []
+    },
+    {
+      "name": "src/screens/budgetValidation.test.ts",
+      "files": [
+        "src/screens/budgetValidation.test.ts"
+      ],
+      "sourceFiles": [],
+      "testFiles": [
+        "src/screens/budgetValidation.test.ts"
+      ],
+      "docs": [],
+      "configs": []
+    },
+    {
+      "name": "src/screens/budgetValidation.ts",
+      "files": [
+        "src/screens/budgetValidation.ts"
+      ],
+      "sourceFiles": [
+        "src/screens/budgetValidation.ts"
+      ],
+      "testFiles": [],
+      "docs": [],
+      "configs": []
+    },
+    {
+      "name": "src/screens/HomeBudgetScreen.tsx",
+      "files": [
+        "src/screens/HomeBudgetScreen.tsx"
+      ],
+      "sourceFiles": [
+        "src/screens/HomeBudgetScreen.tsx"
+      ],
+      "testFiles": [],
+      "docs": [],
+      "configs": []
+    },
+    {
+      "name": "src/screens/PreferencesScreen.tsx",
+      "files": [
+        "src/screens/PreferencesScreen.tsx"
+      ],
+      "sourceFiles": [
+        "src/screens/PreferencesScreen.tsx"
+      ],
+      "testFiles": [],
+      "docs": [],
+      "configs": []
+    },
+    {
+      "name": "src/screens/ProfilePreferencesScreen.tsx",
+      "files": [
+        "src/screens/ProfilePreferencesScreen.tsx"
+      ],
+      "sourceFiles": [
+        "src/screens/ProfilePreferencesScreen.tsx"
+      ],
+      "testFiles": [],
+      "docs": [],
+      "configs": []
+    },
+    {
+      "name": "src/screens/RecommendationDetailsScreen.tsx",
+      "files": [
+        "src/screens/RecommendationDetailsScreen.tsx"
+      ],
+      "sourceFiles": [
+        "src/screens/RecommendationDetailsScreen.tsx"
+      ],
+      "testFiles": [],
+      "docs": [],
+      "configs": []
+    },
+    {
+      "name": "src/screens/RecommendationResultsScreen.tsx",
+      "files": [
+        "src/screens/RecommendationResultsScreen.tsx"
+      ],
+      "sourceFiles": [
+        "src/screens/RecommendationResultsScreen.tsx"
+      ],
+      "testFiles": [],
+      "docs": [],
+      "configs": []
+    },
+    {
+      "name": "src/ui/AppShell.tsx",
+      "files": [
+        "src/ui/AppShell.tsx"
+      ],
+      "sourceFiles": [
+        "src/ui/AppShell.tsx"
+      ],
+      "testFiles": [],
+      "docs": [],
+      "configs": []
+    },
+    {
+      "name": "src/ui/Button.tsx",
+      "files": [
+        "src/ui/Button.tsx"
+      ],
+      "sourceFiles": [
+        "src/ui/Button.tsx"
+      ],
+      "testFiles": [],
+      "docs": [],
+      "configs": []
+    },
+    {
+      "name": "src/ui/ScreenText.tsx",
+      "files": [
+        "src/ui/ScreenText.tsx"
+      ],
+      "sourceFiles": [
+        "src/ui/ScreenText.tsx"
+      ],
+      "testFiles": [],
+      "docs": [],
+      "configs": []
+    },
+    {
+      "name": "tsconfig.json",
+      "files": [
+        "tsconfig.json"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [],
+      "configs": [
+        "tsconfig.json"
+      ]
+    },
+    {
+      "name": "vitest.config.ts",
+      "files": [
+        "vitest.config.ts"
+      ],
+      "sourceFiles": [
+        "vitest.config.ts"
+      ],
+      "testFiles": [],
+      "docs": [],
+      "configs": [
+        "vitest.config.ts"
+      ]
+    }
+  ]
+}

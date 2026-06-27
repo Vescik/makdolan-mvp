@@ -12,7 +12,15 @@
     "test": "vitest run",
     "lint": "eslint .",
     "build": "expo export --platform web",
-    "build:web": "expo export --platform web"
+    "build:web": "expo export --platform web",
+    "brain:context": "node .ai/brain/scripts/create-context-pack.mjs",
+    "brain:index": "node .ai/brain/scripts/create-repo-index.mjs",
+    "brain:search": "node .ai/brain/scripts/search-brain.mjs",
+    "brain:impact": "node .ai/brain/scripts/analyze-impact.mjs",
+    "brain:health": "node .ai/brain/scripts/health-check.mjs",
+    "brain:smoke": "node .ai/brain/scripts/smoke-check.mjs",
+    "brain:automation:check": "node .ai/brain/scripts/validate-automation-activation.mjs",
+    "brain:memory:update": "node .ai/brain/scripts/update-memory.mjs"
   },
   "dependencies": {
     "@expo/metro-runtime": "~56.0.15",
