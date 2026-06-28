@@ -69,14 +69,15 @@ Key files:
 
 ### `.ai/brain/certification`
 
-- Files: 5
+- Files: 6
 - Source: 0
 - Tests: 0
-- Docs: 5
+- Docs: 6
 - Configs: 0
 
 Key files:
 - `.ai/brain/certification/CERTIFICATION_BACKLOG.md`
+- `.ai/brain/certification/CURRENT_AI_BRAIN_CERTIFICATION_RECHECK.md`
 - `.ai/brain/certification/EPIC1_CERTIFICATION_REPORT.md`
 - `.ai/brain/certification/EPIC1_CLEAN_CERTIFICATION_RECHECK.md`
 - `.ai/brain/certification/EPIC2_READINESS_CERTIFICATE.md`
@@ -183,10 +184,10 @@ Key files:
 
 ### `.ai/brain/planning`
 
-- Files: 21
+- Files: 22
 - Source: 0
 - Tests: 0
-- Docs: 21
+- Docs: 22
 - Configs: 1
 
 Key files:
@@ -420,15 +421,18 @@ Key files:
 
 ### `.github/workflows`
 
-- Files: 3
+- Files: 6
 - Source: 0
 - Tests: 0
 - Docs: 0
-- Configs: 3
+- Configs: 6
 
 Key files:
 - `.github/workflows/codex-nightly-discovery.yml`
 - `.github/workflows/codex-pr-review.yml`
+- `.github/workflows/create-github-release.yml`
+- `.github/workflows/epic-pr-review.yml`
+- `.github/workflows/final-epic-certification.yml`
 - `.github/workflows/verify-mobile-web.yml`
 
 ### `.gitignore`
@@ -609,6 +613,35 @@ Key files:
 - `docs/data/SCORING_MODEL.md`
 - `docs/data/SCRAPING_POLICY.md`
 
+### `docs/epic-branch-policy.md`
+
+- Files: 1
+- Source: 0
+- Tests: 0
+- Docs: 1
+- Configs: 0
+
+Key files:
+- `docs/epic-branch-policy.md`
+
+### `docs/epics`
+
+- Files: 8
+- Source: 0
+- Tests: 0
+- Docs: 7
+- Configs: 1
+
+Key files:
+- `docs/epics/_template/ACCEPTANCE.md`
+- `docs/epics/_template/certificates/.gitkeep`
+- `docs/epics/_template/EPIC.md`
+- `docs/epics/_template/PHASES.md`
+- `docs/epics/_template/RELEASE_NOTES.md`
+- `docs/epics/_template/RISK_REGISTER.md`
+- `docs/epics/_template/ROLLBACK.md`
+- `docs/epics/README.md`
+
 ### `docs/FEATURE_PLAN_TEMPLATE.md`
 
 - Files: 1
@@ -641,6 +674,17 @@ Key files:
 
 Key files:
 - `docs/IMPLEMENTATION_BASELINE.md`
+
+### `docs/local-phase-certification.md`
+
+- Files: 1
+- Source: 0
+- Tests: 0
+- Docs: 1
+- Configs: 0
+
+Key files:
+- `docs/local-phase-certification.md`
 
 ### `docs/product`
 
@@ -809,16 +853,21 @@ Key files:
 
 ### `scripts`
 
-- Files: 4
-- Source: 0
+- Files: 9
+- Source: 1
 - Tests: 0
 - Docs: 0
 - Configs: 0
 
 Key files:
+- `scripts/check-phase-certificate.sh`
 - `scripts/codex-loop.sh`
 - `scripts/collect-context.sh`
 - `scripts/diff-gate.sh`
+- `scripts/hooks/pre-push`
+- `scripts/install-hooks.sh`
+- `scripts/lint-workflows.mjs`
+- `scripts/start-epic.sh`
 - `scripts/verify-local.sh`
 
 ### `src/domain/recommendations`

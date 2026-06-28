@@ -125,3 +125,18 @@ npm run brain:health
 - `../../../docs/product/PRD.md`
 - `../../../docs/architecture/ARCHITECTURE.md`
 - `../../../docs/VERIFY_MATRIX.md`
+
+## Epic Delivery
+
+- `../../../docs/epic-branch-policy.md`
+- `../../../docs/local-phase-certification.md`
+- `../../../docs/epics/README.md`
+- `../../../docs/epics/_template/`
+- `../../../.github/pull_request_template.md`
+- `../../../scripts/start-epic.sh`
+- `../../../scripts/check-phase-certificate.sh`
+- `../../../scripts/install-hooks.sh`
+- `../../../scripts/hooks/pre-push`
+- `../../../.github/workflows/epic-pr-review.yml`
+- `../../../.github/workflows/final-epic-certification.yml`
+- `../../../.github/workflows/create-github-release.yml`

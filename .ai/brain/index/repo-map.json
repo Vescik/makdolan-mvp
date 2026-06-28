@@ -43,6 +43,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "lint": "eslint .",
+    "lint:workflows": "node scripts/lint-workflows.mjs",
     "build": "expo export --platform web",
     "build:web": "expo export --platform web",
     "brain:context": "node .ai/brain/scripts/create-context-pack.mjs",
@@ -110,6 +111,9 @@
     "docs",
     "docs/architecture",
     "docs/data",
+    "docs/epics",
+    "docs/epics/_template",
+    "docs/epics/_template/certificates",
     "docs/product",
     "docs/project",
     "docs/reviews",
@@ -120,6 +124,7 @@
     "project-context",
     "prompts",
     "scripts",
+    "scripts/hooks",
     "src",
     "src/domain",
     "src/domain/recommendations",
@@ -336,6 +341,15 @@
       "module": ".ai/brain/certification"
     },
     {
+      "path": ".ai/brain/certification/CURRENT_AI_BRAIN_CERTIFICATION_RECHECK.md",
+      "sizeBytes": 12967,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/certification"
+    },
+    {
       "path": ".ai/brain/certification/EPIC1_CERTIFICATION_REPORT.md",
       "sizeBytes": 23216,
       "categories": [
@@ -401,7 +415,7 @@
     },
     {
       "path": ".ai/brain/governance/developer-onboarding.md",
-      "sizeBytes": 5456,
+      "sizeBytes": 5771,
       "categories": [
         "important",
         "doc"
@@ -455,7 +469,7 @@
     },
     {
       "path": ".ai/brain/governance/source-of-truth-map.md",
-      "sizeBytes": 12014,
+      "sizeBytes": 13883,
       "categories": [
         "important",
         "doc"
@@ -464,7 +478,7 @@
     },
     {
       "path": ".ai/brain/governance/validation-profiles.md",
-      "sizeBytes": 13934,
+      "sizeBytes": 14121,
       "categories": [
         "important",
         "doc"
@@ -473,7 +487,7 @@
     },
     {
       "path": ".ai/brain/index/README.md",
-      "sizeBytes": 3272,
+      "sizeBytes": 3817,
       "categories": [
         "important",
         "doc",
@@ -537,7 +551,7 @@
     },
     {
       "path": ".ai/brain/knowledge/sdlc-flow.md",
-      "sizeBytes": 2485,
+      "sizeBytes": 3552,
       "categories": [
         "important",
         "doc"
@@ -664,7 +678,7 @@
     },
     {
       "path": ".ai/brain/memory/implementation-history.md",
-      "sizeBytes": 31577,
+      "sizeBytes": 51756,
       "categories": [
         "important",
         "doc"
@@ -908,6 +922,15 @@
       "module": ".ai/brain/planning"
     },
     {
+      "path": ".ai/brain/planning/MKD_VALIDATE_001_EPIC_RELEASE_INFRASTRUCTURE_REPORT.md",
+      "sizeBytes": 6276,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
       "path": ".ai/brain/planning/README.md",
       "sizeBytes": 602,
       "categories": [
@@ -919,7 +942,7 @@
     },
     {
       "path": ".ai/brain/README.md",
-      "sizeBytes": 5117,
+      "sizeBytes": 5494,
       "categories": [
         "important",
         "doc",
@@ -1431,7 +1454,7 @@
     },
     {
       "path": ".github/pull_request_template.md",
-      "sizeBytes": 214,
+      "sizeBytes": 1128,
       "categories": [
         "doc"
       ],
@@ -1448,6 +1471,30 @@
     {
       "path": ".github/workflows/codex-pr-review.yml",
       "sizeBytes": 1255,
+      "categories": [
+        "config"
+      ],
+      "module": ".github/workflows"
+    },
+    {
+      "path": ".github/workflows/create-github-release.yml",
+      "sizeBytes": 7880,
+      "categories": [
+        "config"
+      ],
+      "module": ".github/workflows"
+    },
+    {
+      "path": ".github/workflows/epic-pr-review.yml",
+      "sizeBytes": 13120,
+      "categories": [
+        "config"
+      ],
+      "module": ".github/workflows"
+    },
+    {
+      "path": ".github/workflows/final-epic-certification.yml",
+      "sizeBytes": 20426,
       "categories": [
         "config"
       ],
@@ -1471,7 +1518,7 @@
     },
     {
       "path": "AGENTS.md",
-      "sizeBytes": 13869,
+      "sizeBytes": 19942,
       "categories": [
         "important",
         "doc",
@@ -1702,6 +1749,87 @@
       "module": "docs/data"
     },
     {
+      "path": "docs/epic-branch-policy.md",
+      "sizeBytes": 14955,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/epic-branch-policy.md"
+    },
+    {
+      "path": "docs/epics/_template/ACCEPTANCE.md",
+      "sizeBytes": 2722,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/epics"
+    },
+    {
+      "path": "docs/epics/_template/certificates/.gitkeep",
+      "sizeBytes": 1,
+      "categories": [
+        "important"
+      ],
+      "module": "docs/epics"
+    },
+    {
+      "path": "docs/epics/_template/EPIC.md",
+      "sizeBytes": 1572,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/epics"
+    },
+    {
+      "path": "docs/epics/_template/PHASES.md",
+      "sizeBytes": 1944,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/epics"
+    },
+    {
+      "path": "docs/epics/_template/RELEASE_NOTES.md",
+      "sizeBytes": 1101,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/epics"
+    },
+    {
+      "path": "docs/epics/_template/RISK_REGISTER.md",
+      "sizeBytes": 1028,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/epics"
+    },
+    {
+      "path": "docs/epics/_template/ROLLBACK.md",
+      "sizeBytes": 1267,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/epics"
+    },
+    {
+      "path": "docs/epics/README.md",
+      "sizeBytes": 2476,
+      "categories": [
+        "important",
+        "doc",
+        "config"
+      ],
+      "module": "docs/epics"
+    },
+    {
       "path": "docs/FEATURE_PLAN_TEMPLATE.md",
       "sizeBytes": 825,
       "categories": [
@@ -1727,6 +1855,15 @@
         "doc"
       ],
       "module": "docs/IMPLEMENTATION_BASELINE.md"
+    },
+    {
+      "path": "docs/local-phase-certification.md",
+      "sizeBytes": 8080,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": "docs/local-phase-certification.md"
     },
     {
       "path": "docs/product/MONETIZATION_PLAN.md",
@@ -1940,7 +2077,7 @@
     },
     {
       "path": "package.json",
-      "sizeBytes": 1714,
+      "sizeBytes": 1771,
       "categories": [
         "important",
         "config"
@@ -2042,6 +2179,14 @@
       "module": "README.md"
     },
     {
+      "path": "scripts/check-phase-certificate.sh",
+      "sizeBytes": 5843,
+      "categories": [
+        "other"
+      ],
+      "module": "scripts"
+    },
+    {
       "path": "scripts/codex-loop.sh",
       "sizeBytes": 1438,
       "categories": [
@@ -2060,6 +2205,38 @@
     {
       "path": "scripts/diff-gate.sh",
       "sizeBytes": 4785,
+      "categories": [
+        "other"
+      ],
+      "module": "scripts"
+    },
+    {
+      "path": "scripts/hooks/pre-push",
+      "sizeBytes": 2716,
+      "categories": [
+        "other"
+      ],
+      "module": "scripts"
+    },
+    {
+      "path": "scripts/install-hooks.sh",
+      "sizeBytes": 1573,
+      "categories": [
+        "other"
+      ],
+      "module": "scripts"
+    },
+    {
+      "path": "scripts/lint-workflows.mjs",
+      "sizeBytes": 1444,
+      "categories": [
+        "source"
+      ],
+      "module": "scripts"
+    },
+    {
+      "path": "scripts/start-epic.sh",
+      "sizeBytes": 3301,
       "categories": [
         "other"
       ],
@@ -2339,6 +2516,7 @@
       "name": ".ai/brain/certification",
       "files": [
         ".ai/brain/certification/CERTIFICATION_BACKLOG.md",
+        ".ai/brain/certification/CURRENT_AI_BRAIN_CERTIFICATION_RECHECK.md",
         ".ai/brain/certification/EPIC1_CERTIFICATION_REPORT.md",
         ".ai/brain/certification/EPIC1_CLEAN_CERTIFICATION_RECHECK.md",
         ".ai/brain/certification/EPIC2_READINESS_CERTIFICATE.md",
@@ -2348,6 +2526,7 @@
       "testFiles": [],
       "docs": [
         ".ai/brain/certification/CERTIFICATION_BACKLOG.md",
+        ".ai/brain/certification/CURRENT_AI_BRAIN_CERTIFICATION_RECHECK.md",
         ".ai/brain/certification/EPIC1_CERTIFICATION_REPORT.md",
         ".ai/brain/certification/EPIC1_CLEAN_CERTIFICATION_RECHECK.md",
         ".ai/brain/certification/EPIC2_READINESS_CERTIFICATE.md",
@@ -2525,6 +2704,7 @@
         ".ai/brain/planning/EPIC2_KNOWLEDGE_DISCOVERY_RECHECK.md",
         ".ai/brain/planning/EPIC2_KNOWLEDGE_DISCOVERY_REPORT.md",
         ".ai/brain/planning/EPIC2_READINESS_REPORT.md",
+        ".ai/brain/planning/MKD_VALIDATE_001_EPIC_RELEASE_INFRASTRUCTURE_REPORT.md",
         ".ai/brain/planning/README.md"
       ],
       "sourceFiles": [],
@@ -2550,6 +2730,7 @@
         ".ai/brain/planning/EPIC2_KNOWLEDGE_DISCOVERY_RECHECK.md",
         ".ai/brain/planning/EPIC2_KNOWLEDGE_DISCOVERY_REPORT.md",
         ".ai/brain/planning/EPIC2_READINESS_REPORT.md",
+        ".ai/brain/planning/MKD_VALIDATE_001_EPIC_RELEASE_INFRASTRUCTURE_REPORT.md",
         ".ai/brain/planning/README.md"
       ],
       "configs": [
@@ -2854,6 +3035,9 @@
       "files": [
         ".github/workflows/codex-nightly-discovery.yml",
         ".github/workflows/codex-pr-review.yml",
+        ".github/workflows/create-github-release.yml",
+        ".github/workflows/epic-pr-review.yml",
+        ".github/workflows/final-epic-certification.yml",
         ".github/workflows/verify-mobile-web.yml"
       ],
       "sourceFiles": [],
@@ -2862,6 +3046,9 @@
       "configs": [
         ".github/workflows/codex-nightly-discovery.yml",
         ".github/workflows/codex-pr-review.yml",
+        ".github/workflows/create-github-release.yml",
+        ".github/workflows/epic-pr-review.yml",
+        ".github/workflows/final-epic-certification.yml",
         ".github/workflows/verify-mobile-web.yml"
       ]
     },
@@ -3065,6 +3252,45 @@
       "configs": []
     },
     {
+      "name": "docs/epic-branch-policy.md",
+      "files": [
+        "docs/epic-branch-policy.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        "docs/epic-branch-policy.md"
+      ],
+      "configs": []
+    },
+    {
+      "name": "docs/epics",
+      "files": [
+        "docs/epics/_template/ACCEPTANCE.md",
+        "docs/epics/_template/certificates/.gitkeep",
+        "docs/epics/_template/EPIC.md",
+        "docs/epics/_template/PHASES.md",
+        "docs/epics/_template/RELEASE_NOTES.md",
+        "docs/epics/_template/RISK_REGISTER.md",
+        "docs/epics/_template/ROLLBACK.md",
+        "docs/epics/README.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        "docs/epics/_template/ACCEPTANCE.md",
+        "docs/epics/_template/EPIC.md",
+        "docs/epics/_template/PHASES.md",
+        "docs/epics/_template/RELEASE_NOTES.md",
+        "docs/epics/_template/RISK_REGISTER.md",
+        "docs/epics/_template/ROLLBACK.md",
+        "docs/epics/README.md"
+      ],
+      "configs": [
+        "docs/epics/README.md"
+      ]
+    },
+    {
       "name": "docs/FEATURE_PLAN_TEMPLATE.md",
       "files": [
         "docs/FEATURE_PLAN_TEMPLATE.md"
@@ -3097,6 +3323,18 @@
       "testFiles": [],
       "docs": [
         "docs/IMPLEMENTATION_BASELINE.md"
+      ],
+      "configs": []
+    },
+    {
+      "name": "docs/local-phase-certification.md",
+      "files": [
+        "docs/local-phase-certification.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        "docs/local-phase-certification.md"
       ],
       "configs": []
     },
@@ -3311,12 +3549,19 @@
     {
       "name": "scripts",
       "files": [
+        "scripts/check-phase-certificate.sh",
         "scripts/codex-loop.sh",
         "scripts/collect-context.sh",
         "scripts/diff-gate.sh",
+        "scripts/hooks/pre-push",
+        "scripts/install-hooks.sh",
+        "scripts/lint-workflows.mjs",
+        "scripts/start-epic.sh",
         "scripts/verify-local.sh"
       ],
-      "sourceFiles": [],
+      "sourceFiles": [
+        "scripts/lint-workflows.mjs"
+      ],
       "testFiles": [],
       "docs": [],
       "configs": []

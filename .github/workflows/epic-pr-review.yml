@@ -1,0 +1,381 @@
+name: Epic PR Codex gate
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+    branches: [main]
+
+jobs:
+  ci:
+    name: epic_pr_ci
+    if: startsWith(github.head_ref, 'epic/')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout PR merge commit
+        uses: actions/checkout@v5
+        with:
+          ref: refs/pull/${{ github.event.pull_request.number }}/merge
+          persist-credentials: false
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm run test
+
+      - name: Build web
+        run: npm run build:web
+
+  codex_review:
+    name: epic_pr_codex_review
+    if: always() && startsWith(github.head_ref, 'epic/')
+    needs: ci
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      verdict: ${{ steps.parse.outputs.verdict }}
+      merge_allowed: ${{ steps.parse.outputs.merge_allowed }}
+      blocking_count: ${{ steps.parse.outputs.blocking_count }}
+      summary: ${{ steps.parse.outputs.summary }}
+    steps:
+      - name: Checkout PR merge commit
+        uses: actions/checkout@v5
+        with:
+          ref: refs/pull/${{ github.event.pull_request.number }}/merge
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Ensure base and head refs are available
+        run: |
+          git fetch --no-tags origin main
+
+      - name: Require OPENAI_API_KEY
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          if [ -z "$OPENAI_API_KEY" ]; then
+            echo "::error::Repository secret OPENAI_API_KEY is required for epic PR Codex review."
+            exit 1
+          fi
+
+      - name: Prepare Codex output directory
+        run: mkdir -p .codex
+
+      - name: Codex epic PR review
+        id: codex
+        uses: openai/codex-action@v1
+        with:
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          sandbox: read-only
+          safety-strategy: read-only
+          output-file: .codex/epic-pr-review.json
+          output-schema: |
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "verdict",
+                "epic_id",
+                "branch",
+                "head_sha",
+                "summary",
+                "blocking_findings",
+                "non_blocking_notes",
+                "merge_allowed"
+              ],
+              "properties": {
+                "verdict": {
+                  "type": "string",
+                  "enum": ["PASS", "FAIL"]
+                },
+                "epic_id": {
+                  "type": "string"
+                },
+                "branch": {
+                  "type": "string"
+                },
+                "head_sha": {
+                  "type": "string"
+                },
+                "summary": {
+                  "type": "string"
+                },
+                "blocking_findings": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["severity", "file", "line", "issue", "recommendation"],
+                    "properties": {
+                      "severity": {
+                        "type": "string",
+                        "enum": ["P0", "P1"]
+                      },
+                      "file": {
+                        "type": "string"
+                      },
+                      "line": {
+                        "type": "string"
+                      },
+                      "issue": {
+                        "type": "string"
+                      },
+                      "recommendation": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "non_blocking_notes": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "merge_allowed": {
+                  "type": "boolean"
+                }
+              }
+            }
+          prompt: |
+            You are the authoritative remote Codex reviewer for a Makdolan epic pull request.
+
+            Review only this pull request. Do not modify files, push, merge, create tags, create releases, or call external services.
+
+            Context:
+            - Base branch: main
+            - Head branch: ${{ github.head_ref }}
+            - PR head SHA: ${{ github.event.pull_request.head.sha }}
+            - PR base SHA: ${{ github.event.pull_request.base.sha }}
+            - Local CI job result: ${{ needs.ci.result }}
+
+            Required reading:
+            - AGENTS.md
+            - docs/epic-branch-policy.md
+            - docs/local-phase-certification.md
+            - docs/epics/README.md
+            - .ai/brain/governance/source-of-truth-map.md
+            - .ai/brain/governance/validation-profiles.md
+
+            Review requirements:
+            - Inspect the diff against main.
+            - Verify the PR source branch follows the epic/** policy.
+            - Identify the epic ID from the branch and committed docs/epics workspace where possible.
+            - Check local phase certificates committed under docs/epics/*/certificates/.
+            - Check certificate head_sha consistency. A committed certificate may point to the parent of a certificate-only commit; mixed source changes in the same commit are blocking.
+            - Consider the local CI job result for typecheck, lint, tests, and web build.
+            - Check for security risks, exposed secrets, migration risks, deployment risks, missing release notes, missing rollback notes, and branch policy violations.
+            - Treat P0/P1 correctness, security, policy, failed CI, or release-safety issues as blocking.
+
+            Return JSON only using the configured schema:
+            {
+              "verdict": "PASS or FAIL",
+              "epic_id": "string",
+              "branch": "string",
+              "head_sha": "string",
+              "summary": "string",
+              "blocking_findings": [
+                {
+                  "severity": "P0 or P1",
+                  "file": "string",
+                  "line": "string",
+                  "issue": "string",
+                  "recommendation": "string"
+                }
+              ],
+              "non_blocking_notes": ["string"],
+              "merge_allowed": true or false
+            }
+
+            PASS requires:
+            - verdict is PASS.
+            - merge_allowed is true.
+            - blocking_findings is empty.
+            - CI status is successful.
+            - Branch policy, certificate evidence, release notes, rollback notes, and security review have no blocking gaps.
+
+            FAIL requires:
+            - Any P0/P1 finding.
+            - Failed or missing required CI evidence.
+            - Missing or clearly stale phase certificate evidence.
+            - Secret exposure.
+            - Unsafe migration/deployment risk.
+            - Missing release or rollback notes when relevant.
+            - Branch policy violation.
+
+      - name: Parse Codex verdict
+        id: parse
+        run: |
+          node <<'NODE'
+          const fs = require("node:fs");
+
+          const outputPath = ".codex/epic-pr-review.json";
+          const githubOutput = process.env.GITHUB_OUTPUT;
+
+          function fail(message) {
+            console.error(`::error::${message}`);
+            process.exit(1);
+          }
+
+          if (!fs.existsSync(outputPath)) {
+            fail(`Codex output file is missing: ${outputPath}`);
+          }
+
+          let raw = fs.readFileSync(outputPath, "utf8").trim();
+          raw = raw.replace(/^```json\s*/i, "").replace(/^```\s*/i, "").replace(/\s*```$/i, "").trim();
+
+          let parsed;
+          try {
+            parsed = JSON.parse(raw);
+          } catch (error) {
+            fail(`Codex output was not valid JSON: ${error.message}`);
+          }
+
+          const required = [
+            "verdict",
+            "epic_id",
+            "branch",
+            "head_sha",
+            "summary",
+            "blocking_findings",
+            "non_blocking_notes",
+            "merge_allowed",
+          ];
+
+          for (const field of required) {
+            if (!(field in parsed)) {
+              fail(`Codex output missing required field: ${field}`);
+            }
+          }
+
+          if (!["PASS", "FAIL"].includes(parsed.verdict)) {
+            fail("Codex verdict must be PASS or FAIL.");
+          }
+
+          if (!Array.isArray(parsed.blocking_findings)) {
+            fail("blocking_findings must be an array.");
+          }
+
+          if (!Array.isArray(parsed.non_blocking_notes)) {
+            fail("non_blocking_notes must be an array.");
+          }
+
+          if (typeof parsed.merge_allowed !== "boolean") {
+            fail("merge_allowed must be a boolean.");
+          }
+
+          fs.writeFileSync(outputPath, `${JSON.stringify(parsed, null, 2)}\n`);
+
+          fs.appendFileSync(githubOutput, `verdict=${parsed.verdict}\n`);
+          fs.appendFileSync(githubOutput, `merge_allowed=${parsed.merge_allowed}\n`);
+          fs.appendFileSync(githubOutput, `blocking_count=${parsed.blocking_findings.length}\n`);
+          fs.appendFileSync(githubOutput, `summary<<EOF\n${parsed.summary}\nEOF\n`);
+          NODE
+
+      - name: Upload Codex review artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: epic-pr-codex-review
+          path: .codex/epic-pr-review.json
+          if-no-files-found: error
+
+  epic_pr_codex_gate:
+    name: epic_pr_codex_gate
+    if: always()
+    needs: [ci, codex_review]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Skip non-epic PRs
+        if: ${{ !startsWith(github.head_ref, 'epic/') }}
+        run: echo "epic_pr_codex_gate is not applicable to non-epic source branch ${{ github.head_ref }}."
+
+      - name: Evaluate epic PR gate
+        if: startsWith(github.head_ref, 'epic/')
+        env:
+          CI_RESULT: ${{ needs.ci.result }}
+          CODEX_RESULT: ${{ needs.codex_review.result }}
+          CODEX_VERDICT: ${{ needs.codex_review.outputs.verdict }}
+          MERGE_ALLOWED: ${{ needs.codex_review.outputs.merge_allowed }}
+          BLOCKING_COUNT: ${{ needs.codex_review.outputs.blocking_count }}
+        run: |
+          if [ "$CI_RESULT" != "success" ]; then
+            echo "::error::CI job did not pass: $CI_RESULT"
+            exit 1
+          fi
+
+          if [ "$CODEX_RESULT" != "success" ]; then
+            echo "::error::Codex review job did not pass: $CODEX_RESULT"
+            exit 1
+          fi
+
+          if [ "$CODEX_VERDICT" != "PASS" ]; then
+            echo "::error::Codex verdict is not PASS: $CODEX_VERDICT"
+            exit 1
+          fi
+
+          if [ "$MERGE_ALLOWED" != "true" ]; then
+            echo "::error::Codex did not allow merge."
+            exit 1
+          fi
+
+          if [ "$BLOCKING_COUNT" != "0" ]; then
+            echo "::error::Codex reported blocking findings: $BLOCKING_COUNT"
+            exit 1
+          fi
+
+          echo "epic_pr_codex_gate passed."
+
+      - name: Comment concise Codex summary
+        if: always() && startsWith(github.head_ref, 'epic/')
+        continue-on-error: true
+        uses: actions/github-script@v8
+        env:
+          CI_RESULT: ${{ needs.ci.result }}
+          CODEX_RESULT: ${{ needs.codex_review.result }}
+          CODEX_VERDICT: ${{ needs.codex_review.outputs.verdict }}
+          MERGE_ALLOWED: ${{ needs.codex_review.outputs.merge_allowed }}
+          BLOCKING_COUNT: ${{ needs.codex_review.outputs.blocking_count }}
+          CODEX_SUMMARY: ${{ needs.codex_review.outputs.summary }}
+        with:
+          script: |
+            const verdict = process.env.CODEX_VERDICT || "UNAVAILABLE";
+            const mergeAllowed = process.env.MERGE_ALLOWED || "false";
+            const blockingCount = process.env.BLOCKING_COUNT || "unknown";
+            const summary = process.env.CODEX_SUMMARY || "Codex review did not produce a summary.";
+            const body = [
+              "### Epic PR Codex gate",
+              "",
+              `- CI result: ${process.env.CI_RESULT}`,
+              `- Codex job result: ${process.env.CODEX_RESULT}`,
+              `- Verdict: ${verdict}`,
+              `- Merge allowed: ${mergeAllowed}`,
+              `- Blocking findings: ${blockingCount}`,
+              "",
+              summary,
+            ].join("\n");
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body,
+            });

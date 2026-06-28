@@ -11,7 +11,7 @@ Metadata:
 | authority | Defines the AI Brain SDLC loop and phase expectations. |
 | domain | SDLC workflow |
 | created | 2026-06-26 |
-| last_reviewed | 2026-06-26 |
+| last_reviewed | 2026-06-28 |
 | review_after | 2026-07-26 |
 
 Makdolan uses this loop for every non-trivial task:
@@ -50,6 +50,15 @@ Make focused changes only. Preserve existing naming and style. Do not change dep
 Run the most relevant available checks. For app code, expect typecheck, tests, lint, and web build unless there is a clear reason to narrow the set. For docs-only changes, run file presence/content checks and whitespace validation, and explain skipped app checks.
 
 Record validation evidence as command, result, key output or skipped reason, and follow-up. A task is not done until the evidence matches the goal contract.
+
+For epic branch work, verification has two layers:
+
+- Local phase certification controls whether Codex may push or update the GitHub PR. Use `docs/local-phase-certification.md` and `./scripts/check-phase-certificate.sh`.
+- Remote GitHub checks control whether the PR may merge. Epic PRs targeting `main` must pass the `epic_pr_codex_gate` workflow check, which combines CI and remote Codex review.
+- Final release certification controls whether a maintainer may create a GitHub Release. Run the manual `final-epic-certification` workflow and require `final_epic_certification_gate` to pass.
+- GitHub Release creation is a separate manual workflow. Run `create-github-release` only after final certification `PASS`; it must release from `main`, verify the final certificate is present on `main`, and refuse existing tags.
+
+Local certificates are advisory publication gates. GitHub Actions, branch protection, and the remote Codex gate remain authoritative merge gates. Final certification is a release-readiness gate; it does not create the GitHub Release by itself.
 
 ## Iterate
 

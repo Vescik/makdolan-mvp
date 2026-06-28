@@ -1,0 +1,564 @@
+name: final-epic-certification
+
+on:
+  workflow_dispatch:
+    inputs:
+      epic_id:
+        description: Epic ID, for example billing-v2
+        required: true
+        type: string
+      version:
+        description: Release version, for example v1.4.0
+        required: true
+        type: string
+      target_branch:
+        description: Target branch to certify
+        required: true
+        default: main
+        type: string
+      epic_branch:
+        description: Epic branch, for example epic/billing-v2-billing-v2
+        required: false
+        type: string
+
+jobs:
+  final_certification:
+    name: final_epic_certification
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      verdict: ${{ steps.parse.outputs.verdict }}
+      release_allowed: ${{ steps.parse.outputs.release_allowed }}
+      blocking_count: ${{ steps.parse.outputs.blocking_count }}
+      target_sha: ${{ steps.preflight.outputs.target_sha }}
+      certificate_path: ${{ steps.preflight.outputs.certificate_path }}
+    steps:
+      - name: Checkout target branch
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.target_branch }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify phase certificates and epic docs
+        id: preflight
+        env:
+          EPIC_ID: ${{ inputs.epic_id }}
+          VERSION: ${{ inputs.version }}
+          TARGET_BRANCH: ${{ inputs.target_branch }}
+          EPIC_BRANCH: ${{ inputs.epic_branch }}
+        run: |
+          node <<'NODE'
+          const fs = require("node:fs");
+          const path = require("node:path");
+          const cp = require("node:child_process");
+
+          const epicId = process.env.EPIC_ID;
+          const version = process.env.VERSION;
+          const targetBranch = process.env.TARGET_BRANCH;
+          const epicBranch = process.env.EPIC_BRANCH || "";
+          const epicDir = path.join("docs", "epics", epicId);
+          const certDir = path.join(epicDir, "certificates");
+          const finalCertPath = path.join(certDir, "final-release-certificate.json");
+          const githubOutput = process.env.GITHUB_OUTPUT;
+
+          function fail(message) {
+            console.error(`::error::${message}`);
+            process.exit(1);
+          }
+
+          function readJson(filePath) {
+            try {
+              return JSON.parse(fs.readFileSync(filePath, "utf8"));
+            } catch (error) {
+              fail(`${filePath} is not valid JSON: ${error.message}`);
+            }
+          }
+
+          function fileHasBody(filePath) {
+            if (!fs.existsSync(filePath)) return false;
+            const content = fs.readFileSync(filePath, "utf8").trim();
+            return content.length > 0 && !content.includes("<FILL_ME>");
+          }
+
+          if (!epicId || !/^[a-z0-9][a-z0-9._-]*$/i.test(epicId)) {
+            fail("epic_id input is required and must be path-safe.");
+          }
+
+          if (!version || !/^v?\d+\.\d+\.\d+([-.+][A-Za-z0-9.-]+)?$/.test(version)) {
+            fail("version input is required and should look like v1.4.0.");
+          }
+
+          if (!fs.existsSync(epicDir)) {
+            fail(`Epic workspace is missing: ${epicDir}`);
+          }
+
+          if (!fs.existsSync(certDir)) {
+            fail(`Certificate directory is missing: ${certDir}`);
+          }
+
+          const requiredDocs = [
+            "EPIC.md",
+            "PHASES.md",
+            "ACCEPTANCE.md",
+            "RELEASE_NOTES.md",
+            "ROLLBACK.md",
+            "RISK_REGISTER.md",
+          ];
+
+          for (const doc of requiredDocs) {
+            const docPath = path.join(epicDir, doc);
+            if (!fileHasBody(docPath)) {
+              fail(`Required epic document is missing, empty, or still contains placeholders: ${docPath}`);
+            }
+          }
+
+          const certFiles = fs.readdirSync(certDir)
+            .filter((name) => /^phase-\d+-certificate\.json$/.test(name))
+            .sort()
+            .map((name) => path.join(certDir, name));
+
+          if (certFiles.length === 0) {
+            fail(`No phase certificates found in ${certDir}`);
+          }
+
+          const reviewed = [];
+
+          for (const filePath of certFiles) {
+            const cert = readJson(filePath);
+
+            if (cert.certificate_type !== "local_phase_certificate") {
+              fail(`${filePath}: certificate_type must be local_phase_certificate.`);
+            }
+
+            if (cert.epic_id !== epicId) {
+              fail(`${filePath}: epic_id ${cert.epic_id} does not match input ${epicId}.`);
+            }
+
+            if (cert.verdict !== "PASS") {
+              fail(`${filePath}: verdict must be PASS.`);
+            }
+
+            if (cert.push_allowed !== true) {
+              fail(`${filePath}: push_allowed must be true.`);
+            }
+
+            if (!Array.isArray(cert.blocking_findings) || cert.blocking_findings.length !== 0) {
+              fail(`${filePath}: blocking_findings must be an empty array.`);
+            }
+
+            if (typeof cert.head_sha !== "string" || !/^[0-9a-f]{40}$/i.test(cert.head_sha)) {
+              fail(`${filePath}: head_sha must be a 40-character commit SHA.`);
+            }
+
+            try {
+              cp.execFileSync("git", ["cat-file", "-e", `${cert.head_sha}^{commit}`], { stdio: "ignore" });
+            } catch {
+              fail(`${filePath}: head_sha ${cert.head_sha} is not present in checked-out repository history.`);
+            }
+
+            reviewed.push(filePath);
+          }
+
+          const targetSha = cp.execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim();
+          fs.mkdirSync(certDir, { recursive: true });
+
+          const summary = [
+            `Epic: ${epicId}`,
+            `Version: ${version}`,
+            `Target branch: ${targetBranch}`,
+            `Target SHA: ${targetSha}`,
+            `Epic branch: ${epicBranch || "not provided"}`,
+            `Phase certificates reviewed: ${reviewed.length}`,
+            ...reviewed.map((filePath) => `- ${filePath}`),
+          ].join("\n");
+
+          fs.writeFileSync(".final-epic-certification-preflight.md", `${summary}\n`);
+          fs.appendFileSync(githubOutput, `target_sha=${targetSha}\n`);
+          fs.appendFileSync(githubOutput, `certificate_path=${finalCertPath}\n`);
+          fs.appendFileSync(githubOutput, `phase_certificates<<EOF\n${reviewed.join("\n")}\nEOF\n`);
+          NODE
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm run test
+
+      - name: Build web
+        run: npm run build:web
+
+      - name: Require OPENAI_API_KEY
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          if [ -z "$OPENAI_API_KEY" ]; then
+            echo "::error::Repository secret OPENAI_API_KEY is required for final epic certification."
+            exit 1
+          fi
+
+      - name: Codex final epic certification
+        id: codex
+        uses: openai/codex-action@v1
+        with:
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          sandbox: workspace-write
+          output-file: docs/epics/${{ inputs.epic_id }}/certificates/final-release-certificate.json
+          output-schema: |
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "certificate_type",
+                "verdict",
+                "epic_id",
+                "version",
+                "target_branch",
+                "target_sha",
+                "created_at",
+                "phase_certificates_reviewed",
+                "summary",
+                "test_summary",
+                "security_summary",
+                "migration_summary",
+                "release_notes_summary",
+                "rollback_summary",
+                "blocking_findings",
+                "release_allowed"
+              ],
+              "properties": {
+                "certificate_type": {
+                  "type": "string",
+                  "enum": ["final_epic_release_certificate"]
+                },
+                "verdict": {
+                  "type": "string",
+                  "enum": ["PASS", "FAIL"]
+                },
+                "epic_id": {
+                  "type": "string"
+                },
+                "version": {
+                  "type": "string"
+                },
+                "target_branch": {
+                  "type": "string"
+                },
+                "target_sha": {
+                  "type": "string"
+                },
+                "created_at": {
+                  "type": "string"
+                },
+                "phase_certificates_reviewed": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "summary": {
+                  "type": "string"
+                },
+                "test_summary": {
+                  "type": "string"
+                },
+                "security_summary": {
+                  "type": "string"
+                },
+                "migration_summary": {
+                  "type": "string"
+                },
+                "release_notes_summary": {
+                  "type": "string"
+                },
+                "rollback_summary": {
+                  "type": "string"
+                },
+                "blocking_findings": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["severity", "reference", "issue", "recommendation"],
+                    "properties": {
+                      "severity": {
+                        "type": "string",
+                        "enum": ["P0", "P1"]
+                      },
+                      "reference": {
+                        "type": "string"
+                      },
+                      "issue": {
+                        "type": "string"
+                      },
+                      "recommendation": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "release_allowed": {
+                  "type": "boolean"
+                }
+              }
+            }
+          prompt: |
+            You are the final release certification reviewer for a completed Makdolan epic.
+
+            This workflow certifies release readiness only. Do not create a GitHub Release, push, merge, tag, deploy, edit source files beyond the requested certificate output, or call external services.
+
+            Inputs:
+            - Epic ID: ${{ inputs.epic_id }}
+            - Version: ${{ inputs.version }}
+            - Target branch: ${{ inputs.target_branch }}
+            - Target SHA: ${{ steps.preflight.outputs.target_sha }}
+            - Epic branch: ${{ inputs.epic_branch }}
+
+            Required reading:
+            - AGENTS.md
+            - docs/epic-branch-policy.md
+            - docs/local-phase-certification.md
+            - docs/epics/${{ inputs.epic_id }}/EPIC.md
+            - docs/epics/${{ inputs.epic_id }}/PHASES.md
+            - docs/epics/${{ inputs.epic_id }}/ACCEPTANCE.md
+            - docs/epics/${{ inputs.epic_id }}/RELEASE_NOTES.md
+            - docs/epics/${{ inputs.epic_id }}/ROLLBACK.md
+            - docs/epics/${{ inputs.epic_id }}/RISK_REGISTER.md
+            - docs/epics/${{ inputs.epic_id }}/certificates/
+            - .final-epic-certification-preflight.md
+
+            Validation already run in this workflow:
+            - Phase certificate preflight: PASS if this step is running.
+            - npm run typecheck: PASS if this step is running.
+            - npm run lint: PASS if this step is running.
+            - npm run test: PASS if this step is running.
+            - npm run build:web: PASS if this step is running.
+
+            Certify:
+            - All phase certificates are PASS.
+            - All phase certificates have push_allowed true.
+            - No phase certificate has blocking findings.
+            - Target SHA is clear and should match the checked-out target branch HEAD.
+            - Release notes exist and are adequate for the version.
+            - Rollback notes exist and are adequate for the version.
+            - Migration notes are present when the epic changed migrations, data model, storage, or deployment-sensitive behavior; otherwise state why not applicable.
+            - No unresolved security risk exists.
+            - No unresolved migration risk exists.
+            - No unsafe deployment change exists.
+            - No P0/P1 release blocker remains.
+
+            PASS requires:
+            - verdict is PASS.
+            - release_allowed is true.
+            - blocking_findings is empty.
+            - all phases certified PASS.
+            - all required checks passed.
+            - release notes exist.
+            - rollback notes exist.
+            - migration notes are present where relevant or explicitly not applicable.
+            - no secret exposure.
+            - no unsafe deployment change.
+            - target SHA is clear.
+
+            FAIL requires:
+            - missing phase certificate.
+            - stale phase certificate.
+            - any failed phase certificate.
+            - failing tests or missing required validation evidence.
+            - unresolved security risk.
+            - unresolved migration risk.
+            - missing rollback notes.
+            - unclear release target.
+
+            Return JSON only using the configured schema:
+            {
+              "certificate_type": "final_epic_release_certificate",
+              "verdict": "PASS or FAIL",
+              "epic_id": "string",
+              "version": "string",
+              "target_branch": "string",
+              "target_sha": "string",
+              "created_at": "ISO-8601 timestamp",
+              "phase_certificates_reviewed": ["string"],
+              "summary": "string",
+              "test_summary": "string",
+              "security_summary": "string",
+              "migration_summary": "string",
+              "release_notes_summary": "string",
+              "rollback_summary": "string",
+              "blocking_findings": [
+                {
+                  "severity": "P0 or P1",
+                  "reference": "string",
+                  "issue": "string",
+                  "recommendation": "string"
+                }
+              ],
+              "release_allowed": true or false
+            }
+
+      - name: Parse final certificate
+        id: parse
+        env:
+          EPIC_ID: ${{ inputs.epic_id }}
+          VERSION: ${{ inputs.version }}
+          TARGET_BRANCH: ${{ inputs.target_branch }}
+          TARGET_SHA: ${{ steps.preflight.outputs.target_sha }}
+          CERTIFICATE_PATH: ${{ steps.preflight.outputs.certificate_path }}
+        run: |
+          node <<'NODE'
+          const fs = require("node:fs");
+
+          const outputPath = process.env.CERTIFICATE_PATH;
+          const githubOutput = process.env.GITHUB_OUTPUT;
+
+          function fail(message) {
+            console.error(`::error::${message}`);
+            process.exit(1);
+          }
+
+          if (!fs.existsSync(outputPath)) {
+            fail(`Final certificate file is missing: ${outputPath}`);
+          }
+
+          let raw = fs.readFileSync(outputPath, "utf8").trim();
+          raw = raw.replace(/^```json\s*/i, "").replace(/^```\s*/i, "").replace(/\s*```$/i, "").trim();
+
+          let parsed;
+          try {
+            parsed = JSON.parse(raw);
+          } catch (error) {
+            fail(`Final certificate is not valid JSON: ${error.message}`);
+          }
+
+          const required = [
+            "certificate_type",
+            "verdict",
+            "epic_id",
+            "version",
+            "target_branch",
+            "target_sha",
+            "created_at",
+            "phase_certificates_reviewed",
+            "summary",
+            "test_summary",
+            "security_summary",
+            "migration_summary",
+            "release_notes_summary",
+            "rollback_summary",
+            "blocking_findings",
+            "release_allowed",
+          ];
+
+          for (const field of required) {
+            if (!(field in parsed)) {
+              fail(`Final certificate missing required field: ${field}`);
+            }
+          }
+
+          if (parsed.certificate_type !== "final_epic_release_certificate") {
+            fail("certificate_type must be final_epic_release_certificate.");
+          }
+
+          if (!["PASS", "FAIL"].includes(parsed.verdict)) {
+            fail("verdict must be PASS or FAIL.");
+          }
+
+          if (parsed.epic_id !== process.env.EPIC_ID) {
+            fail(`epic_id ${parsed.epic_id} does not match input ${process.env.EPIC_ID}.`);
+          }
+
+          if (parsed.version !== process.env.VERSION) {
+            fail(`version ${parsed.version} does not match input ${process.env.VERSION}.`);
+          }
+
+          if (parsed.target_branch !== process.env.TARGET_BRANCH) {
+            fail(`target_branch ${parsed.target_branch} does not match input ${process.env.TARGET_BRANCH}.`);
+          }
+
+          if (parsed.target_sha !== process.env.TARGET_SHA) {
+            fail(`target_sha ${parsed.target_sha} does not match checked out SHA ${process.env.TARGET_SHA}.`);
+          }
+
+          if (!Array.isArray(parsed.phase_certificates_reviewed) || parsed.phase_certificates_reviewed.length === 0) {
+            fail("phase_certificates_reviewed must be a non-empty array.");
+          }
+
+          if (!Array.isArray(parsed.blocking_findings)) {
+            fail("blocking_findings must be an array.");
+          }
+
+          if (typeof parsed.release_allowed !== "boolean") {
+            fail("release_allowed must be a boolean.");
+          }
+
+          fs.writeFileSync(outputPath, `${JSON.stringify(parsed, null, 2)}\n`);
+
+          fs.appendFileSync(githubOutput, `verdict=${parsed.verdict}\n`);
+          fs.appendFileSync(githubOutput, `release_allowed=${parsed.release_allowed}\n`);
+          fs.appendFileSync(githubOutput, `blocking_count=${parsed.blocking_findings.length}\n`);
+          NODE
+
+      - name: Upload final release certificate
+        uses: actions/upload-artifact@v4
+        with:
+          name: final-release-certificate-${{ inputs.epic_id }}-${{ inputs.version }}
+          path: docs/epics/${{ inputs.epic_id }}/certificates/final-release-certificate.json
+          if-no-files-found: error
+
+  final_epic_certification_gate:
+    name: final_epic_certification_gate
+    if: always()
+    needs: final_certification
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Evaluate final epic certification
+        env:
+          CERTIFICATION_RESULT: ${{ needs.final_certification.result }}
+          VERDICT: ${{ needs.final_certification.outputs.verdict }}
+          RELEASE_ALLOWED: ${{ needs.final_certification.outputs.release_allowed }}
+          BLOCKING_COUNT: ${{ needs.final_certification.outputs.blocking_count }}
+          TARGET_SHA: ${{ needs.final_certification.outputs.target_sha }}
+          CERTIFICATE_PATH: ${{ needs.final_certification.outputs.certificate_path }}
+        run: |
+          if [ "$CERTIFICATION_RESULT" != "success" ]; then
+            echo "::error::Final certification job did not pass: $CERTIFICATION_RESULT"
+            exit 1
+          fi
+
+          if [ "$VERDICT" != "PASS" ]; then
+            echo "::error::Final certificate verdict is not PASS: $VERDICT"
+            exit 1
+          fi
+
+          if [ "$RELEASE_ALLOWED" != "true" ]; then
+            echo "::error::Final certificate does not allow release."
+            exit 1
+          fi
+
+          if [ "$BLOCKING_COUNT" != "0" ]; then
+            echo "::error::Final certificate reported blocking findings: $BLOCKING_COUNT"
+            exit 1
+          fi
+
+          if [ -z "$TARGET_SHA" ]; then
+            echo "::error::Target SHA is missing."
+            exit 1
+          fi
+
+          echo "final_epic_certification_gate passed for $CERTIFICATE_PATH at $TARGET_SHA."
