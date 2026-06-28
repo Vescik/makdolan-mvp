@@ -1,5 +1,19 @@
 # Goal Contract Template
 
+Metadata:
+
+| Field | Value |
+| --- | --- |
+| id | `ai-brain-template-goal-contract` |
+| class | `template` |
+| owner | AI Brain maintainers |
+| status | `active` |
+| authority | Provides a portable scaffold for AI Brain goal contracts; does not define current project state. |
+| domain | AI Brain goal contracts |
+| created | 2026-06-27 |
+| last_reviewed | 2026-06-27 |
+| review_after | 2026-07-27 |
+
 Use `.ai/brain/loop-harness/goal-contract-template.md` as the canonical active-work template. This file is a short portable copy for prompts.
 
 ## Objective

@@ -1,5 +1,19 @@
 # Project Overview
 
+Metadata:
+
+| Field | Value |
+| --- | --- |
+| id | `ai-brain-project-overview` |
+| class | `canonical` |
+| owner | AI Brain maintainers |
+| status | `active` |
+| authority | Summarizes project shape, platforms, code areas, and non-goals for AI Brain startup. |
+| domain | Project overview |
+| created | 2026-06-26 |
+| last_reviewed | 2026-06-26 |
+| review_after | 2026-07-26 |
+
 Makdolan is a budget-first food decision helper for users who know how much they want to spend but do not know what to eat. The current MVP helps users enter a budget, choose simple preferences, and see ranked food ideas from controlled Rzeszow mock/seed data.
 
 ## Product Shape

@@ -40,7 +40,11 @@ Before enabling any automation:
 4. Confirm no secrets or ignored local files are required.
 5. Confirm validation commands and stop conditions are correct.
 6. Confirm owner, cadence, and review workflow.
-7. Get explicit human sign-off.
+7. Create an activation record from `.ai/brain/templates/automation-activation-record-template.md`.
+8. Run `npm run brain:automation:check -- path/to/automation-activation-record.md`.
+9. Get explicit human sign-off.
+
+If the activation record fails validation, the automation remains disabled.
 
 ## Worktree Recommendation
 

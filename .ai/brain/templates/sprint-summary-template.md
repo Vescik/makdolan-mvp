@@ -1,5 +1,19 @@
 # Sprint Summary Template
 
+Metadata:
+
+| Field | Value |
+| --- | --- |
+| id | `ai-brain-template-sprint-summary` |
+| class | `template` |
+| owner | AI Brain maintainers |
+| status | `active` |
+| authority | Provides a reusable scaffold for sprint summary entries; does not define current project state. |
+| domain | AI Brain memory |
+| created | 2026-06-27 |
+| last_reviewed | 2026-06-27 |
+| review_after | 2026-07-27 |
+
 ## Sprint Or Phase
 
 Name and date range.

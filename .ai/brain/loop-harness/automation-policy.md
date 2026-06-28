@@ -90,6 +90,14 @@ Before activating any automation:
 - The automation has a clear disable/rollback path.
 - Human sign-off is recorded.
 
+Use `.ai/brain/governance/security-preflight.md` as the canonical automation activation checklist and `.ai/brain/governance/automation-activation-validation.md` as the validation gate. Before activation, create an activation record and run:
+
+```bash
+npm run brain:automation:check -- path/to/automation-activation-record.md
+```
+
+If any required checklist field is missing or the validator fails, activation is blocked.
+
 ## Required Safety Rules
 
 All automations must obey:
@@ -106,6 +114,8 @@ All automations must obey:
 ## AI Brain Automation
 
 AI Brain automation should update reports or memory only when the source of truth is clear. It should not silently rewrite product decisions, architecture decisions, or `AGENTS.md`.
+
+AI Brain automation reports are generated artifacts. They must follow `.ai/brain/governance/artifact-lifecycle-policy.md` and remain advisory unless accepted into `.ai/brain/governance/review-finding-registry.md`.
 
 ## Dangerous Automation
 

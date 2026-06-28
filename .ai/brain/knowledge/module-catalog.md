@@ -1,5 +1,19 @@
 # Module Catalog
 
+Metadata:
+
+| Field | Value |
+| --- | --- |
+| id | `ai-brain-module-catalog` |
+| class | `canonical` |
+| owner | AI Brain maintainers |
+| status | `active` |
+| authority | Maps current app modules, tests, workflow files, and CI entry points for discovery. |
+| domain | Code discovery |
+| created | 2026-06-26 |
+| last_reviewed | 2026-06-26 |
+| review_after | 2026-07-26 |
+
 This catalog helps new sessions find the right code and docs quickly.
 
 ## App Routes

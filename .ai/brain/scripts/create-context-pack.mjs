@@ -66,7 +66,7 @@ function renderContextPack({ taskName, summary, phase, generatedAt }) {
 
 Generated: ${generatedAt}
 
-Compact purpose: paste this into Codex to start discovery. This pack points to source material; it does not replace reading the repository.
+Compact purpose: load this into an agent session to start discovery. This pack points to source material; it does not replace reading the repository.
 
 ## Task Summary
 
@@ -97,8 +97,10 @@ ${phase}
 
 ## Likely Files To Inspect
 
-- \`AGENTS.md\`: repository rules, commands, AI Brain usage, validation expectations.
-- \`.ai/brain/knowledge/agent-session-start.md\`: session-start checklist.
+- \`.ai/brain/agent-start.md\`: agent-neutral startup contract.
+- \`.ai/brain/adapters/README.md\`: runtime adapter catalog.
+- \`AGENTS.md\`: Codex-facing repository rules, commands, AI Brain usage, validation expectations.
+- \`.ai/brain/knowledge/agent-session-start.md\`: Makdolan session-start checklist.
 - \`.ai/brain/knowledge/module-catalog.md\`: current code map.
 - \`.ai/brain/knowledge/testing-map.md\`: validation command selection.
 - \`.ai/brain/knowledge/known-risks.md\`: stable risks to consider.

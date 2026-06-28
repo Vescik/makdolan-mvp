@@ -1,5 +1,19 @@
 # Goal Template: Feature Implementation
 
+Metadata:
+
+| Field | Value |
+| --- | --- |
+| id | `ai-brain-template-goal-feature` |
+| class | `template` |
+| owner | AI Brain maintainers |
+| status | `active` |
+| authority | Provides a reusable scaffold for feature goal contracts; does not define current project state. |
+| domain | AI Brain goal contracts |
+| created | 2026-06-27 |
+| last_reviewed | 2026-06-27 |
+| review_after | 2026-07-27 |
+
 Use this for a scoped product or developer-facing feature.
 
 ## Objective

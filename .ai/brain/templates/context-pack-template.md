@@ -1,6 +1,20 @@
 # Context Pack Template
 
-Keep context packs compact enough to paste into Codex. They should point to source files and decisions, not dump full source code.
+Metadata:
+
+| Field | Value |
+| --- | --- |
+| id | `ai-brain-template-context-pack` |
+| class | `template` |
+| owner | AI Brain maintainers |
+| status | `active` |
+| authority | Provides a reusable scaffold for generated context packs; does not define current project state. |
+| domain | AI Brain context packaging |
+| created | 2026-06-27 |
+| last_reviewed | 2026-06-27 |
+| review_after | 2026-07-27 |
+
+Keep context packs compact enough to load into an agent session. They should point to source files and decisions, not dump full source code.
 
 ## Task Summary
 
@@ -63,7 +77,7 @@ git diff --check
 - Add a sprint summary under `.ai/brain/memory/sprint-summaries/` when a sprint or phase completes.
 - Update `knowledge-base/` only for durable product or architecture facts.
 
-## Notes For Codex
+## Notes For Agents
 
 - Use this pack to start discovery; do not treat it as a replacement for reading the referenced files.
 - Do not copy `.env.local`, secrets, tokens, credentials, authorization headers, private user data, or full source files into this pack.

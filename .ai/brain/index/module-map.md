@@ -43,6 +43,45 @@ Key files:
 - `.agents/skills/release-readiness/SKILL.md`
 - `.agents/skills/verification/SKILL.md`
 
+### `.ai/brain/adapters`
+
+- Files: 3
+- Source: 0
+- Tests: 0
+- Docs: 3
+- Configs: 1
+
+Key files:
+- `.ai/brain/adapters/codex.md`
+- `.ai/brain/adapters/generic-agent.md`
+- `.ai/brain/adapters/README.md`
+
+### `.ai/brain/agent-start.md`
+
+- Files: 1
+- Source: 0
+- Tests: 0
+- Docs: 1
+- Configs: 0
+
+Key files:
+- `.ai/brain/agent-start.md`
+
+### `.ai/brain/certification`
+
+- Files: 5
+- Source: 0
+- Tests: 0
+- Docs: 5
+- Configs: 0
+
+Key files:
+- `.ai/brain/certification/CERTIFICATION_BACKLOG.md`
+- `.ai/brain/certification/EPIC1_CERTIFICATION_REPORT.md`
+- `.ai/brain/certification/EPIC1_CLEAN_CERTIFICATION_RECHECK.md`
+- `.ai/brain/certification/EPIC2_READINESS_CERTIFICATE.md`
+- `.ai/brain/certification/FINAL_CERTIFICATION_CLEAN_RECHECK.md`
+
 ### `.ai/brain/context-packs`
 
 - Files: 1
@@ -53,6 +92,26 @@ Key files:
 
 Key files:
 - `.ai/brain/context-packs/README.md`
+
+### `.ai/brain/governance`
+
+- Files: 10
+- Source: 0
+- Tests: 0
+- Docs: 10
+- Configs: 0
+
+Key files:
+- `.ai/brain/governance/artifact-lifecycle-policy.md`
+- `.ai/brain/governance/automation-activation-validation.md`
+- `.ai/brain/governance/developer-onboarding.md`
+- `.ai/brain/governance/health-checks.md`
+- `.ai/brain/governance/memory-integrity-model.md`
+- `.ai/brain/governance/retrieval-contracts.md`
+- `.ai/brain/governance/review-finding-registry.md`
+- `.ai/brain/governance/security-preflight.md`
+- `.ai/brain/governance/source-of-truth-map.md`
+- `.ai/brain/governance/validation-profiles.md`
 
 ### `.ai/brain/index`
 
@@ -107,10 +166,10 @@ Key files:
 
 ### `.ai/brain/memory`
 
-- Files: 5
+- Files: 7
 - Source: 0
 - Tests: 0
-- Docs: 5
+- Docs: 7
 - Configs: 2
 
 Key files:
@@ -118,21 +177,31 @@ Key files:
 - `.ai/brain/memory/memory-update-checklist.md`
 - `.ai/brain/memory/open-decisions.md`
 - `.ai/brain/memory/README.md`
+- `.ai/brain/memory/sprint-summaries/2026-06-26-epic-2-hardening-sprint-0.md`
+- `.ai/brain/memory/sprint-summaries/2026-06-26-epic-2-hardening-sprint-1.md`
 - `.ai/brain/memory/sprint-summaries/README.md`
 
 ### `.ai/brain/planning`
 
-- Files: 4
+- Files: 21
 - Source: 0
 - Tests: 0
-- Docs: 4
+- Docs: 21
 - Configs: 1
 
 Key files:
 - `.ai/brain/planning/AI_BRAIN_PRO_DISCOVERY_REPORT.md`
 - `.ai/brain/planning/AI_BRAIN_PRO_FINAL_VERIFICATION_GOAL_CONTRACT.md`
 - `.ai/brain/planning/AI_BRAIN_PRO_FINAL_VERIFICATION_REPORT.md`
-- `.ai/brain/planning/README.md`
+- `.ai/brain/planning/CERT_01_HEALTH_CHECK_FRESHNESS_FIX_PLAN.md`
+- `.ai/brain/planning/CERT_01_HEALTH_CHECK_FRESHNESS_FIX_REPORT.md`
+- `.ai/brain/planning/CERT_02_AGENT_NEUTRAL_CORE_ADAPTERS_REPORT.md`
+- `.ai/brain/planning/CERT_03_CHANGE_SCOPE_VALIDATION_PROFILES_PLAN.md`
+- `.ai/brain/planning/CERT_03_CHANGE_SCOPE_VALIDATION_PROFILES_REPORT.md`
+- `.ai/brain/planning/CERT_04_AI_BRAIN_SCRIPT_SMOKE_CHECKS_REPORT.md`
+- `.ai/brain/planning/CERT_05_MEMORY_ENFORCEMENT_REPORT.md`
+- `.ai/brain/planning/CERT_06_TEMPLATE_METADATA_REFERENCE_VALIDATION_REPORT.md`
+- `.ai/brain/planning/CERT_08_AUTOMATION_ACTIVATION_VALIDATION_REPORT.md`
 
 ### `.ai/brain/README.md`
 
@@ -145,10 +214,29 @@ Key files:
 Key files:
 - `.ai/brain/README.md`
 
+### `.ai/brain/reviews`
+
+- Files: 9
+- Source: 0
+- Tests: 0
+- Docs: 9
+- Configs: 0
+
+Key files:
+- `.ai/brain/reviews/agent-review.md`
+- `.ai/brain/reviews/architecture-review.md`
+- `.ai/brain/reviews/automation-review.md`
+- `.ai/brain/reviews/dx-review.md`
+- `.ai/brain/reviews/knowledge-review.md`
+- `.ai/brain/reviews/MASTER_GAP_ANALYSIS.md`
+- `.ai/brain/reviews/scalability-review.md`
+- `.ai/brain/reviews/sdlc-review.md`
+- `.ai/brain/reviews/security-review.md`
+
 ### `.ai/brain/scripts`
 
-- Files: 6
-- Source: 5
+- Files: 9
+- Source: 8
 - Tests: 0
 - Docs: 1
 - Configs: 1
@@ -157,19 +245,24 @@ Key files:
 - `.ai/brain/scripts/analyze-impact.mjs`
 - `.ai/brain/scripts/create-context-pack.mjs`
 - `.ai/brain/scripts/create-repo-index.mjs`
+- `.ai/brain/scripts/health-check.mjs`
 - `.ai/brain/scripts/README.md`
 - `.ai/brain/scripts/search-brain.mjs`
+- `.ai/brain/scripts/smoke-check.mjs`
 - `.ai/brain/scripts/update-memory.mjs`
+- `.ai/brain/scripts/validate-automation-activation.mjs`
 
 ### `.ai/brain/templates`
 
-- Files: 14
+- Files: 16
 - Source: 0
 - Tests: 0
-- Docs: 14
+- Docs: 16
 - Configs: 0
 
 Key files:
+- `.ai/brain/templates/agent-handoff-packet-template.md`
+- `.ai/brain/templates/automation-activation-record-template.md`
 - `.ai/brain/templates/checker-review-template.md`
 - `.ai/brain/templates/context-pack-template.md`
 - `.ai/brain/templates/goal-bugfix-template.md`
@@ -180,8 +273,6 @@ Key files:
 - `.ai/brain/templates/goal-test-template.md`
 - `.ai/brain/templates/impact-analysis-template.md`
 - `.ai/brain/templates/implementation-history-entry-template.md`
-- `.ai/brain/templates/memory-update-template.md`
-- `.ai/brain/templates/open-decision-template.md`
 
 ### `.codex/agents`
 

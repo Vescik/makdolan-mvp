@@ -133,3 +133,244 @@ Each entry should include:
 - Validation: bash scripts/diff-gate.sh: PASS.
 - Review: `codex review --uncommitted`: PASS, no discrete correctness, security, build, or maintainability findings.
 - Memory note: captured with `npm run brain:memory:update`.
+
+## 2026-06-26: Epic 2 Hardening Sprint 0 governance contracts
+
+- Changed: Implemented AI Brain authority, generated artifact lifecycle, review finding registry, and security preflight governance so AI Brain can proceed toward Epic 2 Hardening Sprint 1.
+- Files or areas: `.ai/brain/governance/source-of-truth-map.md`, `.ai/brain/governance/artifact-lifecycle-policy.md`, `.ai/brain/governance/review-finding-registry.md`, `.ai/brain/governance/security-preflight.md`, `AGENTS.md`, `.ai/brain/README.md`.
+- Validation: git diff --check: PASS.
+- Validation: npm run typecheck: PASS.
+- Validation: npm run lint: PASS.
+- Validation: npm run test: PASS, 28 tests.
+- Validation: npm run build:web: PASS.
+- Validation: bash scripts/diff-gate.sh: PASS.
+- Review: not recorded by helper; add review evidence when required.
+- Memory note: captured with `npm run brain:memory:update`.
+
+## 2026-06-26: Epic 2 Hardening Sprint 1 health and DX contracts
+
+- Changed: Implemented local AI Brain health checks, generated-text secret scanning, metadata backfill, retrieval contracts, memory integrity model, and developer onboarding workflow modes.
+- Files or areas: `.ai/brain/scripts/health-check.mjs`, `.ai/brain/governance/health-checks.md`, `.ai/brain/governance/retrieval-contracts.md`, `.ai/brain/governance/memory-integrity-model.md`, `.ai/brain/governance/developer-onboarding.md`, `package.json`, `AGENTS.md`.
+- Validation: npm run brain:health: PASS.
+- Validation: npm run brain:index: PASS.
+- Validation: npm run brain:search -- security preflight: PASS.
+- Validation: npm run brain:impact -- AI Brain health check: PASS.
+- Validation: git diff --check: PASS.
+- Validation: npm run typecheck: PASS.
+- Validation: npm run lint: PASS.
+- Validation: npm run test: PASS, 28 tests.
+- Validation: npm run build:web: PASS.
+- Validation: bash scripts/diff-gate.sh: PASS.
+- Review: not recorded by helper; add review evidence when required.
+- Memory note: captured with `npm run brain:memory:update`.
+
+## 2026-06-26: Epic 1 AI Brain certification
+
+- Status: active.
+- Changed: Completed independent AI Brain certification and created Epic 2 readiness certificate plus certification backlog.
+- Why it matters: AI Brain is now conditionally certified as the Epic 2 SDLC intelligence foundation, with explicit limits for multi-agent scale, automation, validation, memory, and freshness.
+- Files or areas: `.ai/brain/certification/EPIC1_CERTIFICATION_REPORT.md`, `.ai/brain/certification/EPIC2_READINESS_CERTIFICATE.md`, `.ai/brain/certification/CERTIFICATION_BACKLOG.md`, `.ai/brain/README.md`, `.ai/brain/index/`.
+- Validation: `npm run brain:index`: PASS, indexed 216 files across 69 directories.
+- Validation: `git diff --check`: PASS.
+- Validation: `npm run brain:health`: PASS, 95 scanned text files.
+- Validation: targeted certification secret-pattern scan: PASS, no matches.
+- Validation: `npm run brain:search -- "certification backlog" --limit=5`: PASS, certification directory visible through README and generated index.
+- Validation: `bash scripts/diff-gate.sh`: PASS, including typecheck, lint, tests, and web build.
+- Review: independent board-style certification performed in `.ai/brain/certification/EPIC1_CERTIFICATION_REPORT.md`.
+- Scope notes: no app behavior changed; no automation enabled; no remote services, vector database, embeddings, MCP server, release, deployment, credential, dependency, database, auth, or payment operations were introduced.
+- Follow-ups: `.ai/brain/certification/CERTIFICATION_BACKLOG.md` tracks certification conditions, including health-check date handling and direct certification-doc search/health coverage.
+
+## 2026-06-27: CERT-01 freshness fix planning
+
+- Status: active.
+- Changed: Added a focused plan for resolving `CERT-01`, the first conditional certification gap.
+- Why it matters: `CERT-01` is the Critical certification condition that blocks long-term trust in `npm run brain:health` freshness results after 2026-06-26.
+- Files or areas: `.ai/brain/planning/CERT_01_HEALTH_CHECK_FRESHNESS_FIX_PLAN.md`, `.ai/brain/memory/implementation-history.md`.
+- Validation: pending final planning validation in the task that created the plan.
+- Review: planning-only; no implementation review required yet.
+- Scope notes: no app behavior changed; no scripts changed; no automation enabled.
+- Follow-ups: implement `CERT-01` as a narrow Sprint 2 slice before starting lower-priority certification conditions.
+
+## 2026-06-27: CERT-01 health-check freshness fix
+
+- Status: active.
+- Changed: Replaced hard-coded health-check freshness date handling with local runtime-date behavior and explicit `--as-of=YYYY-MM-DD` replay mode.
+- Why it matters: `npm run brain:health` can now age generated artifacts after certification while still reproducing Sprint 1 freshness checks when needed.
+- Files or areas: `.ai/brain/scripts/health-check.mjs`, `.ai/brain/governance/health-checks.md`, `.ai/brain/scripts/README.md`, `.ai/brain/certification/CERTIFICATION_BACKLOG.md`, `.ai/brain/planning/CERT_01_HEALTH_CHECK_FRESHNESS_FIX_REPORT.md`.
+- Validation: `node --check .ai/brain/scripts/health-check.mjs`: PASS.
+- Validation: `npm run brain:health`: PASS, as-of `2026-06-27`, 0 errors, 0 warnings.
+- Validation: `npm run brain:health -- --as-of=2026-06-26`: PASS.
+- Validation: `npm run brain:health -- --as-of=2026-07-27`: PASS WITH WARNINGS, seven expired context-pack warnings as expected.
+- Validation: `node .ai/brain/scripts/health-check.mjs --as-of=invalid-date`: EXPECTED FAIL with clear validation message.
+- Review: no separate checker review; narrow AI Brain tooling/docs fix validated with targeted checks and full diff gate.
+- Scope notes: no app behavior changed; no dependencies added; no automation enabled.
+- Follow-ups: continue with `CERT-02`, `CERT-03`, and `CERT-04` as separate certification backlog items.
+
+## 2026-06-27: CERT-02 agent-neutral core and adapters
+
+- Status: active.
+- Changed: Added an agent-neutral AI Brain startup contract, Codex and generic agent adapters, an agent handoff packet template, and neutralized reusable context/impact wording.
+- Why it matters: AI Brain no longer depends on Codex as its implicit platform core; Codex remains fully supported as an adapter while ChatGPT, Claude Code, GitHub Copilot, Gemini, and future Markdown-reading agents can follow the same durable contract.
+- Files or areas: `.ai/brain/agent-start.md`, `.ai/brain/adapters/`, `.ai/brain/templates/agent-handoff-packet-template.md`, `.ai/brain/scripts/create-context-pack.mjs`, `.ai/brain/scripts/analyze-impact.mjs`, `.ai/brain/certification/CERTIFICATION_BACKLOG.md`, `.ai/brain/planning/CERT_02_AGENT_NEUTRAL_CORE_ADAPTERS_REPORT.md`.
+- Validation: `node --check .ai/brain/scripts/create-context-pack.mjs`: PASS.
+- Validation: `node --check .ai/brain/scripts/analyze-impact.mjs`: PASS.
+- Validation: `npm run brain:context -- "CERT-02 agent-neutral smoke" --phase=DISCOVER`: PASS; generated agent-neutral startup wording.
+- Validation: `npm run brain:impact -- "CERT-02 agent-neutral core and adapters"`: PASS; generated agent-neutral confidence note.
+- Validation: `npm run brain:index`: PASS; indexed 224 files across 70 directories.
+- Validation: `npm run brain:search -- "agent-neutral startup" --limit=5`: PASS; top matches included the CERT-02 smoke context pack, memory, `AGENTS.md`, startup docs, and README.
+- Validation: `npm run brain:health`: PASS; 0 errors, 0 warnings, 101 scanned files.
+- Validation: `git diff --check`: PASS.
+- Validation: `bash scripts/diff-gate.sh`: PASS; typecheck, lint, 28 tests, web build, and diff hygiene passed.
+- Review: no separate checker review recorded; this is docs/tooling hardening with deterministic local validation and no app behavior change.
+- Scope notes: no app behavior changed; no dependencies added; no automation enabled; no remote services, MCP server, embeddings, vector database, release, deployment, credential, database, auth, or payment changes were introduced.
+- Follow-ups: continue with `CERT-03`, `CERT-04`, and `CERT-08` as separate certification backlog items.
+
+## 2026-06-27: CERT-03 validation profiles planning
+
+- Status: active.
+- Changed: Added a detailed implementation plan for `CERT-03`, covering change-scope validation profiles, affected docs, implementation phases, validation commands, platform notes, security notes, rollback, and definition of done.
+- Why it matters: CERT-03 should formalize scoped validation without weakening the existing full local gate or adding premature tooling.
+- Files or areas: `.ai/brain/planning/CERT_03_CHANGE_SCOPE_VALIDATION_PROFILES_PLAN.md`, `.ai/brain/memory/implementation-history.md`.
+- Validation: `npm run brain:impact -- "CERT-03 change-scope validation profiles"`: PASS; generated impact report at `.ai/brain/context-packs/2026-06-26T22-59-12-478Z-impact-cert-03-change-scope-validation-profiles.md`.
+- Validation: `npm run brain:index`: PASS; indexed 225 files across 70 directories and included the CERT-03 plan.
+- Validation: `npm run brain:health`: PASS; 0 errors, 0 warnings, 103 scanned files.
+- Validation: `git diff --check`: PASS.
+- Validation: `bash scripts/diff-gate.sh`: PASS; typecheck, lint, 28 tests, web build, and diff hygiene passed.
+- Review: planning-only; no implementation review required yet.
+- Scope notes: no validation behavior changed; no app behavior changed; no automation enabled.
+- Follow-ups: implement `CERT-03` as a separate docs/governance slice, then update certification backlog and completion report after validation passes.
+
+## 2026-06-27: CERT-03 change-scope validation profiles
+
+- Status: active.
+- Changed: Added canonical validation profiles and updated AI Brain entrypoints so agents and maintainers can choose scoped validation without weakening the full local gate.
+- Why it matters: Makdolan now has explicit validation profiles for docs-only, AI Brain governance, domain logic, UI/screens, navigation/routes, scripts/tooling, security/privacy, release-sensitive work, and the full confidence gate.
+- Files or areas: `.ai/brain/governance/validation-profiles.md`, `AGENTS.md`, `.ai/brain/knowledge/testing-map.md`, `.ai/brain/governance/developer-onboarding.md`, `.ai/brain/governance/source-of-truth-map.md`, `.ai/brain/README.md`, `.ai/brain/index/README.md`, `.ai/brain/certification/CERTIFICATION_BACKLOG.md`, `.ai/brain/planning/CERT_03_CHANGE_SCOPE_VALIDATION_PROFILES_REPORT.md`.
+- Validation: `npm run brain:health`: PASS; pre-closeout health check reported 0 errors and 0 warnings across 104 scanned files.
+- Validation: `git diff --check`: PASS.
+- Validation: `npm run brain:index`: PASS; indexed 227 files across 70 directories.
+- Validation: `npm run brain:search -- "validation profiles" --limit=5`: PASS; surfaced testing map and README references to `.ai/brain/governance/validation-profiles.md`.
+- Validation: `npm run brain:health`: PASS; final health check reported 0 errors and 0 warnings across 105 scanned files.
+- Validation: `bash scripts/diff-gate.sh`: PASS; typecheck, lint, 28 tests, web build, and diff hygiene passed.
+- Review: no separate checker review recorded; this is documentation/governance hardening with deterministic local validation and no app behavior change.
+- Scope notes: no app behavior changed; no dependencies added; no CI behavior changed; no automation enabled; no remote services, MCP server, embeddings, vector database, release, deployment, credential, database, auth, or payment changes were introduced.
+- Follow-ups: continue with `CERT-04` and `CERT-08` as separate certification backlog items.
+
+## 2026-06-27: CERT-04 AI Brain script smoke checks
+
+- Status: active.
+- Changed: Added `npm run brain:smoke`, a deterministic local smoke runner for AI Brain helper scripts, and closed the CERT-04 tooling coverage condition.
+- Why it matters: AI Brain scripts guide indexing, search, impact analysis, context packs, health checks, and memory. Smoke coverage reduces the chance that script regressions mislead future agents while app tests still pass.
+- Files or areas: `.ai/brain/scripts/smoke-check.mjs`, `package.json`, `.ai/brain/scripts/README.md`, `.ai/brain/governance/review-finding-registry.md`, `.ai/brain/certification/CERTIFICATION_BACKLOG.md`, `.ai/brain/planning/CERT_04_AI_BRAIN_SCRIPT_SMOKE_CHECKS_REPORT.md`.
+- Validation: `node --check .ai/brain/scripts/smoke-check.mjs`: PASS.
+- Validation: `npm run brain:smoke`: PASS; six smoke groups passed.
+- Validation: `npm run lint`: PASS.
+- Validation: `git diff --check`: PASS.
+- Validation: `npm run brain:index`: PASS; indexed 229 files across 70 directories.
+- Validation: `npm run brain:search -- "AI Brain script smoke checks" --limit=5`: PASS.
+- Validation: `npm run brain:health`: PASS; 0 errors, 0 warnings, 107 scanned files.
+- Validation: `bash scripts/diff-gate.sh`: PASS; typecheck, lint, 28 tests, web build, and diff hygiene passed.
+- Review: no separate checker review recorded; this is local AI Brain tooling validation with deterministic smoke checks and no app behavior change.
+- Scope notes: no app behavior changed; no dependencies added; no CI behavior changed; no automation enabled; no remote services, MCP server, embeddings, vector database, release, deployment, credential, database, auth, or payment changes were introduced.
+- Follow-ups: continue with `CERT-08` before enabling any automation; then address medium-priority `CERT-05`, `CERT-06`, and `CERT-07`.
+
+## 2026-06-27: Certification dependency cleanup
+
+- Status: active.
+- Changed: Classified remaining certification dependencies, expanded AI Brain direct search and health scan scope for certification/governance/planning/adapters, and recorded the cleanup in `.ai/brain/planning/CERTIFICATION_DEPENDENCIES_CLEANUP_REPORT.md`.
+- Why it matters: AI Brain dependency discovery now surfaces certification status directly, and remaining conditions are explicit as implemented, partial, deferred, or accepted non-blocking instead of ambiguous open items.
+- Files or areas: `.ai/brain/certification/CERTIFICATION_BACKLOG.md`, `.ai/brain/certification/EPIC2_READINESS_CERTIFICATE.md`, `.ai/brain/governance/review-finding-registry.md`, `.ai/brain/governance/health-checks.md`, `.ai/brain/governance/retrieval-contracts.md`, `.ai/brain/scripts/search-brain.mjs`, `.ai/brain/scripts/health-check.mjs`, `.ai/brain/scripts/smoke-check.mjs`, `.ai/brain/scripts/README.md`, `.ai/brain/planning/CERTIFICATION_DEPENDENCIES_CLEANUP_REPORT.md`.
+- Validation: `node --check .ai/brain/scripts/search-brain.mjs`: PASS.
+- Validation: `node --check .ai/brain/scripts/health-check.mjs`: PASS.
+- Validation: `node --check .ai/brain/scripts/smoke-check.mjs`: PASS.
+- Validation: `npm run brain:smoke`: PASS, six smoke groups.
+- Validation: `npm run brain:health`: PASS, 0 errors, 0 warnings, 116 scanned files.
+- Validation: `npm run brain:index`: PASS, indexed 230 files across 70 directories.
+- Validation: `npm run brain:search -- "certification dependency" --limit=8`: PASS, top direct matches included the certification backlog and cleanup report.
+- Validation: `npm run brain:impact -- "certification dependency cleanup"`: PASS, generated cleanup impact report.
+- Validation: `git diff --check`: PASS.
+- Validation: `npm run typecheck`: PASS.
+- Validation: `npm run lint`: PASS.
+- Validation: `npm run test`: PASS, 28 tests.
+- Validation: `npm run build:web`: PASS; Expo web export completed and printed only `.env.local` plus environment variable names.
+- Validation: `bash scripts/diff-gate.sh`: PASS; typecheck, lint, tests, web build, and diff hygiene passed after final report, memory, and index updates.
+- Review: no separate checker review recorded; this was local AI Brain governance/tooling cleanup with deterministic validation and no app behavior change.
+- Scope notes: no app behavior changed; no dependencies added; no CI behavior changed; no automation enabled; no remote services, MCP server, embeddings, vector database, release, deployment, credential, database, auth, or payment changes were introduced.
+- Follow-ups: `CERT-06` still needs template metadata/reference validation; `CERT-05` memory enforcement and `CERT-08` automation activation validation remain accepted non-blocking until their triggers occur.
+
+## 2026-06-27: CERT-06 template metadata and reference validation
+
+- Status: active.
+- Changed: Backfilled metadata on all active `.ai/brain/templates/*.md` files, added template metadata validation and conservative local reference validation to `npm run brain:health`, and moved `CERT-06` to implemented.
+- Why it matters: AI Brain templates now carry explicit lifecycle metadata, and active operating docs can no longer silently point agents at missing local files.
+- Files or areas: `.ai/brain/templates/*.md`, `.ai/brain/scripts/health-check.mjs`, `.ai/brain/scripts/smoke-check.mjs`, `.ai/brain/governance/health-checks.md`, `.ai/brain/governance/source-of-truth-map.md`, `.ai/brain/scripts/README.md`, `.ai/brain/certification/CERTIFICATION_BACKLOG.md`, `.ai/brain/planning/CERT_06_TEMPLATE_METADATA_REFERENCE_VALIDATION_REPORT.md`.
+- Validation: `node --check .ai/brain/scripts/health-check.mjs`: PASS.
+- Validation: `node --check .ai/brain/scripts/smoke-check.mjs`: PASS.
+- Validation: `npm run brain:health`: PASS, including template metadata and local reference checks.
+- Validation: `npm run brain:smoke`: PASS, six smoke groups.
+- Validation: `npm run brain:index`: PASS, indexed 231 files across 70 directories after final report and memory updates.
+- Validation: `npm run brain:search -- "certification backlog"`: PASS, top match was `.ai/brain/certification/CERTIFICATION_BACKLOG.md`.
+- Validation: `npm run brain:impact -- "template metadata reference validation"`: PASS, generated impact report.
+- Validation: `git diff --check`: PASS.
+- Validation: `npm run typecheck`: PASS.
+- Validation: `npm run lint`: PASS.
+- Validation: `npm run test`: PASS, 28 tests.
+- Validation: `npm run build:web`: PASS; Expo web export completed and printed only `.env.local` plus environment variable names.
+- Validation: `bash scripts/diff-gate.sh`: PASS; typecheck, lint, tests, web build, and diff hygiene passed after final report, memory, and index updates.
+- Review: no separate checker review recorded; this was local AI Brain governance/tooling cleanup with deterministic validation and no app behavior change.
+- Scope notes: no app behavior changed; no dependencies added; no CI behavior changed; no automation enabled; no remote services, MCP server, embeddings, vector database, release, deployment, credential, database, auth, or payment changes were introduced.
+- Follow-ups: `CERT-05` memory helper enforcement and `CERT-08` automation activation validation remain accepted non-blocking until their triggers occur.
+
+## 2026-06-27: CERT-05 memory enforcement hardening
+
+- Memory ID: `memory-implementation-2026-06-27-cert-05-memory-enforcement-hardening`.
+- Status: `active`.
+- Created: 2026-06-27.
+- Last reviewed: 2026-06-27.
+- Review after: 2026-07-27.
+- Changed: Implemented structured memory helper output, new-memory health validation, open-decision status validation, and historical memory grandfathering.
+- Source evidence: .ai/brain/planning/CERT_05_MEMORY_ENFORCEMENT_REPORT.md.
+- Source evidence: .ai/brain/certification/CERTIFICATION_BACKLOG.md.
+- Files or areas: `.ai/brain/scripts/update-memory.mjs`, `.ai/brain/scripts/health-check.mjs`, `.ai/brain/scripts/smoke-check.mjs`, `.ai/brain/governance/memory-integrity-model.md`, `.ai/brain/memory/memory-update-checklist.md`, `.ai/brain/scripts/README.md`, `AGENTS.md`.
+- Validation: node --check .ai/brain/scripts/update-memory.mjs: PASS.
+- Validation: node --check .ai/brain/scripts/health-check.mjs: PASS.
+- Validation: node --check .ai/brain/scripts/smoke-check.mjs: PASS.
+- Validation: npm run brain:memory:update -- --help: PASS.
+- Validation: npm run brain:smoke: PASS, six smoke groups.
+- Validation: npm run brain:health: PASS, 0 errors, 0 warnings.
+- Validation: npm run brain:index: PASS, indexed 232 files across 70 directories.
+- Validation: git diff --check: PASS.
+- Validation: npm run typecheck: PASS.
+- Validation: npm run lint: PASS.
+- Validation: npm run test: PASS, 28 tests.
+- Validation: bash scripts/diff-gate.sh: PASS.
+- Review: No separate checker review recorded; local docs/tooling hardening covered by smoke and health checks.
+- Supersedes: none.
+- Superseded by: none.
+- Memory note: captured with `npm run brain:memory:update`.
+
+## 2026-06-27: CERT-08 automation activation validation and clean certification
+
+- Memory ID: `memory-implementation-2026-06-27-cert-08-automation-activation-validation-and-clean-certification`.
+- Status: `active`.
+- Created: 2026-06-27.
+- Last reviewed: 2026-06-27.
+- Review after: 2026-07-27.
+- Changed: Implemented local report-only automation activation validation and updated AI Brain certification artifacts to a clean CERTIFIED decision for the current Epic 2 planning scope.
+- Source evidence: .ai/brain/planning/CERT_08_AUTOMATION_ACTIVATION_VALIDATION_REPORT.md.
+- Source evidence: .ai/brain/certification/EPIC1_CLEAN_CERTIFICATION_RECHECK.md.
+- Source evidence: .ai/brain/certification/EPIC2_READINESS_CERTIFICATE.md.
+- Files or areas: `.ai/brain/scripts/validate-automation-activation.mjs`, `.ai/brain/governance/automation-activation-validation.md`, `.ai/brain/templates/automation-activation-record-template.md`, `.ai/brain/certification/CERTIFICATION_BACKLOG.md`, `.ai/brain/certification/EPIC1_CERTIFICATION_REPORT.md`, `.ai/brain/certification/EPIC2_READINESS_CERTIFICATE.md`, `.ai/brain/governance/review-finding-registry.md`.
+- Validation: npm run brain:smoke: PASS, seven smoke groups.
+- Validation: npm run brain:health: PASS, 0 errors, 0 warnings.
+- Validation: npm run brain:index: PASS, indexed 237 files across 70 directories.
+- Validation: npm run brain:search -- Decision CERTIFIED clean certification --limit=8: PASS.
+- Validation: git diff --check: PASS.
+- Validation: npm run typecheck: PASS.
+- Validation: npm run lint: PASS.
+- Validation: npm run test: PASS, 28 tests.
+- Validation: bash scripts/diff-gate.sh: PASS.
+- Review: No separate checker review recorded; certification cleanup covered by local health, smoke, search, and full diff gate.
+- Supersedes: none.
+- Superseded by: none.
+- Memory note: captured with `npm run brain:memory:update`.

@@ -1,8 +1,10 @@
 # Context Packs
 
-Context packs are compact task-start bundles. They help Codex load the right product decisions, modules, files, constraints, risks, tests, and memory checklist before implementation.
+Context packs are compact task-start bundles. They help agents load the right product decisions, modules, files, constraints, risks, tests, and memory checklist before implementation.
 
-They do not replace repository inspection. A context pack should point to source files and docs, then Codex must still read the relevant files before planning or editing.
+They do not replace repository inspection. A context pack should point to source files and docs, then the agent must still read the relevant files before planning or editing.
+
+Context packs are `generated` artifacts under `.ai/brain/governance/source-of-truth-map.md`. They are task-start maps, not source of truth.
 
 ## When To Create One
 
@@ -31,6 +33,18 @@ npm run brain:context -- "Recommendation empty state" --phase=PLAN --summary="Pr
 ```
 
 The script creates a timestamped Markdown file under `.ai/brain/context-packs/`.
+
+## Freshness And Retention
+
+Use `.ai/brain/governance/artifact-lifecycle-policy.md` as the canonical policy.
+
+Sprint 0 rules:
+
+- Treat context packs older than 14 days as stale unless the task explicitly confirms they still apply.
+- Treat context packs as expired after 30 days unless they are referenced by a planning artifact or sprint report.
+- Do not update old context packs in place for new work. Create a new pack.
+- Do not delete existing context packs without explicit approval.
+- Always read linked canonical docs and source files before planning or editing.
 
 ## Manual Workflow
 

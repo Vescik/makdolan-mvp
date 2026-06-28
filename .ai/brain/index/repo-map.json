@@ -49,6 +49,9 @@
     "brain:index": "node .ai/brain/scripts/create-repo-index.mjs",
     "brain:search": "node .ai/brain/scripts/search-brain.mjs",
     "brain:impact": "node .ai/brain/scripts/analyze-impact.mjs",
+    "brain:health": "node .ai/brain/scripts/health-check.mjs",
+    "brain:smoke": "node .ai/brain/scripts/smoke-check.mjs",
+    "brain:automation:check": "node .ai/brain/scripts/validate-automation-activation.mjs",
     "brain:memory:update": "node .ai/brain/scripts/update-memory.mjs"
   },
   "directories": [
@@ -77,13 +80,17 @@
     ".agents/skills/verification",
     ".ai",
     ".ai/brain",
+    ".ai/brain/adapters",
+    ".ai/brain/certification",
     ".ai/brain/context-packs",
+    ".ai/brain/governance",
     ".ai/brain/index",
     ".ai/brain/knowledge",
     ".ai/brain/loop-harness",
     ".ai/brain/memory",
     ".ai/brain/memory/sprint-summaries",
     ".ai/brain/planning",
+    ".ai/brain/reviews",
     ".ai/brain/scripts",
     ".ai/brain/templates",
     ".codex",
@@ -283,8 +290,90 @@
       "module": ".agents/skills"
     },
     {
+      "path": ".ai/brain/adapters/codex.md",
+      "sizeBytes": 3578,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/adapters"
+    },
+    {
+      "path": ".ai/brain/adapters/generic-agent.md",
+      "sizeBytes": 3298,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/adapters"
+    },
+    {
+      "path": ".ai/brain/adapters/README.md",
+      "sizeBytes": 2255,
+      "categories": [
+        "important",
+        "doc",
+        "config"
+      ],
+      "module": ".ai/brain/adapters"
+    },
+    {
+      "path": ".ai/brain/agent-start.md",
+      "sizeBytes": 6357,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/agent-start.md"
+    },
+    {
+      "path": ".ai/brain/certification/CERTIFICATION_BACKLOG.md",
+      "sizeBytes": 21983,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/certification"
+    },
+    {
+      "path": ".ai/brain/certification/EPIC1_CERTIFICATION_REPORT.md",
+      "sizeBytes": 23216,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/certification"
+    },
+    {
+      "path": ".ai/brain/certification/EPIC1_CLEAN_CERTIFICATION_RECHECK.md",
+      "sizeBytes": 2457,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/certification"
+    },
+    {
+      "path": ".ai/brain/certification/EPIC2_READINESS_CERTIFICATE.md",
+      "sizeBytes": 5998,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/certification"
+    },
+    {
+      "path": ".ai/brain/certification/FINAL_CERTIFICATION_CLEAN_RECHECK.md",
+      "sizeBytes": 5844,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/certification"
+    },
+    {
       "path": ".ai/brain/context-packs/README.md",
-      "sizeBytes": 1971,
+      "sizeBytes": 2687,
       "categories": [
         "important",
         "doc",
@@ -293,8 +382,98 @@
       "module": ".ai/brain/context-packs"
     },
     {
+      "path": ".ai/brain/governance/artifact-lifecycle-policy.md",
+      "sizeBytes": 6308,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/governance"
+    },
+    {
+      "path": ".ai/brain/governance/automation-activation-validation.md",
+      "sizeBytes": 4025,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/governance"
+    },
+    {
+      "path": ".ai/brain/governance/developer-onboarding.md",
+      "sizeBytes": 5456,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/governance"
+    },
+    {
+      "path": ".ai/brain/governance/health-checks.md",
+      "sizeBytes": 7950,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/governance"
+    },
+    {
+      "path": ".ai/brain/governance/memory-integrity-model.md",
+      "sizeBytes": 4914,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/governance"
+    },
+    {
+      "path": ".ai/brain/governance/retrieval-contracts.md",
+      "sizeBytes": 5042,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/governance"
+    },
+    {
+      "path": ".ai/brain/governance/review-finding-registry.md",
+      "sizeBytes": 7122,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/governance"
+    },
+    {
+      "path": ".ai/brain/governance/security-preflight.md",
+      "sizeBytes": 7355,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/governance"
+    },
+    {
+      "path": ".ai/brain/governance/source-of-truth-map.md",
+      "sizeBytes": 12014,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/governance"
+    },
+    {
+      "path": ".ai/brain/governance/validation-profiles.md",
+      "sizeBytes": 13934,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/governance"
+    },
+    {
       "path": ".ai/brain/index/README.md",
-      "sizeBytes": 2321,
+      "sizeBytes": 3272,
       "categories": [
         "important",
         "doc",
@@ -304,7 +483,7 @@
     },
     {
       "path": ".ai/brain/knowledge/agent-session-start.md",
-      "sizeBytes": 1438,
+      "sizeBytes": 3545,
       "categories": [
         "important",
         "doc"
@@ -313,7 +492,7 @@
     },
     {
       "path": ".ai/brain/knowledge/architecture-principles.md",
-      "sizeBytes": 1546,
+      "sizeBytes": 1964,
       "categories": [
         "important",
         "doc"
@@ -322,7 +501,7 @@
     },
     {
       "path": ".ai/brain/knowledge/known-risks.md",
-      "sizeBytes": 1405,
+      "sizeBytes": 1752,
       "categories": [
         "important",
         "doc"
@@ -331,7 +510,7 @@
     },
     {
       "path": ".ai/brain/knowledge/module-catalog.md",
-      "sizeBytes": 1957,
+      "sizeBytes": 2329,
       "categories": [
         "important",
         "doc"
@@ -340,7 +519,7 @@
     },
     {
       "path": ".ai/brain/knowledge/product-decisions.md",
-      "sizeBytes": 1340,
+      "sizeBytes": 1727,
       "categories": [
         "important",
         "doc"
@@ -349,7 +528,7 @@
     },
     {
       "path": ".ai/brain/knowledge/project-overview.md",
-      "sizeBytes": 1697,
+      "sizeBytes": 2074,
       "categories": [
         "important",
         "doc"
@@ -358,7 +537,7 @@
     },
     {
       "path": ".ai/brain/knowledge/sdlc-flow.md",
-      "sizeBytes": 2148,
+      "sizeBytes": 2485,
       "categories": [
         "important",
         "doc"
@@ -367,7 +546,7 @@
     },
     {
       "path": ".ai/brain/knowledge/testing-map.md",
-      "sizeBytes": 1189,
+      "sizeBytes": 2511,
       "categories": [
         "important",
         "doc"
@@ -376,7 +555,7 @@
     },
     {
       "path": ".ai/brain/loop-harness/automation-policy.md",
-      "sizeBytes": 5434,
+      "sizeBytes": 6069,
       "categories": [
         "important",
         "doc"
@@ -439,7 +618,7 @@
     },
     {
       "path": ".ai/brain/loop-harness/permissions-policy.md",
-      "sizeBytes": 3761,
+      "sizeBytes": 4114,
       "categories": [
         "important",
         "doc"
@@ -485,7 +664,7 @@
     },
     {
       "path": ".ai/brain/memory/implementation-history.md",
-      "sizeBytes": 9228,
+      "sizeBytes": 31577,
       "categories": [
         "important",
         "doc"
@@ -494,7 +673,7 @@
     },
     {
       "path": ".ai/brain/memory/memory-update-checklist.md",
-      "sizeBytes": 3261,
+      "sizeBytes": 4475,
       "categories": [
         "important",
         "doc"
@@ -521,6 +700,24 @@
       "module": ".ai/brain/memory"
     },
     {
+      "path": ".ai/brain/memory/sprint-summaries/2026-06-26-epic-2-hardening-sprint-0.md",
+      "sizeBytes": 1354,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/memory"
+    },
+    {
+      "path": ".ai/brain/memory/sprint-summaries/2026-06-26-epic-2-hardening-sprint-1.md",
+      "sizeBytes": 1639,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/memory"
+    },
+    {
       "path": ".ai/brain/memory/sprint-summaries/README.md",
       "sizeBytes": 592,
       "categories": [
@@ -541,7 +738,7 @@
     },
     {
       "path": ".ai/brain/planning/AI_BRAIN_PRO_FINAL_VERIFICATION_GOAL_CONTRACT.md",
-      "sizeBytes": 4509,
+      "sizeBytes": 4571,
       "categories": [
         "important",
         "doc"
@@ -551,6 +748,159 @@
     {
       "path": ".ai/brain/planning/AI_BRAIN_PRO_FINAL_VERIFICATION_REPORT.md",
       "sizeBytes": 10163,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/CERT_01_HEALTH_CHECK_FRESHNESS_FIX_PLAN.md",
+      "sizeBytes": 13141,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/CERT_01_HEALTH_CHECK_FRESHNESS_FIX_REPORT.md",
+      "sizeBytes": 3982,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/CERT_02_AGENT_NEUTRAL_CORE_ADAPTERS_REPORT.md",
+      "sizeBytes": 6021,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/CERT_03_CHANGE_SCOPE_VALIDATION_PROFILES_PLAN.md",
+      "sizeBytes": 19381,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/CERT_03_CHANGE_SCOPE_VALIDATION_PROFILES_REPORT.md",
+      "sizeBytes": 5218,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/CERT_04_AI_BRAIN_SCRIPT_SMOKE_CHECKS_REPORT.md",
+      "sizeBytes": 4715,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/CERT_05_MEMORY_ENFORCEMENT_REPORT.md",
+      "sizeBytes": 3869,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/CERT_06_TEMPLATE_METADATA_REFERENCE_VALIDATION_REPORT.md",
+      "sizeBytes": 6874,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/CERT_08_AUTOMATION_ACTIVATION_VALIDATION_REPORT.md",
+      "sizeBytes": 4269,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/CERTIFICATION_DEPENDENCIES_CLEANUP_REPORT.md",
+      "sizeBytes": 9017,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/EPIC2_HARDENING_SPRINT0_READINESS_RECHECK.md",
+      "sizeBytes": 11821,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/EPIC2_HARDENING_SPRINT0_REPORT.md",
+      "sizeBytes": 6662,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/EPIC2_HARDENING_SPRINT1_READINESS_RECHECK.md",
+      "sizeBytes": 12470,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/EPIC2_HARDENING_SPRINT1_REPORT.md",
+      "sizeBytes": 8260,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/EPIC2_KNOWLEDGE_DISCOVERY_RECHECK.md",
+      "sizeBytes": 8177,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/EPIC2_KNOWLEDGE_DISCOVERY_REPORT.md",
+      "sizeBytes": 35622,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/planning"
+    },
+    {
+      "path": ".ai/brain/planning/EPIC2_READINESS_REPORT.md",
+      "sizeBytes": 12997,
       "categories": [
         "important",
         "doc"
@@ -569,7 +919,7 @@
     },
     {
       "path": ".ai/brain/README.md",
-      "sizeBytes": 2211,
+      "sizeBytes": 5117,
       "categories": [
         "important",
         "doc",
@@ -578,8 +928,89 @@
       "module": ".ai/brain/README.md"
     },
     {
+      "path": ".ai/brain/reviews/agent-review.md",
+      "sizeBytes": 27388,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/reviews"
+    },
+    {
+      "path": ".ai/brain/reviews/architecture-review.md",
+      "sizeBytes": 23827,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/reviews"
+    },
+    {
+      "path": ".ai/brain/reviews/automation-review.md",
+      "sizeBytes": 40997,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/reviews"
+    },
+    {
+      "path": ".ai/brain/reviews/dx-review.md",
+      "sizeBytes": 19575,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/reviews"
+    },
+    {
+      "path": ".ai/brain/reviews/knowledge-review.md",
+      "sizeBytes": 21346,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/reviews"
+    },
+    {
+      "path": ".ai/brain/reviews/MASTER_GAP_ANALYSIS.md",
+      "sizeBytes": 23186,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/reviews"
+    },
+    {
+      "path": ".ai/brain/reviews/scalability-review.md",
+      "sizeBytes": 34986,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/reviews"
+    },
+    {
+      "path": ".ai/brain/reviews/sdlc-review.md",
+      "sizeBytes": 22953,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/reviews"
+    },
+    {
+      "path": ".ai/brain/reviews/security-review.md",
+      "sizeBytes": 27958,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/reviews"
+    },
+    {
       "path": ".ai/brain/scripts/analyze-impact.mjs",
-      "sizeBytes": 11465,
+      "sizeBytes": 11469,
       "categories": [
         "important",
         "source"
@@ -588,7 +1019,7 @@
     },
     {
       "path": ".ai/brain/scripts/create-context-pack.mjs",
-      "sizeBytes": 5795,
+      "sizeBytes": 5952,
       "categories": [
         "important",
         "source"
@@ -605,8 +1036,17 @@
       "module": ".ai/brain/scripts"
     },
     {
+      "path": ".ai/brain/scripts/health-check.mjs",
+      "sizeBytes": 24178,
+      "categories": [
+        "important",
+        "source"
+      ],
+      "module": ".ai/brain/scripts"
+    },
+    {
       "path": ".ai/brain/scripts/README.md",
-      "sizeBytes": 5116,
+      "sizeBytes": 10469,
       "categories": [
         "important",
         "doc",
@@ -616,7 +1056,16 @@
     },
     {
       "path": ".ai/brain/scripts/search-brain.mjs",
-      "sizeBytes": 8516,
+      "sizeBytes": 8672,
+      "categories": [
+        "important",
+        "source"
+      ],
+      "module": ".ai/brain/scripts"
+    },
+    {
+      "path": ".ai/brain/scripts/smoke-check.mjs",
+      "sizeBytes": 22017,
       "categories": [
         "important",
         "source"
@@ -625,7 +1074,7 @@
     },
     {
       "path": ".ai/brain/scripts/update-memory.mjs",
-      "sizeBytes": 7684,
+      "sizeBytes": 12690,
       "categories": [
         "important",
         "source"
@@ -633,8 +1082,35 @@
       "module": ".ai/brain/scripts"
     },
     {
+      "path": ".ai/brain/scripts/validate-automation-activation.mjs",
+      "sizeBytes": 8838,
+      "categories": [
+        "important",
+        "source"
+      ],
+      "module": ".ai/brain/scripts"
+    },
+    {
+      "path": ".ai/brain/templates/agent-handoff-packet-template.md",
+      "sizeBytes": 1843,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/templates"
+    },
+    {
+      "path": ".ai/brain/templates/automation-activation-record-template.md",
+      "sizeBytes": 2403,
+      "categories": [
+        "important",
+        "doc"
+      ],
+      "module": ".ai/brain/templates"
+    },
+    {
       "path": ".ai/brain/templates/checker-review-template.md",
-      "sizeBytes": 1789,
+      "sizeBytes": 2182,
       "categories": [
         "important",
         "doc"
@@ -643,7 +1119,7 @@
     },
     {
       "path": ".ai/brain/templates/context-pack-template.md",
-      "sizeBytes": 1504,
+      "sizeBytes": 1918,
       "categories": [
         "important",
         "doc"
@@ -652,7 +1128,7 @@
     },
     {
       "path": ".ai/brain/templates/goal-bugfix-template.md",
-      "sizeBytes": 2058,
+      "sizeBytes": 2456,
       "categories": [
         "important",
         "doc"
@@ -661,7 +1137,7 @@
     },
     {
       "path": ".ai/brain/templates/goal-contract-template.md",
-      "sizeBytes": 1443,
+      "sizeBytes": 1844,
       "categories": [
         "important",
         "doc"
@@ -670,7 +1146,7 @@
     },
     {
       "path": ".ai/brain/templates/goal-docs-template.md",
-      "sizeBytes": 2034,
+      "sizeBytes": 2436,
       "categories": [
         "important",
         "doc"
@@ -679,7 +1155,7 @@
     },
     {
       "path": ".ai/brain/templates/goal-feature-template.md",
-      "sizeBytes": 2080,
+      "sizeBytes": 2479,
       "categories": [
         "important",
         "doc"
@@ -688,7 +1164,7 @@
     },
     {
       "path": ".ai/brain/templates/goal-refactor-template.md",
-      "sizeBytes": 2136,
+      "sizeBytes": 2537,
       "categories": [
         "important",
         "doc"
@@ -697,7 +1173,7 @@
     },
     {
       "path": ".ai/brain/templates/goal-test-template.md",
-      "sizeBytes": 2138,
+      "sizeBytes": 2541,
       "categories": [
         "important",
         "doc"
@@ -706,7 +1182,7 @@
     },
     {
       "path": ".ai/brain/templates/impact-analysis-template.md",
-      "sizeBytes": 617,
+      "sizeBytes": 1021,
       "categories": [
         "important",
         "doc"
@@ -715,7 +1191,7 @@
     },
     {
       "path": ".ai/brain/templates/implementation-history-entry-template.md",
-      "sizeBytes": 934,
+      "sizeBytes": 1742,
       "categories": [
         "important",
         "doc"
@@ -724,7 +1200,7 @@
     },
     {
       "path": ".ai/brain/templates/memory-update-template.md",
-      "sizeBytes": 860,
+      "sizeBytes": 1253,
       "categories": [
         "important",
         "doc"
@@ -733,7 +1209,7 @@
     },
     {
       "path": ".ai/brain/templates/open-decision-template.md",
-      "sizeBytes": 877,
+      "sizeBytes": 1658,
       "categories": [
         "important",
         "doc"
@@ -742,7 +1218,7 @@
     },
     {
       "path": ".ai/brain/templates/review-report-template.md",
-      "sizeBytes": 456,
+      "sizeBytes": 840,
       "categories": [
         "important",
         "doc"
@@ -751,7 +1227,7 @@
     },
     {
       "path": ".ai/brain/templates/sprint-summary-template.md",
-      "sizeBytes": 583,
+      "sizeBytes": 976,
       "categories": [
         "important",
         "doc"
@@ -800,7 +1276,7 @@
     },
     {
       "path": ".codex/automations/README.md",
-      "sizeBytes": 3129,
+      "sizeBytes": 3390,
       "categories": [
         "important",
         "doc",
@@ -995,7 +1471,7 @@
     },
     {
       "path": "AGENTS.md",
-      "sizeBytes": 11271,
+      "sizeBytes": 13869,
       "categories": [
         "important",
         "doc",
@@ -1464,7 +1940,7 @@
     },
     {
       "path": "package.json",
-      "sizeBytes": 1499,
+      "sizeBytes": 1714,
       "categories": [
         "important",
         "config"
@@ -1830,6 +2306,56 @@
       ]
     },
     {
+      "name": ".ai/brain/adapters",
+      "files": [
+        ".ai/brain/adapters/codex.md",
+        ".ai/brain/adapters/generic-agent.md",
+        ".ai/brain/adapters/README.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        ".ai/brain/adapters/codex.md",
+        ".ai/brain/adapters/generic-agent.md",
+        ".ai/brain/adapters/README.md"
+      ],
+      "configs": [
+        ".ai/brain/adapters/README.md"
+      ]
+    },
+    {
+      "name": ".ai/brain/agent-start.md",
+      "files": [
+        ".ai/brain/agent-start.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        ".ai/brain/agent-start.md"
+      ],
+      "configs": []
+    },
+    {
+      "name": ".ai/brain/certification",
+      "files": [
+        ".ai/brain/certification/CERTIFICATION_BACKLOG.md",
+        ".ai/brain/certification/EPIC1_CERTIFICATION_REPORT.md",
+        ".ai/brain/certification/EPIC1_CLEAN_CERTIFICATION_RECHECK.md",
+        ".ai/brain/certification/EPIC2_READINESS_CERTIFICATE.md",
+        ".ai/brain/certification/FINAL_CERTIFICATION_CLEAN_RECHECK.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        ".ai/brain/certification/CERTIFICATION_BACKLOG.md",
+        ".ai/brain/certification/EPIC1_CERTIFICATION_REPORT.md",
+        ".ai/brain/certification/EPIC1_CLEAN_CERTIFICATION_RECHECK.md",
+        ".ai/brain/certification/EPIC2_READINESS_CERTIFICATE.md",
+        ".ai/brain/certification/FINAL_CERTIFICATION_CLEAN_RECHECK.md"
+      ],
+      "configs": []
+    },
+    {
       "name": ".ai/brain/context-packs",
       "files": [
         ".ai/brain/context-packs/README.md"
@@ -1842,6 +2368,36 @@
       "configs": [
         ".ai/brain/context-packs/README.md"
       ]
+    },
+    {
+      "name": ".ai/brain/governance",
+      "files": [
+        ".ai/brain/governance/artifact-lifecycle-policy.md",
+        ".ai/brain/governance/automation-activation-validation.md",
+        ".ai/brain/governance/developer-onboarding.md",
+        ".ai/brain/governance/health-checks.md",
+        ".ai/brain/governance/memory-integrity-model.md",
+        ".ai/brain/governance/retrieval-contracts.md",
+        ".ai/brain/governance/review-finding-registry.md",
+        ".ai/brain/governance/security-preflight.md",
+        ".ai/brain/governance/source-of-truth-map.md",
+        ".ai/brain/governance/validation-profiles.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        ".ai/brain/governance/artifact-lifecycle-policy.md",
+        ".ai/brain/governance/automation-activation-validation.md",
+        ".ai/brain/governance/developer-onboarding.md",
+        ".ai/brain/governance/health-checks.md",
+        ".ai/brain/governance/memory-integrity-model.md",
+        ".ai/brain/governance/retrieval-contracts.md",
+        ".ai/brain/governance/review-finding-registry.md",
+        ".ai/brain/governance/security-preflight.md",
+        ".ai/brain/governance/source-of-truth-map.md",
+        ".ai/brain/governance/validation-profiles.md"
+      ],
+      "configs": []
     },
     {
       "name": ".ai/brain/index",
@@ -1926,6 +2482,8 @@
         ".ai/brain/memory/memory-update-checklist.md",
         ".ai/brain/memory/open-decisions.md",
         ".ai/brain/memory/README.md",
+        ".ai/brain/memory/sprint-summaries/2026-06-26-epic-2-hardening-sprint-0.md",
+        ".ai/brain/memory/sprint-summaries/2026-06-26-epic-2-hardening-sprint-1.md",
         ".ai/brain/memory/sprint-summaries/README.md"
       ],
       "sourceFiles": [],
@@ -1935,6 +2493,8 @@
         ".ai/brain/memory/memory-update-checklist.md",
         ".ai/brain/memory/open-decisions.md",
         ".ai/brain/memory/README.md",
+        ".ai/brain/memory/sprint-summaries/2026-06-26-epic-2-hardening-sprint-0.md",
+        ".ai/brain/memory/sprint-summaries/2026-06-26-epic-2-hardening-sprint-1.md",
         ".ai/brain/memory/sprint-summaries/README.md"
       ],
       "configs": [
@@ -1948,6 +2508,23 @@
         ".ai/brain/planning/AI_BRAIN_PRO_DISCOVERY_REPORT.md",
         ".ai/brain/planning/AI_BRAIN_PRO_FINAL_VERIFICATION_GOAL_CONTRACT.md",
         ".ai/brain/planning/AI_BRAIN_PRO_FINAL_VERIFICATION_REPORT.md",
+        ".ai/brain/planning/CERT_01_HEALTH_CHECK_FRESHNESS_FIX_PLAN.md",
+        ".ai/brain/planning/CERT_01_HEALTH_CHECK_FRESHNESS_FIX_REPORT.md",
+        ".ai/brain/planning/CERT_02_AGENT_NEUTRAL_CORE_ADAPTERS_REPORT.md",
+        ".ai/brain/planning/CERT_03_CHANGE_SCOPE_VALIDATION_PROFILES_PLAN.md",
+        ".ai/brain/planning/CERT_03_CHANGE_SCOPE_VALIDATION_PROFILES_REPORT.md",
+        ".ai/brain/planning/CERT_04_AI_BRAIN_SCRIPT_SMOKE_CHECKS_REPORT.md",
+        ".ai/brain/planning/CERT_05_MEMORY_ENFORCEMENT_REPORT.md",
+        ".ai/brain/planning/CERT_06_TEMPLATE_METADATA_REFERENCE_VALIDATION_REPORT.md",
+        ".ai/brain/planning/CERT_08_AUTOMATION_ACTIVATION_VALIDATION_REPORT.md",
+        ".ai/brain/planning/CERTIFICATION_DEPENDENCIES_CLEANUP_REPORT.md",
+        ".ai/brain/planning/EPIC2_HARDENING_SPRINT0_READINESS_RECHECK.md",
+        ".ai/brain/planning/EPIC2_HARDENING_SPRINT0_REPORT.md",
+        ".ai/brain/planning/EPIC2_HARDENING_SPRINT1_READINESS_RECHECK.md",
+        ".ai/brain/planning/EPIC2_HARDENING_SPRINT1_REPORT.md",
+        ".ai/brain/planning/EPIC2_KNOWLEDGE_DISCOVERY_RECHECK.md",
+        ".ai/brain/planning/EPIC2_KNOWLEDGE_DISCOVERY_REPORT.md",
+        ".ai/brain/planning/EPIC2_READINESS_REPORT.md",
         ".ai/brain/planning/README.md"
       ],
       "sourceFiles": [],
@@ -1956,6 +2533,23 @@
         ".ai/brain/planning/AI_BRAIN_PRO_DISCOVERY_REPORT.md",
         ".ai/brain/planning/AI_BRAIN_PRO_FINAL_VERIFICATION_GOAL_CONTRACT.md",
         ".ai/brain/planning/AI_BRAIN_PRO_FINAL_VERIFICATION_REPORT.md",
+        ".ai/brain/planning/CERT_01_HEALTH_CHECK_FRESHNESS_FIX_PLAN.md",
+        ".ai/brain/planning/CERT_01_HEALTH_CHECK_FRESHNESS_FIX_REPORT.md",
+        ".ai/brain/planning/CERT_02_AGENT_NEUTRAL_CORE_ADAPTERS_REPORT.md",
+        ".ai/brain/planning/CERT_03_CHANGE_SCOPE_VALIDATION_PROFILES_PLAN.md",
+        ".ai/brain/planning/CERT_03_CHANGE_SCOPE_VALIDATION_PROFILES_REPORT.md",
+        ".ai/brain/planning/CERT_04_AI_BRAIN_SCRIPT_SMOKE_CHECKS_REPORT.md",
+        ".ai/brain/planning/CERT_05_MEMORY_ENFORCEMENT_REPORT.md",
+        ".ai/brain/planning/CERT_06_TEMPLATE_METADATA_REFERENCE_VALIDATION_REPORT.md",
+        ".ai/brain/planning/CERT_08_AUTOMATION_ACTIVATION_VALIDATION_REPORT.md",
+        ".ai/brain/planning/CERTIFICATION_DEPENDENCIES_CLEANUP_REPORT.md",
+        ".ai/brain/planning/EPIC2_HARDENING_SPRINT0_READINESS_RECHECK.md",
+        ".ai/brain/planning/EPIC2_HARDENING_SPRINT0_REPORT.md",
+        ".ai/brain/planning/EPIC2_HARDENING_SPRINT1_READINESS_RECHECK.md",
+        ".ai/brain/planning/EPIC2_HARDENING_SPRINT1_REPORT.md",
+        ".ai/brain/planning/EPIC2_KNOWLEDGE_DISCOVERY_RECHECK.md",
+        ".ai/brain/planning/EPIC2_KNOWLEDGE_DISCOVERY_REPORT.md",
+        ".ai/brain/planning/EPIC2_READINESS_REPORT.md",
         ".ai/brain/planning/README.md"
       ],
       "configs": [
@@ -1977,21 +2571,55 @@
       ]
     },
     {
+      "name": ".ai/brain/reviews",
+      "files": [
+        ".ai/brain/reviews/agent-review.md",
+        ".ai/brain/reviews/architecture-review.md",
+        ".ai/brain/reviews/automation-review.md",
+        ".ai/brain/reviews/dx-review.md",
+        ".ai/brain/reviews/knowledge-review.md",
+        ".ai/brain/reviews/MASTER_GAP_ANALYSIS.md",
+        ".ai/brain/reviews/scalability-review.md",
+        ".ai/brain/reviews/sdlc-review.md",
+        ".ai/brain/reviews/security-review.md"
+      ],
+      "sourceFiles": [],
+      "testFiles": [],
+      "docs": [
+        ".ai/brain/reviews/agent-review.md",
+        ".ai/brain/reviews/architecture-review.md",
+        ".ai/brain/reviews/automation-review.md",
+        ".ai/brain/reviews/dx-review.md",
+        ".ai/brain/reviews/knowledge-review.md",
+        ".ai/brain/reviews/MASTER_GAP_ANALYSIS.md",
+        ".ai/brain/reviews/scalability-review.md",
+        ".ai/brain/reviews/sdlc-review.md",
+        ".ai/brain/reviews/security-review.md"
+      ],
+      "configs": []
+    },
+    {
       "name": ".ai/brain/scripts",
       "files": [
         ".ai/brain/scripts/analyze-impact.mjs",
         ".ai/brain/scripts/create-context-pack.mjs",
         ".ai/brain/scripts/create-repo-index.mjs",
+        ".ai/brain/scripts/health-check.mjs",
         ".ai/brain/scripts/README.md",
         ".ai/brain/scripts/search-brain.mjs",
-        ".ai/brain/scripts/update-memory.mjs"
+        ".ai/brain/scripts/smoke-check.mjs",
+        ".ai/brain/scripts/update-memory.mjs",
+        ".ai/brain/scripts/validate-automation-activation.mjs"
       ],
       "sourceFiles": [
         ".ai/brain/scripts/analyze-impact.mjs",
         ".ai/brain/scripts/create-context-pack.mjs",
         ".ai/brain/scripts/create-repo-index.mjs",
+        ".ai/brain/scripts/health-check.mjs",
         ".ai/brain/scripts/search-brain.mjs",
-        ".ai/brain/scripts/update-memory.mjs"
+        ".ai/brain/scripts/smoke-check.mjs",
+        ".ai/brain/scripts/update-memory.mjs",
+        ".ai/brain/scripts/validate-automation-activation.mjs"
       ],
       "testFiles": [],
       "docs": [
@@ -2004,6 +2632,8 @@
     {
       "name": ".ai/brain/templates",
       "files": [
+        ".ai/brain/templates/agent-handoff-packet-template.md",
+        ".ai/brain/templates/automation-activation-record-template.md",
         ".ai/brain/templates/checker-review-template.md",
         ".ai/brain/templates/context-pack-template.md",
         ".ai/brain/templates/goal-bugfix-template.md",
@@ -2022,6 +2652,8 @@
       "sourceFiles": [],
       "testFiles": [],
       "docs": [
+        ".ai/brain/templates/agent-handoff-packet-template.md",
+        ".ai/brain/templates/automation-activation-record-template.md",
         ".ai/brain/templates/checker-review-template.md",
         ".ai/brain/templates/context-pack-template.md",
         ".ai/brain/templates/goal-bugfix-template.md",

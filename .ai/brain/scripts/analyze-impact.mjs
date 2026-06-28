@@ -205,7 +205,7 @@ Output path: \`${outputPath}\`
 
 ## Confidence Note
 
-This is heuristic pre-implementation guidance based on keyword matching against the repo index, module map, testing map, and known AI Brain rules. It is not a certainty claim. Codex must still inspect the referenced files before planning or editing.
+This is heuristic pre-implementation guidance based on keyword matching against the repo index, module map, testing map, and known AI Brain rules. It is not a certainty claim. The agent must still inspect the referenced files before planning or editing.
 
 ## Likely Affected Areas
 

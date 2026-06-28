@@ -1,5 +1,19 @@
 # SDLC Flow
 
+Metadata:
+
+| Field | Value |
+| --- | --- |
+| id | `ai-brain-sdlc-flow` |
+| class | `canonical` |
+| owner | AI Brain maintainers |
+| status | `active` |
+| authority | Defines the AI Brain SDLC loop and phase expectations. |
+| domain | SDLC workflow |
+| created | 2026-06-26 |
+| last_reviewed | 2026-06-26 |
+| review_after | 2026-07-26 |
+
 Makdolan uses this loop for every non-trivial task:
 
 ```text

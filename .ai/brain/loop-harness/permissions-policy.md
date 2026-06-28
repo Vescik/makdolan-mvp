@@ -17,6 +17,8 @@ network_access = false
 
 This is the recommended baseline for normal implementation because it permits scoped local edits and validation while preserving approval boundaries.
 
+Before large, ambiguous, security-sensitive, automation-related, or AI Brain governance work, run the session preflight in `.ai/brain/governance/security-preflight.md`.
+
 ## When To Use Read-Only
 
 Use `read-only` for:
@@ -107,3 +109,5 @@ If a task needs to cross these boundaries, stop and ask for approval before acti
 - Enable network access by default.
 - Add an MCP server that can read private data or mutate external systems.
 - Change release, deployment, credential, payment, authentication, or database settings.
+
+Also stop when runtime permissions are broader than the task requires and the next command would cross repository, network, credential, release, or destructive-operation boundaries.

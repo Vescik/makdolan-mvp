@@ -1,5 +1,19 @@
 # Impact Analysis Template
 
+Metadata:
+
+| Field | Value |
+| --- | --- |
+| id | `ai-brain-template-impact-analysis` |
+| class | `template` |
+| owner | AI Brain maintainers |
+| status | `active` |
+| authority | Provides a reusable scaffold for impact analysis reports; does not define current project state. |
+| domain | AI Brain impact analysis |
+| created | 2026-06-27 |
+| last_reviewed | 2026-06-27 |
+| review_after | 2026-07-27 |
+
 Use this before changing shared logic, navigation, persistence, API contracts, CI, security/privacy behavior, permissions, or release paths.
 
 ## Proposed Change

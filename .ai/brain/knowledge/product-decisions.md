@@ -1,5 +1,19 @@
 # Product Decisions
 
+Metadata:
+
+| Field | Value |
+| --- | --- |
+| id | `ai-brain-product-decisions` |
+| class | `canonical` |
+| owner | AI Brain maintainers |
+| status | `active` |
+| authority | Summarizes stable product boundaries for AI Brain sessions; product docs remain source of truth. |
+| domain | Product scope |
+| created | 2026-06-26 |
+| last_reviewed | 2026-06-26 |
+| review_after | 2026-07-26 |
+
 This file summarizes stable product boundaries for Codex sessions. Source docs remain under `docs/product/` and `project-context/`.
 
 ## Stable Decisions

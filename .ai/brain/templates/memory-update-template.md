@@ -1,5 +1,19 @@
 # Memory Update Template
 
+Metadata:
+
+| Field | Value |
+| --- | --- |
+| id | `ai-brain-template-memory-update` |
+| class | `template` |
+| owner | AI Brain maintainers |
+| status | `active` |
+| authority | Provides a reusable scaffold for memory update decisions; does not define current project state. |
+| domain | AI Brain memory |
+| created | 2026-06-27 |
+| last_reviewed | 2026-06-27 |
+| review_after | 2026-07-27 |
+
 Use this template when closing meaningful work and deciding which memory files to update.
 
 ## Change

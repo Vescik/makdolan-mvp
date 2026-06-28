@@ -1,5 +1,19 @@
 # Architecture Principles
 
+Metadata:
+
+| Field | Value |
+| --- | --- |
+| id | `ai-brain-architecture-principles` |
+| class | `canonical` |
+| owner | AI Brain maintainers |
+| status | `active` |
+| authority | Summarizes architecture principles for AI Brain planning; ADRs remain source of truth for accepted architecture decisions. |
+| domain | Architecture |
+| created | 2026-06-26 |
+| last_reviewed | 2026-06-26 |
+| review_after | 2026-07-26 |
+
 Use these principles when planning or reviewing Makdolan changes.
 
 ## Cross-Platform First

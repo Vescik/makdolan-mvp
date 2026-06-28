@@ -1,5 +1,19 @@
 # Known Risks
 
+Metadata:
+
+| Field | Value |
+| --- | --- |
+| id | `ai-brain-known-risks` |
+| class | `canonical` |
+| owner | AI Brain maintainers |
+| status | `active` |
+| authority | Tracks stable risks that should influence AI Brain planning. |
+| domain | Risk management |
+| created | 2026-06-26 |
+| last_reviewed | 2026-06-26 |
+| review_after | 2026-07-26 |
+
 This file tracks stable risks that should influence planning.
 
 ## Product Scope Risks

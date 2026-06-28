@@ -5,12 +5,18 @@ import path from "node:path";
 import process from "node:process";
 
 const TEXT_TARGETS = [
+  ".ai/brain/agent-start.md",
   ".ai/brain/README.md",
+  ".ai/brain/adapters",
+  ".ai/brain/certification",
+  ".ai/brain/governance",
   ".ai/brain/knowledge",
   ".ai/brain/memory",
   ".ai/brain/index",
   ".ai/brain/context-packs",
   ".ai/brain/loop-harness",
+  ".ai/brain/planning",
+  ".ai/brain/reviews",
   ".ai/brain/templates",
   "docs",
   "project-context",

@@ -20,12 +20,42 @@ Create pre-implementation impact guidance with:
 npm run brain:impact -- "change description"
 ```
 
+Run local AI Brain governance health checks with:
+
+```bash
+npm run brain:health
+```
+
 ## Start Here
 
 - `../README.md`
+- `../agent-start.md`
+- `../adapters/README.md`
+- `../governance/source-of-truth-map.md`
+- `../governance/security-preflight.md`
+- `../governance/developer-onboarding.md`
+- `../governance/validation-profiles.md`
 - `../knowledge/agent-session-start.md`
 - `../planning/AI_BRAIN_PRO_DISCOVERY_REPORT.md`
 - `../../../AGENTS.md`
+
+## Adapters
+
+- `../adapters/README.md`
+- `../adapters/codex.md`
+- `../adapters/generic-agent.md`
+
+## Governance
+
+- `../governance/source-of-truth-map.md`
+- `../governance/artifact-lifecycle-policy.md`
+- `../governance/review-finding-registry.md`
+- `../governance/security-preflight.md`
+- `../governance/health-checks.md`
+- `../governance/validation-profiles.md`
+- `../governance/retrieval-contracts.md`
+- `../governance/memory-integrity-model.md`
+- `../governance/developer-onboarding.md`
 
 ## Knowledge
 
@@ -66,6 +96,7 @@ npm run brain:impact -- "change description"
 - `../context-packs/README.md`
 - `../templates/context-pack-template.md`
 - `../scripts/create-context-pack.mjs`
+- `../governance/artifact-lifecycle-policy.md`
 
 ## Generated Repo Index
 
@@ -75,12 +106,15 @@ npm run brain:impact -- "change description"
 - `../scripts/create-repo-index.mjs`
 - `../scripts/search-brain.mjs`
 - `../scripts/analyze-impact.mjs`
+- `../scripts/health-check.mjs`
 
 ## Memory
 
 - `../memory/open-decisions.md`
 - `../memory/implementation-history.md`
 - `../memory/sprint-summaries/README.md`
+- `../memory/memory-update-checklist.md`
+- `../governance/memory-integrity-model.md`
 
 ## Source Documents
 
