@@ -115,6 +115,75 @@ For every non-trivial task Codex must follow this loop:
 
 In short: **DISCOVER -> PLAN -> EXECUTE -> VERIFY -> ITERATE**.
 
+## Epic branch delivery policy
+
+Makdolan uses epic-based delivery. An epic starts on a local branch created from `main`; work then proceeds in named local phases. Phase work must be reviewed and certified locally before Codex pushes the branch or updates a GitHub PR.
+
+Branch naming:
+
+- Use `epic/<epic-id>-<short-slug>` for epic branches.
+- Examples: `epic/billing-v2`, `epic/onboarding-redesign`, `epic/payments-webhooks`.
+
+Phase naming:
+
+- Use `phase-01-<short-slug>`, `phase-02-<short-slug>`, `phase-03-<short-slug>`, and continue with two-digit phase numbers.
+
+Certificate paths:
+
+- Local phase certificates and final release certificates use this pattern:
+
+```text
+docs/epics/<epic-id>/certificates/phase-01-certificate.json
+docs/epics/<epic-id>/certificates/phase-02-certificate.json
+docs/epics/<epic-id>/certificates/final-release-certificate.json
+```
+
+Epic workspace:
+
+- Each epic must maintain a local workspace using the template in `docs/epics/_template/`.
+- Prefer `./scripts/start-epic.sh <epic-id> <short-slug> <target-version>` when starting a new epic; it creates the local branch and workspace from `main` but does not push, open a PR, create a GitHub Release, or bypass checks.
+- The active epic workspace uses this structure:
+
+```text
+docs/epics/<epic-id>/
+```
+
+- Treat the active epic workspace as the durable source of truth for epic state: `EPIC.md` for scope and ownership, `PHASES.md` for phase status, `ACCEPTANCE.md` for done criteria, `RELEASE_NOTES.md` for release notes, `ROLLBACK.md` for recovery notes, `RISK_REGISTER.md` for risks, and `certificates/` for local and final certificates.
+- Do not create a real epic workspace unless an epic ID is known or the user explicitly asks to start one.
+- Keep epic workspace updates anchored to AI Brain: use AI Brain validation profiles, update AI Brain memory for durable changes, and refresh the AI Brain index when workspace files are added or changed.
+
+Lifecycle:
+
+1. Start the epic by creating a local epic branch from current `main`.
+2. Implement one local phase at a time.
+3. Certify the local phase before publication. The local AI phase certificate must record the certificate type, verdict, epic ID, phase, branch, current `HEAD` SHA, base branch, base SHA, timestamp, summary, tests run, files reviewed, blocking findings, non-blocking notes, and `push_allowed`.
+4. Store local phase certificates in the active epic workspace's `certificates/` directory using the filename pattern `phase-NN-certificate.json`.
+5. Before pushing or updating a GitHub PR, run `./scripts/check-phase-certificate.sh <epic-id> <phase-number>` and require it to pass for the current `HEAD`.
+6. `PASS` allows Codex to push the branch or update the GitHub PR only when `push_allowed` is `true`, `blocking_findings` is empty, the certificate `head_sha` equals the certified phase-work commit, and required validation evidence is present or explicitly documented as unavailable. If the certificate is committed for PR evidence, it must be a certificate-only commit whose parent is the certified phase-work commit. `FAIL` blocks push/PR update until the issues are fixed and the phase is recertified.
+7. Any P0/P1 issue, failing test, uncommitted change outside the certificate file being checked, missing phase documentation, secret exposure, unsafe migration, stale certificate, certificate mismatch, or mixed source change in a certificate commit blocks publication.
+8. After the branch is pushed, GitHub Actions and remote Codex review run as the authoritative PR gates.
+9. Merge only after required GitHub checks and branch protection gates pass.
+10. After the full epic is complete and merged to `main`, run final release certification. The final certificate must confirm all phases are certified, remote PR checks passed, the epic PR was merged, release notes are ready, rollback notes are ready, and Codex returned `PASS` for release readiness.
+11. Create one GitHub Release only after the final certified epic receives a final release `PASS`.
+
+Policy constraints:
+
+- Codex must not push or update a GitHub PR for phase work without a local phase certificate with `PASS`.
+- Codex must not push or update a GitHub PR when `./scripts/check-phase-certificate.sh <epic-id> <phase-number>` fails for the current `HEAD`.
+- Developers may install the optional local pre-push hook with `./scripts/install-hooks.sh`; it enforces the same certificate check for `epic/*` branches but does not replace GitHub merge gates.
+- Codex must not create a GitHub Release from an uncertified branch.
+- Codex must not create a GitHub Release per commit or per phase.
+- Codex must not bypass branch protection, required GitHub checks, remote Codex review, or required human review.
+- Local phase certificates are advisory publication gates. GitHub Actions, remote Codex review, and repository branch protection are authoritative merge gates.
+- The remote epic PR gate is `.github/workflows/epic-pr-review.yml`; its required check is `epic_pr_codex_gate`.
+- When bootstrapping a new required GitHub gate, merge the workflow definition to `main` under the existing protected process before adding that new check to branch protection. Do not require a check that cannot yet run on `main`.
+- Final release certification is manual via `.github/workflows/final-epic-certification.yml`; its required check is `final_epic_certification_gate`.
+- GitHub Release creation is manual via `.github/workflows/create-github-release.yml` after final certification `PASS`; it must use only `GITHUB_TOKEN`, release from `main`, and refuse existing tags.
+- The final release certificate artifact must be present on `main` before the release workflow runs; the release workflow must not create or infer missing certification evidence.
+- GitHub Release creation is reserved for a fully certified epic after merge to `main`; phase certification controls push/PR readiness, not final release.
+
+See `docs/epic-branch-policy.md` for the full lifecycle and `docs/local-phase-certification.md` for the certificate schema, PASS/FAIL rules, and checker usage.
+
 ## AI Brain Pro usage rules
 
 AI Brain Pro is the repository-local SDLC intelligence layer under `.ai/brain/`. It is for planning, project memory, workflow control, and context packaging. It is not a product-facing AI feature and must not expand MVP scope by itself.

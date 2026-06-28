@@ -1,0 +1,95 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+fail() {
+  printf 'pre-push: %s\n' "$1" >&2
+  cat >&2 <<'HELP'
+
+Push blocked.
+
+To fix:
+  1. Finish and commit phase work.
+  2. Run the required validation profile.
+  3. Create or update the latest local phase certificate for the certified phase-work commit.
+     If committing the certificate, keep it as a certificate-only commit.
+  4. Re-run:
+       ./scripts/check-phase-certificate.sh <epic-id> <phase-number>
+
+For details, read docs/local-phase-certification.md.
+HELP
+  exit 1
+}
+
+REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null)" || fail "must be run inside a git repository"
+cd "$REPO_ROOT"
+
+CURRENT_BRANCH="$(git branch --show-current)"
+
+if [[ -z "$CURRENT_BRANCH" ]]; then
+  printf 'pre-push: detached HEAD; skipping epic phase certificate gate.\n'
+  exit 0
+fi
+
+if [[ "$CURRENT_BRANCH" != epic/* ]]; then
+  printf 'pre-push: branch %s is not epic/*; allowing push.\n' "$CURRENT_BRANCH"
+  exit 0
+fi
+
+BRANCH_SLUG="${CURRENT_BRANCH#epic/}"
+
+infer_epic_id() {
+  local configured_epic_id
+  configured_epic_id="$(git config --get makdolan.epicId || true)"
+  if [[ -n "$configured_epic_id" ]]; then
+    printf '%s\n' "$configured_epic_id"
+    return 0
+  fi
+
+  local candidate
+  local best_match=""
+  shopt -s nullglob
+  for candidate_path in docs/epics/*; do
+    [[ -d "$candidate_path" ]] || continue
+    candidate="$(basename "$candidate_path")"
+    [[ "$candidate" == "_template" ]] && continue
+    if [[ "$BRANCH_SLUG" == "$candidate" || "$BRANCH_SLUG" == "$candidate-"* ]]; then
+      if [[ "${#candidate}" -gt "${#best_match}" ]]; then
+        best_match="$candidate"
+      fi
+    fi
+  done
+  shopt -u nullglob
+
+  if [[ -n "$best_match" ]]; then
+    printf '%s\n' "$best_match"
+    return 0
+  fi
+
+  return 1
+}
+
+EPIC_ID="$(infer_epic_id)" || fail "could not infer epic id for branch $CURRENT_BRANCH; set it with: git config makdolan.epicId <epic-id>"
+
+CERT_DIR="docs/epics/${EPIC_ID}/certificates"
+[[ -d "$CERT_DIR" ]] || fail "missing certificate directory: $CERT_DIR"
+
+LATEST_CERT="$(
+  find "$CERT_DIR" -maxdepth 1 -type f -name 'phase-[0-9][0-9]-certificate.json' -print |
+    sort |
+    tail -n 1
+)"
+
+[[ -n "$LATEST_CERT" ]] || fail "no phase certificate found in $CERT_DIR"
+
+PHASE_BASENAME="$(basename "$LATEST_CERT")"
+PHASE_NUMBER="${PHASE_BASENAME#phase-}"
+PHASE_NUMBER="${PHASE_NUMBER%-certificate.json}"
+
+printf 'pre-push: checking latest phase certificate %s for branch %s\n' "$LATEST_CERT" "$CURRENT_BRANCH"
+
+if ! ./scripts/check-phase-certificate.sh "$EPIC_ID" "$PHASE_NUMBER"; then
+  fail "latest phase certificate is not valid for current HEAD or certificate-only HEAD commit"
+fi
+
+printf 'pre-push: phase certificate gate passed; allowing push.\n'

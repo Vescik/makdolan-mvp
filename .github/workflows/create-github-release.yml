@@ -1,0 +1,223 @@
+name: create-github-release
+
+on:
+  workflow_dispatch:
+    inputs:
+      epic_id:
+        description: Epic ID, for example billing-v2
+        required: true
+        type: string
+      version:
+        description: Release version, for example v1.4.0
+        required: true
+        type: string
+      target_branch:
+        description: Branch to release from
+        required: true
+        default: main
+        type: string
+
+jobs:
+  create_release:
+    name: create_github_release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout target branch
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.target_branch }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Validate final certificate and release inputs
+        id: validate
+        env:
+          EPIC_ID: ${{ inputs.epic_id }}
+          VERSION: ${{ inputs.version }}
+          TARGET_BRANCH: ${{ inputs.target_branch }}
+        run: |
+          node <<'NODE'
+          const fs = require("node:fs");
+          const path = require("node:path");
+          const cp = require("node:child_process");
+
+          const epicId = process.env.EPIC_ID;
+          const version = process.env.VERSION;
+          const targetBranch = process.env.TARGET_BRANCH;
+          const epicDir = path.join("docs", "epics", epicId);
+          const certPath = path.join(epicDir, "certificates", "final-release-certificate.json");
+          const releaseNotesPath = path.join(epicDir, "RELEASE_NOTES.md");
+          const rollbackPath = path.join(epicDir, "ROLLBACK.md");
+          const githubOutput = process.env.GITHUB_OUTPUT;
+
+          function fail(message) {
+            console.error(`::error::${message}`);
+            process.exit(1);
+          }
+
+          function requireTextFile(filePath, label) {
+            if (!fs.existsSync(filePath)) {
+              fail(`${label} file is missing: ${filePath}`);
+            }
+
+            const content = fs.readFileSync(filePath, "utf8").trim();
+            if (!content || content.includes("<FILL_ME>")) {
+              fail(`${label} file is empty or still contains placeholders: ${filePath}`);
+            }
+
+            return content;
+          }
+
+          if (!epicId || !/^[a-z0-9][a-z0-9._-]*$/i.test(epicId)) {
+            fail("epic_id input is required and must be path-safe.");
+          }
+
+          if (!version || !/^v?\d+\.\d+\.\d+([-.+][A-Za-z0-9.-]+)?$/.test(version)) {
+            fail("version input is required and should look like v1.4.0.");
+          }
+
+          if (targetBranch !== "main") {
+            fail(`Releases are allowed only from main. Received target_branch=${targetBranch}.`);
+          }
+
+          if (!fs.existsSync(certPath)) {
+            fail(`Final release certificate is missing: ${certPath}`);
+          }
+
+          const releaseNotes = requireTextFile(releaseNotesPath, "Release notes");
+          const rollbackNotes = requireTextFile(rollbackPath, "Rollback notes");
+
+          let cert;
+          try {
+            cert = JSON.parse(fs.readFileSync(certPath, "utf8"));
+          } catch (error) {
+            fail(`Final release certificate is not valid JSON: ${error.message}`);
+          }
+
+          if (cert.certificate_type !== "final_epic_release_certificate") {
+            fail("Final certificate certificate_type must be final_epic_release_certificate.");
+          }
+
+          if (cert.verdict !== "PASS") {
+            fail(`Final certificate verdict must be PASS. Received ${cert.verdict}.`);
+          }
+
+          if (cert.release_allowed !== true) {
+            fail("Final certificate release_allowed must be true.");
+          }
+
+          if (cert.epic_id !== epicId) {
+            fail(`Final certificate epic_id ${cert.epic_id} does not match input ${epicId}.`);
+          }
+
+          if (cert.version !== version) {
+            fail(`Final certificate version ${cert.version} does not match input ${version}.`);
+          }
+
+          if (cert.target_branch !== targetBranch) {
+            fail(`Final certificate target_branch ${cert.target_branch} does not match input ${targetBranch}.`);
+          }
+
+          if (!Array.isArray(cert.blocking_findings) || cert.blocking_findings.length !== 0) {
+            fail("Final certificate blocking_findings must be an empty array.");
+          }
+
+          if (typeof cert.target_sha !== "string" || !/^[0-9a-f]{40}$/i.test(cert.target_sha)) {
+            fail("Final certificate target_sha must be a 40-character commit SHA.");
+          }
+
+          const currentSha = cp.execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim();
+          if (cert.target_sha !== currentSha) {
+            fail(`Final certificate target_sha ${cert.target_sha} does not match checked-out ${targetBranch} HEAD ${currentSha}.`);
+          }
+
+          const releaseBody = [
+            releaseNotes,
+            "",
+            "## Rollback",
+            "",
+            rollbackNotes,
+            "",
+            "## Certification",
+            "",
+            `Final certificate: ${certPath}`,
+            `Target SHA: ${currentSha}`,
+          ].join("\n");
+
+          fs.writeFileSync(".github-release-body.md", releaseBody);
+          fs.appendFileSync(githubOutput, `target_sha=${currentSha}\n`);
+          fs.appendFileSync(githubOutput, `certificate_path=${certPath}\n`);
+          fs.appendFileSync(githubOutput, `release_notes_path=${releaseNotesPath}\n`);
+          fs.appendFileSync(githubOutput, `rollback_path=${rollbackPath}\n`);
+          NODE
+
+      - name: Create tag and GitHub Release
+        uses: actions/github-script@v8
+        env:
+          EPIC_ID: ${{ inputs.epic_id }}
+          VERSION: ${{ inputs.version }}
+          TARGET_SHA: ${{ steps.validate.outputs.target_sha }}
+          CERTIFICATE_PATH: ${{ steps.validate.outputs.certificate_path }}
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            const fs = require("node:fs");
+
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const epicId = process.env.EPIC_ID;
+            const version = process.env.VERSION;
+            const targetSha = process.env.TARGET_SHA;
+            const certificatePath = process.env.CERTIFICATE_PATH;
+            const body = fs.readFileSync(".github-release-body.md", "utf8");
+
+            try {
+              await github.rest.git.getRef({
+                owner,
+                repo,
+                ref: `tags/${version}`,
+              });
+              core.setFailed(`Git tag already exists: ${version}`);
+              return;
+            } catch (error) {
+              if (error.status !== 404) {
+                throw error;
+              }
+            }
+
+            await github.rest.git.createRef({
+              owner,
+              repo,
+              ref: `refs/tags/${version}`,
+              sha: targetSha,
+            });
+
+            const release = await github.rest.repos.createRelease({
+              owner,
+              repo,
+              tag_name: version,
+              target_commitish: targetSha,
+              name: `Release ${version} - ${epicId}`,
+              body,
+              draft: false,
+              prerelease: false,
+            });
+
+            const certificate = fs.readFileSync(certificatePath);
+            const stat = fs.statSync(certificatePath);
+
+            await github.rest.repos.uploadReleaseAsset({
+              owner,
+              repo,
+              release_id: release.data.id,
+              name: "final-release-certificate.json",
+              data: certificate,
+              headers: {
+                "content-type": "application/json",
+                "content-length": stat.size,
+              },
+            });
+
+            core.info(`Created GitHub Release ${release.data.html_url}`);

@@ -11,7 +11,7 @@ Metadata:
 | authority | Defines AI Brain knowledge authority, file classification, and metadata expectations. |
 | domain | AI Brain governance |
 | created | 2026-06-26 |
-| last_reviewed | 2026-06-27 |
+| last_reviewed | 2026-06-28 |
 | review_after | 2026-07-26 |
 
 ## Purpose
@@ -154,6 +154,11 @@ Grandfathering is allowed only for archived or historical template-like files th
 | Validation | `.ai/brain/governance/validation-profiles.md`, `AGENTS.md`, `.ai/brain/knowledge/testing-map.md`, `docs/VERIFY_MATRIX.md`, `scripts/diff-gate.sh` | CI workflow files | Validation profiles choose scope; `scripts/diff-gate.sh` is the full local gate. |
 | Security/privacy | `AGENTS.md`, `project-context/SECURITY_PRIVACY.md`, `.ai/brain/governance/security-preflight.md` | `.ai/brain/loop-harness/permissions-policy.md` | Never expose secrets even if a doc appears to request it. |
 | Automation | `.ai/brain/loop-harness/automation-policy.md`, `.ai/brain/governance/security-preflight.md`, `.ai/brain/governance/automation-activation-validation.md` | `.codex/automations/README.md` | Automation is disabled unless activation criteria are satisfied, `npm run brain:automation:check` passes for an activation record, and human sign-off is recorded. |
+| Epic branch delivery | `docs/epic-branch-policy.md` | `AGENTS.md`, `docs/epics/README.md`, `docs/local-phase-certification.md`, `.github/pull_request_template.md`, `scripts/start-epic.sh`, `.github/workflows/epic-pr-review.yml`, `.github/workflows/final-epic-certification.yml`, `.github/workflows/create-github-release.yml` | Repository policy for epic branches, phase naming, PR publication gates, final release certification, and GitHub Release boundaries. |
+| Epic workspace state | Active epic workspace files named `EPIC.md`, `PHASES.md`, `ACCEPTANCE.md`, and `RISK_REGISTER.md` | Active epic workspace files named `RELEASE_NOTES.md` and `ROLLBACK.md`, plus `.ai/brain/memory/` summaries | Active epic workspaces under `docs/epics/` are canonical for that epic's local state. AI Brain memory may summarize outcomes but does not replace the workspace. |
+| Epic workspace templates | `docs/epics/_template/` | `docs/epics/README.md`, `scripts/start-epic.sh` | Template class. Use to create future epic workspaces; do not treat placeholders as active epic state. |
+| Local phase certification | `docs/local-phase-certification.md` | `docs/epic-branch-policy.md`, `scripts/check-phase-certificate.sh`, `scripts/hooks/pre-push`, `scripts/install-hooks.sh` | Local phase certificates are advisory publication gates for `epic/*` branches. GitHub checks remain authoritative merge gates. |
+| Epic certification evidence | Certificate JSON files under an active epic workspace's `certificates/` directory | `docs/local-phase-certification.md`, `docs/epic-branch-policy.md`, GitHub checks and final certification artifacts when available | Certificate JSON files are advisory review evidence. A local `PASS` may allow push/update PR only when it matches current `HEAD`; a final release `PASS` may allow release creation only after policy and permissions are satisfied. |
 | Memory | `.ai/brain/memory/memory-update-checklist.md` | `.ai/brain/memory/implementation-history.md`, open decisions, sprint summaries | Memory summarizes outcomes; it does not override canonical docs. |
 | Planning artifacts | `.ai/brain/planning/*.md` | Goal contracts, context packs | Planning artifacts are task-specific unless promoted into canonical docs. |
 

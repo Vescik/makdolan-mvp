@@ -244,6 +244,7 @@ Completion evidence:
 Use when:
 
 - Changes affect local scripts, package scripts, validation helpers, AI Brain generators, index/search/impact/context helpers, build tooling, lint config, TypeScript config, or test config.
+- Changes affect GitHub Actions workflow files under `.github/workflows/`.
 
 Required commands:
 
@@ -256,6 +257,12 @@ Required when package scripts or broad validation helpers change:
 
 ```bash
 bash scripts/diff-gate.sh
+```
+
+Required when GitHub Actions workflow files change:
+
+```bash
+npm run lint:workflows
 ```
 
 Required smoke checks:
@@ -330,6 +337,7 @@ Required commands:
 
 ```bash
 bash scripts/diff-gate.sh
+npm run lint:workflows
 git diff --check
 ```
 

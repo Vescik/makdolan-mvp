@@ -11,7 +11,7 @@ Metadata:
 | authority | Defines first-hour onboarding, command cheat sheet, and task-size workflow modes. |
 | domain | Developer experience |
 | created | 2026-06-26 |
-| last_reviewed | 2026-06-26 |
+| last_reviewed | 2026-06-28 |
 | review_after | 2026-07-26 |
 
 ## Purpose
@@ -98,6 +98,7 @@ Goal: know how to distinguish canonical, generated, advisory, memory, archive, t
 | Typecheck | `npm run typecheck` |
 | Test | `npm test` |
 | Lint | `npm run lint` |
+| Lint GitHub workflows | `npm run lint:workflows` |
 | Build web export | `npm run build:web` |
 | Full local validation gate | `bash scripts/diff-gate.sh` |
 | Validation profile guide | `.ai/brain/governance/validation-profiles.md` |
@@ -107,6 +108,9 @@ Goal: know how to distinguish canonical, generated, advisory, memory, archive, t
 | Create context pack | `npm run brain:context -- "Task" --phase=DISCOVER` |
 | AI Brain health check | `npm run brain:health` |
 | Add memory entry | `npm run brain:memory:update -- --type=implementation --title="Title" --summary="Summary"` |
+| Start an epic workspace | `./scripts/start-epic.sh <epic-id> <short-slug> <target-version>` |
+| Check local phase certificate | `./scripts/check-phase-certificate.sh <epic-id> <phase-number>` |
+| Install optional pre-push gate | `./scripts/install-hooks.sh` |
 
 ## Task-Size Workflow Modes
 

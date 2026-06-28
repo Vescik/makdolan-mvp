@@ -11,7 +11,7 @@ Metadata:
 | authority | Defines AI Brain purpose, usage, directory map, and source-of-truth boundaries. |
 | domain | AI Brain governance |
 | created | 2026-06-26 |
-| last_reviewed | 2026-06-26 |
+| last_reviewed | 2026-06-28 |
 | review_after | 2026-07-26 |
 
 AI Brain Pro is Makdolan's repository-local SDLC intelligence layer. It helps AI agents and human maintainers start work with the right context, plan large changes safely, preserve useful project memory, and keep validation evidence attached to meaningful work.
@@ -71,6 +71,9 @@ For small one-file fixes, use judgment. You still need validation evidence, but 
 - `.ai/brain/governance/retrieval-contracts.md` defines structured retrieval contracts for index/search/impact/context workflows.
 - `.ai/brain/governance/memory-integrity-model.md` defines memory statuses, provenance, and lifecycle expectations.
 - `.ai/brain/governance/developer-onboarding.md` defines first-hour onboarding, command cheat sheet, and task-size workflow modes.
+- `docs/epic-branch-policy.md` defines epic branch delivery, local phase certificate, PR gate, final release certificate, and GitHub Release policy.
+- `docs/local-phase-certification.md` defines local phase certificate schema and checker behavior.
+- Active epic directories under `docs/epics/` are durable workspaces for epic state; `docs/epics/_template/` is only a scaffold.
 
 Do not duplicate whole documents into AI Brain files. Summarize, link, and preserve the source path.
 
