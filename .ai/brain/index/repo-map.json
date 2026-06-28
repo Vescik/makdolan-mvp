@@ -113,6 +113,7 @@
     "docs/data",
     "docs/epics",
     "docs/epics/_template",
+    "docs/epics/_template 2",
     "docs/epics/_template/certificates",
     "docs/product",
     "docs/project",
@@ -342,7 +343,7 @@
     },
     {
       "path": ".ai/brain/certification/CURRENT_AI_BRAIN_CERTIFICATION_RECHECK.md",
-      "sizeBytes": 13082,
+      "sizeBytes": 12855,
       "categories": [
         "important",
         "doc"
@@ -678,7 +679,7 @@
     },
     {
       "path": ".ai/brain/memory/implementation-history.md",
-      "sizeBytes": 52084,
+      "sizeBytes": 52359,
       "categories": [
         "important",
         "doc"

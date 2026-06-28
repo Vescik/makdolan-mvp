@@ -656,7 +656,7 @@ Each entry should include:
 - Created: 2026-06-28.
 - Last reviewed: 2026-06-28.
 - Review after: 2026-07-28.
-- Changed: Verified live GitHub state for AI Brain operational assumptions: OPENAI_API_KEY exists, main branch protection is active with verify required, workflow linting is available through `npm run lint:workflows`, and draft PR #8 now publishes the epic/release governance changes for protected-branch review.
+- Changed: Verified live GitHub state for AI Brain operational assumptions: OPENAI_API_KEY exists, main branch protection requires `verify` and `epic_pr_codex_gate`, workflow linting is available through `npm run lint:workflows`, and PR #8 merged the epic/release governance changes to `main`.
 - Source evidence: .ai/brain/certification/CURRENT_AI_BRAIN_CERTIFICATION_RECHECK.md.
 - Source evidence: gh secret list --repo Vescik/makdolan-mvp.
 - Source evidence: gh api repos/Vescik/makdolan-mvp/branches/main/protection/required_status_checks.
@@ -665,7 +665,10 @@ Each entry should include:
 - Validation: npm run lint:workflows: PASS.
 - Validation: git push -u origin codex/epic-release-governance-gates: BLOCKED by local execution policy requiring approval while approval mode is never.
 - Validation: GitHub API publication fallback: PASS; draft PR #8 opened at https://github.com/Vescik/makdolan-mvp/pull/8 with remote head f43b6358b5414554104bdd24c3d06bf918b07492.
-- Validation: PR #8 remote checks: verify PASS; epic_pr_codex_gate PASS; GitGuardian PASS; existing codex-review still pending during this recheck.
+- Validation: PR #8 remote checks: verify PASS; codex-review PASS; epic_pr_codex_gate PASS; GitGuardian PASS.
+- Validation: PR #8 merge: PASS; merged to main at e6cb3511922f9756ae01c369a22cc9ed8ae7c2c3.
+- Validation: main branch protection update: PASS; required checks are `verify` and `epic_pr_codex_gate`, strict true.
+- Validation: post-merge main workflow: PASS; Verify mobile and web passed on e6cb3511922f9756ae01c369a22cc9ed8ae7c2c3.
 - Review: not recorded by helper; add review evidence when required.
 - Supersedes: none.
 - Superseded by: none.
