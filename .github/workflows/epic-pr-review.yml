@@ -347,7 +347,7 @@ jobs:
       - name: Comment concise Codex summary
         if: always() && startsWith(github.head_ref, 'epic/')
         continue-on-error: true
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
           CI_RESULT: ${{ needs.ci.result }}
           CODEX_RESULT: ${{ needs.codex_review.result }}
