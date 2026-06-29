@@ -513,7 +513,7 @@ jobs:
           NODE
 
       - name: Upload final release certificate
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: final-release-certificate-${{ inputs.epic_id }}-${{ inputs.version }}
           path: docs/epics/${{ inputs.epic_id }}/certificates/final-release-certificate.json
